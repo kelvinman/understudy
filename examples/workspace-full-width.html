@@ -17,6 +17,8 @@
   .nav-rules li { display: flex; gap: 6px; padding: 3px 0; }
   .nav-rules li span { color: var(--text-secondary); font-variant-numeric: tabular-nums; width: 18px; flex: none; }
   .main-col { min-width: 0; position: relative; }
+  /* The nav scrolls, which would clip a strip inside it, so its strip sits outside, fixed over the nav's edge. */
+  .nav-drag { position: fixed; top: 0; bottom: 0; right: auto; left: calc(var(--nav-w, var(--nav-width)) - 4px); }
   .detail-head { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6); }
   .detail-why { margin: 0 0 var(--space-6); }
   .detail-label { margin-bottom: 6px; }
@@ -40,8 +42,8 @@
         <li><span>04</span>Name the number</li>
       </ol>
     </div>
-    <div class="hl-drag" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
   </nav>
+  <div class="hl-drag nav-drag" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
 
   <div class="main-col">
     <div class="hl-tracker" id="tracker"></div>
@@ -196,7 +198,7 @@ Object.keys(LIMITS).forEach(function (k) {
 document.querySelectorAll(".hl-drag").forEach(function (strip) {
   var l = LIMITS[strip.dataset.drag], host = document.getElementById(l[3]);
   strip.addEventListener("pointerdown", function (e) {
-    var start = e.clientX, from = strip.parentElement.getBoundingClientRect().width;
+    var start = e.clientX, from = (strip.dataset.drag === "nav" ? document.querySelector(".hl-workspace-nav") : strip.parentElement).getBoundingClientRect().width;
     strip.setPointerCapture(e.pointerId); strip.classList.add("is-dragging");
     function move(ev) {
       var w = Math.round(Math.min(l[1], Math.max(l[0], from + ev.clientX - start)));
