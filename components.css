@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400..600&display=swap");
+/* Hairline components. Every value comes from tokens.css. */
+body { margin: 0; background: var(--bg); color: var(--text); font: 450 16px/24px var(--font-sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+.hl-btn { font: 450 15px/20px var(--font-sans); height: var(--control-height); padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; }
+.hl-btn:hover { border-color: var(--border-strong); background: var(--bg-muted); }
+.hl-btn-filled { border-color: transparent; background: var(--bg-button); }
+.hl-btn-filled:hover { background: var(--bg-selected); border-color: transparent; }
+.hl-btn-ghost { border-color: transparent; }
+.hl-btn-primary, .hl-btn[aria-pressed="true"] { background: var(--strong); border-color: var(--strong); color: var(--on-strong); }
+.hl-btn-success[aria-pressed="true"] { background: var(--success); border-color: var(--success); color: var(--on-status); }
+.hl-btn-danger[aria-pressed="true"] { background: var(--danger); border-color: var(--danger); color: var(--on-status); }
+.hl-btn:disabled { opacity: .5; cursor: default; }
+:where(.hl-btn, .hl-tab, .hl-row, a):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Text fields focus like the app's composer: no ring, the border steps up. */
+.hl-input:focus, .hl-textarea:focus { outline: none; border-color: var(--border-strong); }
+.hl-input, .hl-textarea { font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg-input); width: 100%; box-sizing: border-box;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-2) var(--space-3); }
+.hl-input { height: 40px; }
+.hl-textarea { min-height: 88px; resize: vertical; }
+.hl-input::placeholder, .hl-textarea::placeholder { color: var(--text-placeholder); }
+.hl-input:hover, .hl-textarea:hover { border-color: var(--border-strong); }
+.hl-tag { display: inline-flex; align-items: center; font: 500 12px/16px var(--font-sans); padding: 2px var(--space-2); border-radius: var(--radius-sm);
+  background: var(--bg-muted); color: var(--text-secondary); white-space: nowrap; }
+.hl-tag-outline { background: none; box-shadow: inset 0 0 0 1px var(--border); }
+.hl-tag-success { color: var(--success); background: var(--success-soft); }
+.hl-tag-danger { color: var(--danger); background: var(--danger-soft); }
+.hl-tabs { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-md); background: var(--bg-muted); flex-wrap: wrap; }
+.hl-tab { font: 450 15px/20px var(--font-sans); height: 28px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; color: var(--text-secondary); cursor: pointer; }
+.hl-tab:hover { color: var(--text); }
+.hl-tab[aria-pressed="true"], .hl-tab[aria-selected="true"] { background: var(--bg); color: var(--text); box-shadow: 0 0 0 1px var(--border-subtle); }
+.hl-list { display: flex; flex-direction: column; gap: 2px; }
+.hl-list-label { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); padding: var(--space-3) var(--space-2) var(--space-1); }
+.hl-row { font: 450 15px/20px var(--font-sans); min-height: var(--control-height); display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-2);
+  border-radius: var(--radius-md); color: var(--text); text-decoration: none; cursor: pointer; }
+.hl-row:hover { background: var(--bg-muted); }
+.hl-row[aria-current="true"], .hl-row[aria-selected="true"] { background: var(--bg-selected); }
+.hl-row .hl-row-meta { margin-left: auto; color: var(--text-secondary); font-size: 14px; }
+.hl-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-4); background: var(--bg); }
+.hl-quote { background: var(--bg-muted); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); }
+.hl-quote blockquote { margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--border-strong); color: var(--text-secondary); }
+.hl-progress { display: flex; height: 6px; border-radius: var(--radius-pill); background: var(--bg-muted); overflow: hidden; }
+.hl-progress > span { display: block; height: 100%; background: var(--strong); transition: width .3s ease-out; }
+.hl-progress > .is-success { background: var(--success); }
+.hl-progress > .is-danger { background: var(--danger); }
+.hl-progress > .is-muted { background: var(--text-secondary); }
+.hl-meta { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
+.hl-divider { border: 0; border-top: 1px solid var(--border-subtle); margin: 0; }
+/* Full-width rule: runs to both edges of the pane while content keeps the gutter. Needs overflow-x: clip on body. */
+.hl-rule { position: relative; }
+.hl-rule::before { content: ""; position: absolute; left: -100vw; right: -100vw; top: 0; border-top: 1px solid var(--border-subtle); }
+a { color: var(--link); text-underline-offset: 2px; }
+ins.hl-ins { text-decoration: none; background: var(--success-soft); border-radius: 3px; }
+del.hl-del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); border-radius: 3px; }
+/* Steps: a short list in a bordered card, like the app's task list in the chat. */
+.hl-steps { list-style: none; margin: 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg); display: flex; flex-direction: column; }
+.hl-steps > li { display: flex; align-items: baseline; gap: 6px; min-height: 28px; padding-block: 4px; box-sizing: border-box; font: 450 15px/20px var(--font-sans); color: var(--text); }
+.hl-steps > li > svg.lucide { width: 14px; height: 14px; align-self: flex-start; margin-top: 3px; color: var(--text-placeholder); }
+.hl-steps > li > .hl-step-num { flex: none; width: 18px; text-align: left; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-variant-numeric: tabular-nums; font-size: 14px; }
+.hl-steps > li.is-done { color: var(--text-secondary); }
+.hl-steps > li.is-done > svg.lucide { color: var(--text-secondary); }
+/* Icons: Lucide outline at 16px, 1.75 stroke, currentColor. */
+svg.lucide, .hl-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none; }
+.hl-meta svg.lucide { width: 14px; height: 14px; }
+.hl-iconed { display: inline-flex; align-items: center; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .hl-progress > span { transition: none; } }
+
+/* Workspace preset: white panels on a grey canvas, as in the design system viewer. */
+.hl-canvas { background: var(--bg-canvas); }
+.hl-workspace { display: grid; grid-template-columns: var(--nav-width) minmax(0, 1fr); align-items: start; background: var(--bg-canvas); min-height: 100vh; }
+/* The nav is a white sidebar the full height of the pane with a hairline on its right; only the main column shows the canvas. */
+.hl-workspace-nav { position: sticky; top: 0; height: 100vh; box-sizing: border-box; overflow-y: auto; background: var(--bg-nav); border-right: 1px solid var(--border-subtle); padding: var(--space-2); display: flex; flex-direction: column; gap: 2px; }
+.hl-workspace-nav .hl-row svg.lucide { color: var(--text-secondary); }
+.hl-workspace-nav .hl-row-count { color: var(--text-secondary); font-size: 13px; font-variant-numeric: tabular-nums; }
+/* In the nav: the tracker (progress and counts) anchors to the bottom. */
+.hl-tracker { margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 6px; }
+.hl-workspace-main { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); min-width: 0; }
+.hl-panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); min-width: 0; }
+.hl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+.hl-display { font: 400 36px/44px var(--font-serif); letter-spacing: -0.01em; margin: 0; color: var(--text); }
+.hl-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font: 500 15px/20px var(--font-sans); padding: var(--space-3) 0; }
+/* Table: 56px rows, quiet header, hairlines between rows and columns. */
+.hl-table-wrap { overflow-x: auto; margin: 0 calc(-1 * var(--space-8)); }
+.hl-table { width: 100%; border-collapse: collapse; font: 450 15px/20px var(--font-sans); }
+.hl-table th { font: 400 14px/20px var(--font-sans); color: var(--text-placeholder); text-align: left; height: 40px; padding: 0 var(--space-4); }
+.hl-table td { height: var(--row-height); padding: 0 var(--space-4); }
+.hl-table th, .hl-table td { border-top: 1px solid var(--border-subtle); }
+.hl-table th + th, .hl-table td + td { border-left: 1px solid var(--border-subtle); }
+.hl-table th:first-child, .hl-table td:first-child { padding-left: var(--space-8); }
+.hl-table td.hl-num { text-align: right; font-variant-numeric: tabular-nums; }
+.hl-table tbody tr:hover { background: var(--bg-sidebar); }
+.hl-table .hl-name { font-family: var(--font-mono); font-size: 14px; }
+.hl-value { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 180px; height: 26px; padding: 0 var(--space-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font: 450 14px/20px var(--font-sans); background: var(--bg); }
+.hl-swatch { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--border); flex: none; }
+.hl-row-action { margin-left: auto; color: var(--text-secondary); }
+/* File list: grouped rows with an icon, a name and a meta line; one selected row in bg-selection. */
+.hl-files { display: flex; flex-direction: column; }
+.hl-files-label { font: 500 13px/18px var(--font-sans); color: var(--text-secondary); padding: var(--space-3) var(--space-4) var(--space-1); border-top: 1px solid var(--border-subtle); background: var(--bg-sidebar); }
+.hl-files-label:first-child { border-top: 0; }
+.hl-file { display: flex; align-items: center; gap: var(--space-3); min-height: var(--file-row-height); padding: var(--space-1) var(--space-4); border-top: 1px solid var(--border-subtle); color: var(--text); text-decoration: none; cursor: pointer; }
+.hl-file:hover { background: var(--bg-sidebar); }
+.hl-file svg.lucide { width: 20px; height: 20px; color: var(--text-secondary); }
+.hl-file-name { font: 450 14px/18px var(--font-sans); }
+.hl-file-meta { font: 400 12px/16px var(--font-sans); color: var(--text-secondary); }
+.hl-file-size { margin-left: auto; font: 400 12px/16px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.hl-file[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
+.hl-file[aria-selected="true"] :is(.hl-file-meta, .hl-file-size, svg.lucide) { color: var(--on-selection); opacity: .85; }
+.hl-detail { background: var(--bg-sidebar); border-left: 1px solid var(--border-subtle); padding: var(--space-4); width: var(--detail-width); box-sizing: border-box; }
+/* Workspace nav: the List component at the viewer's tighter pitch and smaller text. */
+.hl-workspace .hl-row { min-height: 28px; font-size: 14px; }
+.hl-workspace .hl-list-label, .hl-workspace-nav .hl-meta { font-size: 13px; line-height: 18px; }
+.hl-workspace .hl-row[aria-current="true"] { background: var(--bg-muted); }
+/* Workspace, full width: no canvas and no cards. Sections run to the pane's edges and are split by hairlines only. */
+.hl-workspace.is-flat { background: var(--bg-panel); }
+.hl-workspace.is-flat .hl-workspace-main { padding: 0; gap: 0; }
+.hl-workspace.is-flat .hl-panel { border: 0; border-radius: 0; border-bottom: 1px solid var(--border-subtle); padding: var(--space-6); }
+/* Split: a list of records on the left and the selected one on the right, as in the design system viewer's file view.
+   Packed rows, each closed by a hairline; sites as a grey band; the selection in the viewer's blue with white text and a white dot. */
+.hl-split { display: grid; grid-template-columns: var(--list-width) minmax(0, 1fr); align-items: start; }
+.hl-split-col { align-self: stretch; position: relative; background: var(--bg-row); border-right: 1px solid var(--border-subtle); min-width: 0; }
+.hl-split-list { position: sticky; top: var(--hl-bar-h, 0px); max-height: calc(100vh - var(--hl-bar-h, 0px)); overflow-y: auto; }
+.hl-split-group, .hl-split-heading, .hl-split-row { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle); }
+.hl-split-group { min-height: 32px; font-size: 13px; line-height: 18px; color: var(--text-secondary); background: var(--bg-band); }
+.hl-split-heading { min-height: 36px; font: 600 14px/20px var(--font-sans); background: var(--bg-row); }
+.hl-split-row { min-height: 36px; font: 450 14px/18px var(--font-sans); color: var(--text); background: var(--bg-row); cursor: pointer; }
+.hl-split-row > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hl-split-row:hover { background: var(--bg-sidebar); }
+.hl-split-row[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
+.hl-split-row .hl-dot { margin: 0 4px; }   /* the dot sits in the chevron's column, so names line up with the heading above */
+.hl-split-row[aria-selected="true"] .hl-dot { background: var(--on-selection); box-shadow: none; }
+.hl-split-row[aria-selected="true"] .hl-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
+.hl-split-detail { align-self: stretch; display: flex; flex-direction: column; min-height: calc(100vh - var(--hl-bar-h, 0px)); box-sizing: border-box; padding: var(--space-6) var(--space-6) 0; min-width: 0; background: var(--bg-band); container-type: inline-size; }
+.hl-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px var(--text-secondary); }
+.hl-dot.is-success { background: var(--success); box-shadow: none; } .hl-dot.is-danger { background: var(--danger); box-shadow: none; } .hl-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
+/* The record: title, a quiet location line (the section links out, then the rule numbers), the why, then the two texts in grey boxes. */
+.hl-record-title { font: 400 28px/36px var(--font-serif); margin: 0; text-wrap: balance; }
+.hl-record-where { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-4); font-size: 14px; line-height: 20px; color: var(--text-secondary); }
+.hl-record-where a { display: inline-flex; align-items: center; gap: 2px; color: var(--link); text-decoration: none; }
+.hl-record-where a:hover { text-decoration: underline; }
+.hl-record-where a svg.lucide { width: 14px; height: 14px; }
+.hl-record-text { margin: 0; padding: var(--space-3) var(--space-4); background: var(--bg-muted); border-radius: var(--radius-lg); white-space: pre-line; overflow-wrap: anywhere; }
+.hl-record-text.is-old { color: var(--text-secondary); }
+.hl-record-text del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); color: var(--text); border-radius: 3px; }
+.hl-record-text ins { text-decoration: none; background: var(--success-soft); border-radius: 3px; }
+/* The decision, docked like the app's composer: always at the bottom of the detail column under a full-width hairline.
+   One box holds the comment and the decision buttons along its bottom edge. */
+.hl-dock { position: sticky; bottom: 0; z-index: 3; margin: auto calc(-1 * var(--space-6)) 0; padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); background: var(--bg-band); border-top: 1px solid var(--border-subtle); }
+.hl-composer { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-input); }
+.hl-composer:hover, .hl-composer:focus-within { border-color: var(--border-strong); }
+.hl-composer textarea { box-sizing: border-box; border: 0; background: transparent; resize: none; overflow: hidden; min-height: 48px; padding: var(--space-3) var(--space-3) var(--space-1); font: 450 15px/22px var(--font-sans); color: var(--text); }
+.hl-composer textarea:focus { outline: none; }
+.hl-composer textarea::placeholder { color: var(--text-placeholder); }
+.hl-composer .hl-composer-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-2); }
+.hl-composer .hl-btn { height: 28px; font-size: 14px; padding: 0 10px 0 8px; }
+/* Select text in a record to add it, quoted, to the comment. */
+.hl-quote-btn { position: fixed; z-index: 20; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); font: 450 13px/18px var(--font-sans); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.08); cursor: pointer; }
+/* Draggable dividers: a 7px strip over a column's edge that turns blue on hover or drag. Double-click resets. */
+.hl-drag { position: absolute; top: 0; bottom: 0; right: -4px; width: 7px; cursor: col-resize; z-index: 6; touch-action: none; }
+.hl-drag::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; }
+.hl-drag:hover::after, .hl-drag.is-dragging::after, .hl-drag:focus-visible::after { width: 2px; left: 2px; background: var(--focus); }
+/* The tracker: a white bar across the top of the right side: the set's name, a status tag, the bar, the count on the right. */
+.hl-tracker { position: sticky; top: 0; z-index: 5; display: flex; flex-direction: row; margin-top: 0; border-top: 0; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-6); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
+.hl-tracker .hl-progress { flex: 1 1 auto; }
+.hl-tracker-name { font-weight: 600; }
+.hl-tracker-count { font-size: 14px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.hl-tracker-count strong { color: var(--text); }
+/* The same tracker inside a Workspace nav: anchored to the bottom above a hairline, stacked. */
+.hl-workspace-nav .hl-tracker { position: static; margin-top: auto; flex-direction: column; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
+.hl-workspace-nav .hl-tracker .hl-progress { flex: none; }
+@media (max-width: 760px) { .hl-split { grid-template-columns: 1fr; } .hl-split-col { border-right: 0; border-bottom: 1px solid var(--border-subtle); } .hl-split-list { position: static; max-height: none; } .hl-split-detail { min-height: 0; padding: var(--space-4) var(--space-4) 0; } .hl-dock { position: static; margin: var(--space-4) calc(-1 * var(--space-4)) 0; } .hl-drag { display: none; } }
+@media (max-width: 760px) { .hl-workspace { grid-template-columns: 1fr; } .hl-workspace-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border-subtle); } .hl-panel { padding: var(--space-4); } .hl-table-wrap { margin: 0 calc(-1 * var(--space-4)); } .hl-table th:first-child, .hl-table td:first-child { padding-left: var(--space-4); } .hl-detail { width: auto; border-left: 0; border-top: 1px solid var(--border-subtle); } }

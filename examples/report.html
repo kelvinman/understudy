@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Onboarding survey</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .page { max-width: var(--content-width); margin: 0 auto; padding: var(--space-8) max(16px, env(safe-area-inset-right)) var(--space-8) max(16px, env(safe-area-inset-left)); }
+  h1 { font: 500 22px/30px var(--font-sans); margin: 0 0 var(--space-1); }
+  h2 { font: 600 16px/24px var(--font-sans); margin: 0 0 var(--space-2); }
+  section { margin-top: var(--space-8); }
+  p { margin: 0 0 var(--space-3); }
+  .summary { margin-top: var(--space-6); }
+  .summary strong { font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font: 450 15px/20px var(--font-sans); }
+  th { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); text-align: left; padding: var(--space-2) 0; }
+  td { padding: var(--space-2) 0; border-top: 1px solid var(--border-subtle); }
+  th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main class="page">
+  <h1>What new users said about onboarding</h1>
+  <div class="hl-meta hl-iconed"><i data-lucide="calendar" aria-hidden="true"></i><span>October survey · 214 responses</span></div>
+
+  <div class="hl-card summary">
+    <strong>Most people finish setup, but a third skip the import step.</strong>
+    <div class="hl-meta" style="margin-top:4px">Those who skip it are half as likely to come back in the first week.</div>
+  </div>
+
+  <section>
+    <h2>Where people stopped</h2>
+    <p>The import step is the only one where more than one in five people left the flow.</p>
+    <table>
+      <thead><tr><th>Step</th><th class="num">Started</th><th class="num">Finished</th><th class="num">Rate</th></tr></thead>
+      <tbody>
+        <tr><td>Create account</td><td class="num">214</td><td class="num">209</td><td class="num">98%</td></tr>
+        <tr><td>Name the workspace</td><td class="num">209</td><td class="num">201</td><td class="num">96%</td></tr>
+        <tr><td>Import data</td><td class="num">201</td><td class="num">134</td><td class="num">67%</td></tr>
+        <tr><td>Invite a teammate</td><td class="num">134</td><td class="num">118</td><td class="num">88%</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>What they wrote</h2>
+    <div class="hl-quote"><blockquote>I didn't have the file ready, so I skipped it and forgot to come back.</blockquote></div>
+  </section>
+
+  <section>
+    <h2>What to try next</h2>
+    <p>Let people skip import without losing their place, and remind them once, the next time they open an empty project. <a href="#">See the full responses</a>.</p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
+</body>
+</html>

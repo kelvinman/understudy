@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Copy review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .hl-workspace { grid-template-columns: var(--nav-w, var(--nav-width)) minmax(0, 1fr); }
+  .hl-workspace-nav { position: sticky; }
+  .nav-rules { margin-top: auto; padding: var(--space-2) var(--space-1) 0; border-top: 1px solid var(--border-subtle); }
+  .nav-rules ol { list-style: none; margin: var(--space-1) 0 0; padding: 0; font-size: 13px; line-height: 18px; }
+  .nav-rules li { display: flex; gap: 6px; padding: 3px 0; }
+  .nav-rules li span { color: var(--text-secondary); font-variant-numeric: tabular-nums; width: 18px; flex: none; }
+  .main-col { min-width: 0; position: relative; }
+  .detail-head { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6); }
+  .detail-why { margin: 0 0 var(--space-6); }
+  .detail-label { margin-bottom: 6px; }
+  .detail-block { margin-bottom: var(--space-4); }
+  .needs { font-size: 14px; line-height: 20px; }
+  .needs .hl-meta { font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="hl-workspace is-flat" id="ws">
+  <nav class="hl-workspace-nav" aria-label="Rounds">
+    <div class="hl-list-label">Rounds</div>
+    <a class="hl-row" href="#" data-round="2" aria-current="true"><i data-lucide="folder" aria-hidden="true"></i><span>Round 2</span><span class="hl-row-count">4</span></a>
+    <a class="hl-row" href="#" data-round="1"><i data-lucide="folder" aria-hidden="true"></i><span>Round 1</span><span class="hl-row-count">2</span></a>
+    <div class="nav-rules">
+      <div class="hl-meta">Rules</div>
+      <ol>
+        <li><span>01</span>Lead with the action</li>
+        <li><span>02</span>Plain words over jargon</li>
+        <li><span>03</span>One idea per sentence</li>
+        <li><span>04</span>Name the number</li>
+      </ol>
+    </div>
+    <div class="hl-drag" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
+  </nav>
+
+  <div class="main-col">
+    <div class="hl-tracker" id="tracker"></div>
+    <div class="hl-split" id="split">
+      <div class="hl-split-col">
+        <div class="hl-split-list" id="list" role="listbox" aria-label="Changes"></div>
+        <div class="hl-drag" data-drag="list" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize list"></div>
+      </div>
+      <div class="hl-split-detail" id="detail"></div>
+    </div>
+  </div>
+</div>
+<button class="hl-quote-btn" id="quote" hidden><i data-lucide="quote" aria-hidden="true"></i><span>Add to comment</span></button>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+var RULES = { "01": "Lead with the action", "02": "Plain words over jargon", "03": "One idea per sentence", "04": "Name the number" };
+var ROUNDS = {
+  "2": { name: "Round 2", readOnly: false, items: [
+    { id: "a", source: "Help center", page: "Getting started", title: "Start with the import, not the tour", where: "First paragraph", rules: ["01"], why: "The old opening explained the product before telling people what to do first.",
+      old: "Welcome! Before diving in, let's take a quick tour of everything the workspace can do for you.", rewrite: "Import your data first. The rest of the workspace fills in from it.",
+      diff: '<del>Welcome! Before diving in, let\'s take a quick tour of everything the workspace can do for you.</del> <ins>Import your data first. The rest of the workspace fills in from it.</ins>', state: "open",
+      needs: "Is the import still the first step for teams on the free plan?" },
+    { id: "b", source: "Help center", page: "Getting started", title: "Say how long the import takes", where: "Import section", rules: ["04"], why: "People asked whether they could leave the page. A number answers that.",
+      old: "The import may take some time depending on the size of your data.", rewrite: "Most imports finish in under two minutes. You can leave the page while it runs.",
+      diff: '<del>The import may take some time depending on the size of your data.</del> <ins>Most imports finish in under two minutes. You can leave the page while it runs.</ins>', state: "success" },
+    { id: "c", source: "App", page: "Settings", title: "Drop the word provision", where: "Seats panel", rules: ["02"], why: "Nobody outside the billing team says provision.",
+      old: "Provision additional seats for your organization.", rewrite: "Add seats for your team.",
+      diff: '<del>Provision additional seats for your organization.</del> <ins>Add seats for your team.</ins>', state: "open" },
+    { id: "d", source: "App", page: "Settings", title: "Split the export warning in two", where: "Export dialog", rules: ["03"], why: "One sentence carried both the delay and the file format.",
+      old: "Exports are generated in the background and delivered as a zip of CSV files when ready.", rewrite: "We build the export in the background. You get a zip of CSV files when it is ready.",
+      diff: 'Exports are generated in the background <del>and delivered as</del><ins>. You get</ins> a zip of CSV files when <del>ready</del><ins>it is ready</ins>.', state: "danger", comment: "Keep \"we\" out of app strings." }
+  ] },
+  "1": { name: "Round 1", readOnly: true, items: [
+    { id: "e", source: "Help center", page: "Billing", title: "Name the refund window", where: "Refunds", rules: ["04"], why: "\"A short period\" made people write in to ask.",
+      old: "Refunds are available for a short period after purchase.", rewrite: "You can get a refund within 14 days of buying.",
+      diff: '<del>Refunds are available for a short period after purchase.</del> <ins>You can get a refund within 14 days of buying.</ins>', state: "success", comment: "Good." },
+    { id: "f", source: "Help center", page: "Billing", title: "Keep the invoice heading", where: "Invoices", rules: ["01"], why: "Proposed leading with the download button.",
+      old: "Invoices", rewrite: "Download your invoices", diff: '<del>Invoices</del> <ins>Download your invoices</ins>', state: "muted", comment: "The heading is fine as a noun." }
+  ] }
+};
+var round = "2", selected = "a";
+
+function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+function current() { return ROUNDS[round].items.find(function (i) { return i.id === selected; }); }
+
+function renderTracker() {
+  var r = ROUNDS[round], done = r.items.filter(function (i) { return i.state !== "open"; }).length;
+  var pct = function (s) { return (r.items.filter(function (i) { return i.state === s; }).length / r.items.length * 100) + "%"; };
+  document.getElementById("tracker").innerHTML =
+    '<span class="hl-tracker-name">' + esc(r.name) + '</span>' + (r.readOnly ? '<span class="hl-tag">Read only</span>' : '') +
+    '<div class="hl-progress" role="progressbar" aria-valuenow="' + done + '" aria-valuemax="' + r.items.length + '"><span class="is-success" style="width:' + pct("success") + '"></span><span class="is-danger" style="width:' + pct("danger") + '"></span><span class="is-muted" style="width:' + pct("muted") + '"></span></div>' +
+    '<span class="hl-tracker-count"><strong>' + done + '</strong> of ' + r.items.length + ' reviewed</span>';
+}
+
+function renderList() {
+  var html = "", lastSource, lastPage;
+  ROUNDS[round].items.forEach(function (i) {
+    if (i.source !== lastSource) { html += '<div class="hl-split-group">' + esc(i.source) + '</div>'; lastSource = i.source; lastPage = null; }
+    if (i.page !== lastPage) { html += '<div class="hl-split-heading"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(i.page) + '</span></div>'; lastPage = i.page; }
+    var dot = i.state === "open" ? "" : " is-" + i.state;
+    html += '<div class="hl-split-row" role="option" tabindex="0" data-id="' + i.id + '" aria-selected="' + (i.id === selected) + '"><span class="hl-dot' + dot + '"></span><span>' + esc(i.title) + '</span></div>';
+  });
+  document.getElementById("list").innerHTML = html;
+}
+
+function renderDetail() {
+  var i = current(), r = ROUNDS[round];
+  var rules = i.rules.map(function (n) { return '<span title="' + esc(RULES[n]) + '">' + n + '</span>'; }).join("");
+  var dock;
+  if (r.readOnly) {
+    var verdict = { success: "Approved", danger: "Changes requested", muted: "Kept current", open: "Not reviewed" }[i.state];
+    dock = '<div class="hl-meta">' + verdict + '</div>' + (i.comment ? '<div class="hl-quote">' + esc(i.comment) + '</div>' : '');
+  } else {
+    var pressed = function (s) { return i.state === s ? "true" : "false"; };
+    dock = (i.needs ? '<div class="needs"><div class="hl-meta">Needs from you</div>' + esc(i.needs) + '</div>' : '') +
+      '<div class="hl-composer"><textarea id="comment" rows="1" placeholder="What should change, or your own wording" aria-label="Comment">' + esc(i.comment || "") + '</textarea>' +
+      '<div class="hl-composer-actions">' +
+      '<button class="hl-btn hl-btn-success" data-state="success" aria-pressed="' + pressed("success") + '"><i data-lucide="check" aria-hidden="true"></i><span>Approve</span></button>' +
+      '<button class="hl-btn hl-btn-danger" data-state="danger" aria-pressed="' + pressed("danger") + '"><i data-lucide="pencil" aria-hidden="true"></i><span>Request changes</span></button>' +
+      '<button class="hl-btn" data-state="muted" aria-pressed="' + pressed("muted") + '"><i data-lucide="rotate-ccw" aria-hidden="true"></i><span>Keep current</span></button>' +
+      '</div></div>';
+  }
+  document.getElementById("detail").innerHTML =
+    '<div class="detail-head"><h2 class="hl-record-title">' + esc(i.title) + '</h2>' +
+    '<div class="hl-record-where"><a href="#"><span>' + esc(i.where) + '</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>' + rules + '</div></div>' +
+    '<p class="detail-why">' + esc(i.why) + '</p>' +
+    '<div class="detail-block"><div class="hl-meta detail-label">Current</div><p class="hl-record-text is-old">' + esc(i.old) + '</p></div>' +
+    '<div class="detail-block"><div class="hl-meta detail-label">Rewrite</div><p class="hl-record-text">' + i.diff + '</p></div>' +
+    '<div class="hl-dock">' + dock + '</div>';
+  var ta = document.getElementById("comment");
+  if (ta) { requestAnimationFrame(function () { grow(ta); }); ta.addEventListener("input", function () { i.comment = ta.value; grow(ta); }); }
+}
+
+function grow(ta) { ta.style.height = "auto"; ta.style.height = Math.max(48, ta.scrollHeight) + "px"; }
+
+function render() {
+  renderTracker(); renderList(); renderDetail();
+  document.getElementById("split").style.setProperty("--hl-bar-h", document.getElementById("tracker").offsetHeight + "px");
+  window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
+}
+
+document.querySelector(".hl-workspace-nav").addEventListener("click", function (e) {
+  var row = e.target.closest(".hl-row"); if (!row) return;
+  e.preventDefault();
+  round = row.dataset.round; selected = ROUNDS[round].items[0].id;
+  document.querySelectorAll(".hl-workspace-nav .hl-row").forEach(function (r) { r.setAttribute("aria-current", String(r === row)); });
+  render();
+});
+document.getElementById("list").addEventListener("click", function (e) {
+  var row = e.target.closest(".hl-split-row"); if (!row) return;
+  selected = row.dataset.id; render();
+});
+document.getElementById("list").addEventListener("keydown", function (e) {
+  if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+  e.preventDefault();
+  var items = ROUNDS[round].items, at = items.indexOf(current());
+  var next = items[Math.min(items.length - 1, Math.max(0, at + (e.key === "ArrowDown" ? 1 : -1)))];
+  selected = next.id; render();
+  document.querySelector('.hl-split-row[data-id="' + selected + '"]').focus();
+});
+document.getElementById("detail").addEventListener("click", function (e) {
+  var btn = e.target.closest(".hl-composer-actions .hl-btn"); if (!btn) return;
+  var i = current(); i.state = i.state === btn.dataset.state ? "open" : btn.dataset.state; render();
+});
+
+// Select text in the record to add it, quoted, to the comment.
+var quoteBtn = document.getElementById("quote");
+document.addEventListener("selectionchange", function () {
+  var sel = window.getSelection(), text = sel.toString().trim();
+  var inRecord = sel.rangeCount && sel.anchorNode && sel.anchorNode.parentElement && sel.anchorNode.parentElement.closest(".hl-record-text");
+  if (!text || !inRecord || ROUNDS[round].readOnly) { quoteBtn.hidden = true; return; }
+  var rect = sel.getRangeAt(0).getBoundingClientRect();
+  quoteBtn.style.left = rect.left + "px"; quoteBtn.style.top = Math.max(8, rect.top - 36) + "px"; quoteBtn.hidden = false;
+});
+quoteBtn.addEventListener("mousedown", function (e) { e.preventDefault(); });
+quoteBtn.addEventListener("click", function () {
+  var ta = document.getElementById("comment"), text = window.getSelection().toString().trim();
+  if (!ta || !text) return;
+  ta.value = (ta.value ? ta.value + "\n" : "") + "> " + text + "\n"; current().comment = ta.value;
+  grow(ta); ta.focus(); quoteBtn.hidden = true;
+});
+
+// Drag strips: resize the nav (180 to 420px) and the list (220 to 560px). Double-click resets.
+var LIMITS = { nav: [180, 420, "--nav-w", "ws"], list: [220, 560, "--list-width", "split"] };
+function store(k, v) { try { localStorage.setItem("hairline-" + k, v); } catch (e) {} }
+function load(k) { try { return localStorage.getItem("hairline-" + k); } catch (e) { return null; } }
+Object.keys(LIMITS).forEach(function (k) {
+  var l = LIMITS[k], saved = load(k);
+  if (saved) document.getElementById(l[3]).style.setProperty(l[2], saved + "px");
+});
+document.querySelectorAll(".hl-drag").forEach(function (strip) {
+  var l = LIMITS[strip.dataset.drag], host = document.getElementById(l[3]);
+  strip.addEventListener("pointerdown", function (e) {
+    var start = e.clientX, from = strip.parentElement.getBoundingClientRect().width;
+    strip.setPointerCapture(e.pointerId); strip.classList.add("is-dragging");
+    function move(ev) {
+      var w = Math.round(Math.min(l[1], Math.max(l[0], from + ev.clientX - start)));
+      host.style.setProperty(l[2], w + "px"); store(strip.dataset.drag, w);
+    }
+    function up() { strip.classList.remove("is-dragging"); strip.removeEventListener("pointermove", move); strip.removeEventListener("pointerup", up); }
+    strip.addEventListener("pointermove", move); strip.addEventListener("pointerup", up);
+  });
+  strip.addEventListener("dblclick", function () { host.style.removeProperty(l[2]); try { localStorage.removeItem("hairline-" + strip.dataset.drag); } catch (e) {} });
+});
+
+render();
+</script>
+</body>
+</html>

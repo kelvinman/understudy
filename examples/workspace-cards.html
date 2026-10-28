@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Token reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+</head>
+<body>
+<div class="hl-workspace">
+  <nav class="hl-workspace-nav" aria-label="Sections">
+    <div class="hl-list-label">Tokens</div>
+    <a class="hl-row" href="#colors" aria-current="true"><i data-lucide="palette" aria-hidden="true"></i><span>Colors</span><span class="hl-row-count">5</span></a>
+    <a class="hl-row" href="#type"><i data-lucide="type" aria-hidden="true"></i><span>Type</span><span class="hl-row-count">3</span></a>
+    <a class="hl-row" href="#files"><i data-lucide="folder" aria-hidden="true"></i><span>Files</span><span class="hl-row-count">3</span></a>
+    <div class="hl-tracker">
+      <div class="hl-meta">8 of 11 checked in dark mode</div>
+      <div class="hl-progress" role="progressbar" aria-valuenow="8" aria-valuemax="11"><span style="width:73%"></span></div>
+    </div>
+  </nav>
+
+  <main class="hl-workspace-main">
+    <section class="hl-panel" id="colors" style="padding-bottom:0">
+      <div class="hl-panel-head"><h1 class="hl-display">Colors</h1><button class="hl-btn"><i data-lucide="plus" aria-hidden="true"></i><span>Add</span></button></div>
+      <div class="hl-section-head">Surfaces</div>
+      <div class="hl-table-wrap"><table class="hl-table">
+        <thead><tr><th>Name</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td class="hl-name">bg</td><td><span class="hl-value"><span class="hl-swatch" style="background:#ffffff"></span>#FFFFFF</span></td><td><span class="hl-value"><span class="hl-swatch" style="background:#181818"></span>#181818</span></td></tr>
+          <tr><td class="hl-name">bg-muted</td><td><span class="hl-value"><span class="hl-swatch" style="background:#f5f5f5"></span>#F5F5F5</span></td><td><span class="hl-value"><span class="hl-swatch" style="background:#252525"></span>#252525</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="hl-section-head">Status</div>
+      <div class="hl-table-wrap"><table class="hl-table">
+        <thead><tr><th>Name</th><th>Light</th><th>Dark</th></tr></thead>
+        <tbody>
+          <tr><td class="hl-name">link</td><td><span class="hl-value"><span class="hl-swatch" style="background:#2c66a4"></span>#2C66A4</span></td><td><span class="hl-value"><span class="hl-swatch" style="background:#6aaae8"></span>#6AAAE8</span></td></tr>
+          <tr><td class="hl-name">success</td><td><span class="hl-value"><span class="hl-swatch" style="background:#1f9643"></span>#1F9643</span></td><td><span class="hl-value"><span class="hl-swatch" style="background:#6cc287"></span>#6CC287</span></td></tr>
+          <tr><td class="hl-name">danger</td><td><span class="hl-value"><span class="hl-swatch" style="background:#a5546c"></span>#A5546C</span></td><td><span class="hl-value"><span class="hl-swatch" style="background:#ec8ba0"></span>#EC8BA0</span></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="hl-panel" id="type" style="padding-bottom:0">
+      <div class="hl-panel-head"><h2 class="hl-display">Type</h2></div>
+      <div class="hl-table-wrap"><table class="hl-table">
+        <thead><tr><th>Name</th><th>Sample</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td class="hl-name">title</td><td style="font:500 22px/30px var(--font-sans)">Which of these should ship?</td><td class="hl-num">22 / 30</td></tr>
+          <tr><td class="hl-name">body</td><td>I moved the setup steps into one list.</td><td class="hl-num">16 / 24</td></tr>
+          <tr><td class="hl-name">meta</td><td class="hl-meta">Under the pricing table</td><td class="hl-num">14 / 20</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section class="hl-panel" id="files" style="padding:0;overflow:hidden">
+      <div style="display:flex">
+        <div class="hl-files" style="flex:1;min-width:0">
+          <div class="hl-files-label">Documents</div>
+          <a class="hl-file" aria-selected="true" href="#files"><i data-lucide="file-text" aria-hidden="true"></i><span><div class="hl-file-name">README.md</div><div class="hl-file-meta">How to use the system</div></span><span class="hl-file-size">9 KB</span></a>
+          <div class="hl-files-label">Data</div>
+          <a class="hl-file" aria-selected="false" href="#files"><i data-lucide="file-json" aria-hidden="true"></i><span><div class="hl-file-name">tokens.json</div><div class="hl-file-meta">Source for tokens.css</div></span><span class="hl-file-size">11 KB</span></a>
+          <a class="hl-file" aria-selected="false" href="#files"><i data-lucide="file-code" aria-hidden="true"></i><span><div class="hl-file-name">components.css</div><div class="hl-file-meta">Every class the pages use</div></span><span class="hl-file-size">19 KB</span></a>
+        </div>
+        <aside class="hl-detail"><div class="hl-file-name">README.md</div><div class="hl-file-meta">Document · 9 KB</div></aside>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+  document.querySelectorAll(".hl-workspace-nav .hl-row").forEach(function (row, _, rows) {
+    row.addEventListener("click", function () { rows.forEach(function (r) { r.setAttribute("aria-current", String(r === row)); }); });
+  });
+  document.querySelectorAll(".hl-file").forEach(function (file, _, files) {
+    file.addEventListener("click", function (e) {
+      e.preventDefault();
+      files.forEach(function (f) { f.setAttribute("aria-selected", String(f === file)); });
+      var name = file.querySelector(".hl-file-name").textContent;
+      var size = file.querySelector(".hl-file-size").textContent;
+      document.querySelector(".hl-detail").innerHTML = '<div class="hl-file-name"></div><div class="hl-file-meta"></div>';
+      document.querySelector(".hl-detail .hl-file-name").textContent = name;
+      document.querySelector(".hl-detail .hl-file-meta").textContent = "Document · " + size;
+    });
+  });
+  window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
+</script>
+</body>
+</html>
