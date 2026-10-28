@@ -1,4 +1,4 @@
-# Hairline
+# Understudy
 
 A theme for Claude artifacts that makes them look like part of the Claude desktop app. Same white ground as the chat beside them, the same neutral greys, quiet bordered controls and 16px text, and dark mode tuned for how the artifact pane draws color. Nothing on the page announces itself as a separate website.
 
@@ -12,7 +12,7 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 |---|---|
 | `tokens.json` | Every color, type style, space, radius and size, with a note on where each one is used and where its value came from. The source of truth. |
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
-| `components.css` | Buttons, fields, tags, tabs, lists, cards, progress, steps, tables, panels, file lists and the split list-and-detail view, as `hl-` classes. |
+| `components.css` | Buttons, fields, tags, tabs, lists, cards, progress, steps, tables, panels, file lists and the split list-and-detail view, as `us-` classes. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
 
@@ -57,7 +57,7 @@ When unsure between the two Workspace layouts, pick full width for tools you wor
 
 **Type.** One sans family at weight 450. Body 16/24, controls 15/20, meta 14/20, tags 12/16. Headings are body size at weight 600, not bigger; only the page title is 22/30. Nothing a person reads goes below 14px, except labels in the Workspace nav. The serif is for Workspace titles only.
 
-**Spacing and shape.** A 4px base. Controls are 32px tall. Hairlines are 1px and run edge to edge of the pane (`hl-rule`). Corners: 6px on tags and tabs, 8px on buttons and rows, 12px on inputs and cards, 20px on Workspace panels. No shadows on content.
+**Spacing and shape.** A 4px base. Controls are 32px tall. Hairlines are 1px and run edge to edge of the pane (`us-rule`). Corners: 6px on tags and tabs, 8px on buttons and rows, 12px on inputs and cards, 20px on Workspace panels. No shadows on content.
 
 **States.** Hover darkens the border or adds `bg-muted`. Focus is a 2px `focus` ring with a 2px offset on buttons, tabs, rows and links. Text fields take no ring, like the app's composer: the border steps up instead.
 
@@ -79,7 +79,7 @@ The app will change. When it does, these values will drift until someone measure
 
 Made by [Kelvin Man](https://kelvinman.com). Released under the [MIT license](LICENSE).
 
-Hairline loads these from public CDNs and does not bundle them:
+Understudy loads these from public CDNs and does not bundle them:
 
 - [Figtree](https://fonts.google.com/specimen/Figtree) by Erik Kennedy, SIL Open Font License 1.1.
 - [Source Serif 4](https://fonts.google.com/specimen/Source+Serif+4) by Adobe, SIL Open Font License 1.1.
