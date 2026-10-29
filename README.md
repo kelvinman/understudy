@@ -2,7 +2,12 @@
 
 A theme for Claude artifacts that makes them look like part of the Claude desktop app. Same white ground as the chat beside them, the same neutral greys, quiet bordered controls and 16px text, and dark mode tuned for how the artifact pane draws color. Nothing on the page announces itself as a separate website.
 
-It is plain CSS: a set of design tokens, one stylesheet of components, and five example pages, one per layout.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/preview-dark.png">
+  <img src="docs/preview-light.png" alt="The full-width Workspace example: a sidebar of review rounds, a list of copy changes with status dots, and the selected change with its current and rewritten text above a comment box with Approve, Request changes and Keep current buttons.">
+</picture>
+
+It is plain CSS: a set of design tokens, one stylesheet of components, and five example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme.
 
 This is an independent project. It is not made by, affiliated with or endorsed by Anthropic.
 
