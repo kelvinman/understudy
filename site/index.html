@@ -31,6 +31,7 @@
   .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
 
   .demo { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-3); }
+  .tabs-row { display: flex; justify-content: center; }
   .frame { position: relative; height: 640px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
   .frame iframe { display: block; width: 100%; height: 100%; border: 0; }
   /* Under the example's own width, show it at desktop size, scaled down to fit. */
@@ -70,7 +71,7 @@
   </div>
 
   <div class="wide demo">
-    <div><div class="us-tabs" role="tablist" aria-label="Examples">
+    <div class="tabs-row"><div class="us-tabs" role="tablist" aria-label="Examples">
       <button class="us-tab" role="tab" aria-selected="true" data-src="examples/workspace-full-width.html">Workspace, full width</button>
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/workspace-cards.html">Workspace, cards</button>
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/tool.html">Tool</button>
