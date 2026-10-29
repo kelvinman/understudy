@@ -4,7 +4,7 @@ A theme for Claude artifacts that makes them look like part of the Claude deskto
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/preview-dark.png">
-  <img src="docs/preview-light.png" alt="The full-width Workspace example: a sidebar of review rounds, a list of copy changes with status dots, and the selected change with its current and rewritten text above a comment box with Approve, Request changes and Keep current buttons.">
+  <img src="docs/preview-light.png" alt="The full-width Workspace example: a customer request tracker with Group by and Show filters in the sidebar, a list of requests grouped by the need they share with a status dot and age on each, and the selected request with its status, who asked, why, what was committed, the other customers with the same ask and its issue.">
 </picture>
 
 It is plain CSS: a set of design tokens, one stylesheet of components, and five example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme.
@@ -17,15 +17,17 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 |---|---|
 | `tokens.json` | Every color, type style, space, radius and size, with a note on where each one is used and where its value came from. The source of truth. |
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
-| `components.css` | Buttons, fields, tags, tabs, lists, cards, progress, steps, tables, panels, file lists and the split list-and-detail view, as `us-` classes. |
+| `components.css` | A base section every page needs, then one section per component, as `us-` classes. The components are listed below. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
+| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
+| `brand/` | The mark, wordmark and lockups as SVG, the avatar, banner and link preview, and a template for posts. |
 
 ## How to use it
 
 Artifacts can't load files from somewhere else, so everything goes inline.
 
-**By hand.** Paste `tokens.css` at the top of the page's `<style>`, then the parts of `components.css` the page uses. Add the fonts:
+**By hand.** Paste `tokens.css` at the top of the page's `<style>`. Then paste the **Base** section of `components.css` (the page background, links, the focus ring, text field focus and icon size), which every page needs, then the sections for the components the page uses. Each component's rules sit under one comment naming it, so a section can be copied on its own; where one builds on another, its comment says what it needs. Add the fonts:
 
 ```html
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..600&display=swap">
@@ -40,7 +42,39 @@ and, if the page uses icons, Lucide:
 <script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
 ```
 
-**With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens and the classes it uses. The rules below are written so an agent can follow them.
+**With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens, the Base section and the component sections it uses. The rules below are written so an agent can follow them.
+
+## Components
+
+Each is one section of `components.css`.
+
+| Component | Classes |
+|---|---|
+| Button | `us-btn`, with `us-btn-filled`, `us-btn-ghost`, `us-btn-primary`, `us-btn-success`, `us-btn-danger`, and `us-btn-sm` for a 28px button in table rows and filter bars. Toggles use `aria-pressed`. |
+| Text input, textarea | `us-input`, `us-textarea` |
+| Search field | `us-search`: a label around an icon and an `input type="search"`. |
+| Select | `us-select`: a span around a native `select`; add `is-set` while it filters something. |
+| Checkbox | `us-check`: a label around a native checkbox and its text. |
+| Filter bar | `us-filters`: one wrapping row of search, selects, toggles and checkboxes, with `us-filters-end` and `us-filters-count` for the count on the right. |
+| Tag | `us-tag`, with `us-tag-outline`, `us-tag-success`, `us-tag-danger` |
+| Tabs | `us-tabs`, `us-tab` |
+| List | `us-list`, `us-list-label`, `us-row`, `us-row-meta`, `us-row-action` |
+| Card, quote, divider, rule | `us-card`, `us-quote`, `us-divider`, `us-rule` |
+| Progress | `us-progress`, its parts `is-success`, `is-danger`, `is-muted` |
+| Meta line | `us-meta`, `us-iconed` |
+| Diff | `ins.us-ins`, `del.us-del` |
+| Steps | `us-steps`, `us-step-num` |
+| Status dot | `us-dot`: hollow when open, or `is-success`, `is-danger`, `is-muted` |
+| Workspace | `us-workspace` (add `is-flat` for full width), `us-workspace-nav`, `us-workspace-main`, `us-canvas` |
+| Panel | `us-panel`, `us-panel-head`, `us-display`, `us-section-head` |
+| Table | `us-table`, `us-table-wrap`, `us-num`, `us-name` |
+| Table groups | `us-table-group` (the heading row), `us-table-toggle` (its button, with a chevron), `us-table-count`. One `tbody` per group; the button's `aria-expanded` folds it. |
+| Token value, file list, detail | `us-value`, `us-swatch`, `us-files`, `us-file`, `us-detail` |
+| Tracker | `us-tracker`, `us-tracker-name`, `us-tracker-count` |
+| Split | `us-split`, `us-split-col`, `us-split-list`, `us-split-group`, `us-split-heading`, `us-split-row`, `us-split-detail` |
+| Record | `us-record-title`, `us-record-where`, `us-record-text` |
+| Dock and composer | `us-dock`, `us-composer`, `us-composer-actions` |
+| Quote button, drag strip | `us-quote-btn`, `us-drag` |
 
 ## Layout presets
 
@@ -49,8 +83,8 @@ Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left
 - **Tool or tracker** ([examples/tool.html](examples/tool.html)). A review page, a checklist, a log. Up to 1080px wide. A short header, then a sticky bar with progress, counts and filter tabs. Items are open rows split by full-width hairlines, text on the left and controls on the right; the two columns stack under 860px. No cards around items.
 - **Report** ([examples/report.html](examples/report.html)). Findings, a comparison, a write-up. One 760px column, a title and a date line, sections 32px apart. A key number goes in one card at the top, never a row of tiles.
 - **Short page** ([examples/short-page.html](examples/short-page.html)). A note, a link list, a one-screen answer. Same column as the report, nothing sticky.
-- **Workspace, cards** ([examples/workspace-cards.html](examples/workspace-cards.html)). Reference material or many records: a token list, settings, a file browser. A 240px nav on the left, panels on a grey canvas on the right, each opening with a serif title.
-- **Workspace, full width** ([examples/workspace-full-width.html](examples/workspace-full-width.html)). One working surface you move through, such as a review queue. The same nav, then no canvas and no cards: a tracker across the top and a split list and detail below it, with resizable columns, a status dot per record and the decision docked at the bottom like a message composer.
+- **Workspace, cards** ([examples/workspace-cards.html](examples/workspace-cards.html)). A home page across many records: a project desk, settings, a file browser. A 240px nav on the left, a filter bar across the top, then panels on a grey canvas, each opening with a serif title. The example is a desk of projects: each panel holds a table grouped by area under folding headings, each row the project with a one-line status, its stage as a tag, when it was last touched and a small Copy prompt button that copies a prompt for starting a new Claude session on it. On a phone the table rows stack.
+- **Workspace, full width** ([examples/workspace-full-width.html](examples/workspace-full-width.html)). One working surface you move through, such as a request tracker or a review queue. The same nav, then no canvas and no cards: a tracker across the top and a split list and detail below it, with resizable columns, folding groups and a status dot per record. The example tracks customer requests: the nav groups them by the shared ask or by customer and filters them by status, and the detail shows why they asked, what was committed, the other customers with the same ask and the issue. When each record needs a decision, dock it at the bottom of the detail like a message composer (`us-dock`, `us-composer`).
 
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
 

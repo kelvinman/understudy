@@ -4,90 +4,252 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>Token reference</title>
+<title>Project desk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
+<style>
+  /* The filter bar sits on the canvas above the panels and stays put while they scroll. */
+  .desk-bar { position: sticky; top: 0; z-index: 4; margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) 0; padding: var(--space-3); background: var(--bg-canvas); }
+  .us-panel { padding-bottom: 0; overflow: hidden; }
+  .us-panel-head { margin-bottom: var(--space-4); }
+  .us-table { table-layout: fixed; }
+  /* Fixed layout takes column widths from the header row. */
+  th.stage { width: 128px; }
+  th.touched { width: 120px; }
+  th.action { width: 152px; }
+  .project-name { display: block; }
+  .project-status { display: block; margin-top: 2px; font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
+  .project-phone { display: none; }
+  td.touched { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .desk-empty { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding-bottom: var(--space-8); }
+  .desk-empty p { margin: 0; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 760px) {
+    .desk-bar { position: static; }
+    /* On a phone the table stacks: each row is the project with its button beside it, stage and date under the status. */
+    .stage, .touched, .us-table thead { display: none; }
+    .us-table, .us-table tbody { display: block; }
+    .us-table tr { display: flex; align-items: center; border-top: 1px solid var(--border-subtle); }
+    .us-table td, .us-table th { border-top: 0; }
+    .us-table td { height: auto; padding-block: var(--space-3); }
+    .us-table td:first-child { flex: 1; min-width: 0; }
+    .us-table td + td { border-left: 0; padding-left: 0; }
+    .us-table .us-table-group th { flex: 1; display: flex; align-items: center; }
+    .project-phone { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
+    .desk-empty { padding-bottom: var(--space-4); }
+  }
+</style>
 </head>
 <body>
 <div class="us-workspace">
-  <nav class="us-workspace-nav" aria-label="Sections">
-    <div class="us-list-label">Tokens</div>
-    <a class="us-row" href="#colors" aria-current="true"><i data-lucide="palette" aria-hidden="true"></i><span>Colors</span><span class="us-row-count">5</span></a>
-    <a class="us-row" href="#type"><i data-lucide="type" aria-hidden="true"></i><span>Type</span><span class="us-row-count">3</span></a>
-    <a class="us-row" href="#files"><i data-lucide="folder" aria-hidden="true"></i><span>Files</span><span class="us-row-count">3</span></a>
-    <div class="us-tracker">
-      <div class="us-meta">8 of 11 checked in dark mode</div>
-      <div class="us-progress" role="progressbar" aria-valuenow="8" aria-valuemax="11"><span style="width:73%"></span></div>
-    </div>
+  <nav class="us-workspace-nav" aria-label="Projects">
+    <div class="us-list-label">Desk</div>
+    <a class="us-row" href="#" data-view="all"><i data-lucide="layout-grid" aria-hidden="true"></i><span>All projects</span><span class="us-row-count" id="count-all"></span></a>
+    <a class="us-row" href="#" data-view="attention"><i data-lucide="circle-dot" aria-hidden="true"></i><span>Needs attention</span><span class="us-row-count" id="count-attention"></span></a>
+    <div class="us-list-label">Areas</div>
+    <div id="nav-areas"></div>
+    <div class="us-tracker" id="week"></div>
   </nav>
 
   <main class="us-workspace-main">
-    <section class="us-panel" id="colors" style="padding-bottom:0">
-      <div class="us-panel-head"><h1 class="us-display">Colors</h1><button class="us-btn"><i data-lucide="plus" aria-hidden="true"></i><span>Add</span></button></div>
-      <div class="us-section-head">Surfaces</div>
-      <div class="us-table-wrap"><table class="us-table">
-        <thead><tr><th>Name</th><th>Light</th><th>Dark</th></tr></thead>
-        <tbody>
-          <tr><td class="us-name">bg</td><td><span class="us-value"><span class="us-swatch" style="background:#ffffff"></span>#FFFFFF</span></td><td><span class="us-value"><span class="us-swatch" style="background:#181818"></span>#181818</span></td></tr>
-          <tr><td class="us-name">bg-muted</td><td><span class="us-value"><span class="us-swatch" style="background:#f5f5f5"></span>#F5F5F5</span></td><td><span class="us-value"><span class="us-swatch" style="background:#252525"></span>#252525</span></td></tr>
-        </tbody>
-      </table></div>
-      <div class="us-section-head">Status</div>
-      <div class="us-table-wrap"><table class="us-table">
-        <thead><tr><th>Name</th><th>Light</th><th>Dark</th></tr></thead>
-        <tbody>
-          <tr><td class="us-name">link</td><td><span class="us-value"><span class="us-swatch" style="background:#2c66a4"></span>#2C66A4</span></td><td><span class="us-value"><span class="us-swatch" style="background:#6aaae8"></span>#6AAAE8</span></td></tr>
-          <tr><td class="us-name">success</td><td><span class="us-value"><span class="us-swatch" style="background:#1f9643"></span>#1F9643</span></td><td><span class="us-value"><span class="us-swatch" style="background:#6cc287"></span>#6CC287</span></td></tr>
-          <tr><td class="us-name">danger</td><td><span class="us-value"><span class="us-swatch" style="background:#a5546c"></span>#A5546C</span></td><td><span class="us-value"><span class="us-swatch" style="background:#ec8ba0"></span>#EC8BA0</span></td></tr>
-        </tbody>
-      </table></div>
-    </section>
-
-    <section class="us-panel" id="type" style="padding-bottom:0">
-      <div class="us-panel-head"><h2 class="us-display">Type</h2></div>
-      <div class="us-table-wrap"><table class="us-table">
-        <thead><tr><th>Name</th><th>Sample</th><th>Size</th></tr></thead>
-        <tbody>
-          <tr><td class="us-name">title</td><td style="font:500 22px/30px var(--font-sans)">Which of these should ship?</td><td class="us-num">22 / 30</td></tr>
-          <tr><td class="us-name">body</td><td>I moved the setup steps into one list.</td><td class="us-num">16 / 24</td></tr>
-          <tr><td class="us-name">meta</td><td class="us-meta">Under the pricing table</td><td class="us-num">14 / 20</td></tr>
-        </tbody>
-      </table></div>
-    </section>
-
-    <section class="us-panel" id="files" style="padding:0;overflow:hidden">
-      <div style="display:flex">
-        <div class="us-files" style="flex:1;min-width:0">
-          <div class="us-files-label">Documents</div>
-          <a class="us-file" aria-selected="true" href="#files"><i data-lucide="file-text" aria-hidden="true"></i><span><div class="us-file-name">README.md</div><div class="us-file-meta">How to use the system</div></span><span class="us-file-size">9 KB</span></a>
-          <div class="us-files-label">Data</div>
-          <a class="us-file" aria-selected="false" href="#files"><i data-lucide="file-json" aria-hidden="true"></i><span><div class="us-file-name">tokens.json</div><div class="us-file-meta">Source for tokens.css</div></span><span class="us-file-size">11 KB</span></a>
-          <a class="us-file" aria-selected="false" href="#files"><i data-lucide="file-code" aria-hidden="true"></i><span><div class="us-file-name">components.css</div><div class="us-file-meta">Every class the pages use</div></span><span class="us-file-size">19 KB</span></a>
-        </div>
-        <aside class="us-detail"><div class="us-file-name">README.md</div><div class="us-file-meta">Document · 9 KB</div></aside>
+    <div class="desk-bar">
+      <div class="us-filters" role="group" aria-label="Filters">
+        <label class="us-search"><i data-lucide="search" aria-hidden="true"></i><input type="search" id="f-search" placeholder="Search projects" aria-label="Search projects"></label>
+        <button class="us-btn us-btn-sm" id="f-attention" aria-pressed="false"><i data-lucide="circle-dot" aria-hidden="true"></i><span>Needs attention</span></button>
+        <span class="us-select"><select id="f-stage" aria-label="Stage"></select></span>
+        <span class="us-select"><select id="f-area" aria-label="Area"></select></span>
+        <label class="us-check"><input type="checkbox" id="f-paused" checked><span>Show paused</span></label>
+        <div class="us-filters-end"><span class="us-filters-count" id="f-count"></span></div>
       </div>
-    </section>
+    </div>
+    <div id="panels" style="display:contents"></div>
   </main>
 </div>
+<div class="visually-hidden" aria-live="polite" id="announce"></div>
+
+<script id="data" type="application/json">
+{
+  "areas": ["Website", "App", "Data", "Operations"],
+  "stages": ["Idea", "Building", "Review", "Shipped", "Paused"],
+  "projects": [
+    { "id": "pricing", "name": "Pricing page rewrite", "area": "Website", "stage": "Review", "days": 1, "attention": true,
+      "status": "Copy is final. Waiting on the plan comparison table from finance.", "next": "Fill in the comparison table once finance sends the numbers.", "folder": "~/work/pricing-page" },
+    { "id": "help", "name": "Help center move", "area": "Website", "stage": "Building", "days": 3,
+      "status": "41 of 120 articles moved. Redirects are not set up yet, so old links break.", "next": "Write the redirect map for the articles already moved.", "folder": "~/work/help-center" },
+    { "id": "blog", "name": "Blog design refresh", "area": "Website", "stage": "Paused", "days": 70,
+      "status": "Paused until the new type scale lands.", "next": "Check whether the type scale has shipped, then pick up the article template.", "folder": "~/work/blog" },
+    { "id": "statuspage", "name": "Status page", "area": "Website", "stage": "Shipped", "days": 35,
+      "status": "Live since September. No open issues.", "next": "Nothing planned. Check the uptime history is still filling in.", "folder": "~/work/status-page" },
+
+    { "id": "offline", "name": "Offline mode", "area": "App", "stage": "Building", "days": 2, "attention": true,
+      "status": "Sync conflicts keep the older edit in two of the eleven test cases.", "next": "Find why the merge keeps the older edit, starting with a failing test.", "folder": "~/work/app/offline-sync" },
+    { "id": "shortcuts", "name": "Keyboard shortcuts", "area": "App", "stage": "Building", "days": 12, "attention": true,
+      "status": "The command menu works. The shortcut list for the help page is not written, and the release is on Friday.", "next": "Write the shortcut list from the command definitions.", "folder": "~/work/app/commands" },
+    { "id": "onboarding", "name": "Onboarding checklist", "area": "App", "stage": "Review", "days": 6,
+      "status": "Design signed off. Two empty states still have placeholder text.", "next": "Write the two empty states and send them for review.", "folder": "~/work/app/onboarding" },
+    { "id": "dark", "name": "Dark mode", "area": "App", "stage": "Shipped", "days": 20,
+      "status": "Shipped in 3.2. One contrast fix is queued for the next release.", "next": "Confirm the contrast fix is in the next release branch.", "folder": "~/work/app/theme" },
+    { "id": "push", "name": "Push notifications", "area": "App", "stage": "Idea", "days": 45,
+      "status": "Three customers have asked. No spec yet.", "next": "Draft a one-page spec: which events notify, and how people turn them off.", "folder": "~/work/app/notifications" },
+
+    { "id": "churn", "name": "Churn dashboard", "area": "Data", "stage": "Building", "days": 0, "attention": true,
+      "status": "Monthly churn disagrees with the billing export by about 4%.", "next": "Compare one month row by row against the billing export.", "folder": "~/work/data/churn" },
+    { "id": "metrics", "name": "Weekly metrics email", "area": "Data", "stage": "Shipped", "days": 9,
+      "status": "Sends every Monday at 9.", "next": "Nothing planned.", "folder": "~/work/data/weekly-email" },
+    { "id": "events", "name": "Event tracking cleanup", "area": "Data", "stage": "Idea", "days": 30,
+      "status": "212 events tracked. About half have not fired in ninety days.", "next": "List the events that have not fired, grouped by screen.", "folder": "~/work/data/events" },
+
+    { "id": "vendors", "name": "Vendor contract renewals", "area": "Operations", "stage": "Review", "days": 4, "attention": true,
+      "status": "Two of five contracts need a signature before the end of the month.", "next": "Summarise what changed in the two unsigned contracts.", "folder": "~/work/ops/contracts" },
+    { "id": "hiring", "name": "Hiring plan for next year", "area": "Operations", "stage": "Idea", "days": 15,
+      "status": "First list of roles. No budget yet.", "next": "Turn the role list into a plan with a rough cost per quarter.", "folder": "~/work/ops/hiring" },
+    { "id": "office", "name": "Office move checklist", "area": "Operations", "stage": "Paused", "days": 120,
+      "status": "On hold until the lease is signed.", "next": "Check whether the lease is signed before doing anything else.", "folder": "~/work/ops/office-move" }
+  ]
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>
-  document.querySelectorAll(".us-workspace-nav .us-row").forEach(function (row, _, rows) {
-    row.addEventListener("click", function () { rows.forEach(function (r) { r.setAttribute("aria-current", String(r === row)); }); });
-  });
-  document.querySelectorAll(".us-file").forEach(function (file, _, files) {
-    file.addEventListener("click", function (e) {
-      e.preventDefault();
-      files.forEach(function (f) { f.setAttribute("aria-selected", String(f === file)); });
-      var name = file.querySelector(".us-file-name").textContent;
-      var size = file.querySelector(".us-file-size").textContent;
-      document.querySelector(".us-detail").innerHTML = '<div class="us-file-name"></div><div class="us-file-meta"></div>';
-      document.querySelector(".us-detail .us-file-name").textContent = name;
-      document.querySelector(".us-detail .us-file-meta").textContent = "Document · " + size;
+var DATA = JSON.parse(document.getElementById("data").textContent);
+var AREAS = DATA.areas, STAGES = DATA.stages, PROJECTS = DATA.projects;
+// Panels split the desk by what each project needs from you. A project sits in the first panel whose test it passes.
+var PANELS = [
+  { id: "attention", title: "Needs attention", test: function (p) { return p.attention; } },
+  { id: "moving", title: "In progress", test: function (p) { return ["Idea", "Building", "Review"].indexOf(p.stage) > -1; } },
+  { id: "quiet", title: "Shipped and paused", test: function () { return true; } }
+];
+var BLANK = { query: "", attention: false, stage: "", area: "", paused: true };
+var f = Object.assign({}, BLANK), folded = {};
+
+function icons() { window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } }); }
+function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
+function plural(n, w) { return n + " " + w + (n === 1 ? "" : "s"); }
+function shortAge(d) { return d === 0 ? "Today" : d < 7 ? d + "d" : d < 30 ? Math.floor(d / 7) + "w" : d < 365 ? Math.floor(d / 30) + "mo" : Math.floor(d / 365) + "y"; }
+function longAge(d) {
+  if (d === 0) return "today";
+  var n = d < 7 ? d : d < 30 ? Math.floor(d / 7) : d < 365 ? Math.floor(d / 30) : Math.floor(d / 365);
+  return plural(n, d < 7 ? "day" : d < 30 ? "week" : d < 365 ? "month" : "year") + " ago";
+}
+function stageTag(s) { return '<span class="us-tag' + (s === "Shipped" ? " us-tag-success" : s === "Paused" ? " us-tag-outline" : "") + '">' + s + '</span>'; }
+function panelOf(p) { return PANELS.find(function (x) { return x.test(p); }).id; }
+function shown(p) {
+  return (!f.query || (p.name + " " + p.status + " " + p.area).toLowerCase().indexOf(f.query) > -1) &&
+    (!f.attention || p.attention) && (!f.stage || p.stage === f.stage) && (!f.area || p.area === f.area) && (f.paused || p.stage !== "Paused");
+}
+
+// The prompt that starts a new Claude session on a project: where it stands, what is next, and where the work lives.
+function promptFor(p) {
+  return "I'm picking up " + p.name + " (" + p.area + ", " + p.stage.toLowerCase() + " stage). " +
+    "Where it stands: " + p.status + " I last touched it " + longAge(p.days) + ". " +
+    "Next step: " + p.next + " " +
+    "The work is in " + p.folder + ". Read it first, tell me what you find, and ask before you change anything.";
+}
+
+function renderControls() {
+  document.getElementById("f-stage").innerHTML = '<option value="">All stages</option>' + STAGES.map(function (s) { return '<option' + (s === f.stage ? " selected" : "") + '>' + s + '</option>'; }).join("");
+  document.getElementById("f-area").innerHTML = '<option value="">All areas</option>' + AREAS.map(function (a) { return '<option' + (a === f.area ? " selected" : "") + '>' + a + '</option>'; }).join("");
+  document.getElementById("f-stage").parentElement.classList.toggle("is-set", !!f.stage);
+  document.getElementById("f-area").parentElement.classList.toggle("is-set", !!f.area);
+  document.getElementById("f-attention").setAttribute("aria-pressed", String(f.attention));
+  document.getElementById("f-paused").checked = f.paused;
+}
+
+function renderNav() {
+  document.getElementById("count-all").textContent = PROJECTS.length;
+  document.getElementById("count-attention").textContent = PROJECTS.filter(function (p) { return p.attention; }).length;
+  document.querySelector('[data-view="all"]').setAttribute("aria-current", String(!f.area && !f.attention));
+  document.querySelector('[data-view="attention"]').setAttribute("aria-current", String(!f.area && f.attention));
+  document.getElementById("nav-areas").innerHTML = AREAS.map(function (a) {
+    return '<a class="us-row" href="#" data-area="' + a + '" aria-current="' + (f.area === a) + '"><i data-lucide="folder" aria-hidden="true"></i><span>' + a + '</span><span class="us-row-count">' +
+      PROJECTS.filter(function (p) { return p.area === a; }).length + '</span></a>';
+  }).join("");
+  var week = PROJECTS.filter(function (p) { return p.days < 7; }).length;
+  document.getElementById("week").innerHTML = '<div class="us-meta">' + week + ' of ' + PROJECTS.length + ' touched this week</div>' +
+    '<div class="us-progress" role="progressbar" aria-label="Touched this week" aria-valuenow="' + week + '" aria-valuemax="' + PROJECTS.length + '"><span style="width:' + (week / PROJECTS.length * 100) + '%"></span></div>';
+}
+
+function renderPanels() {
+  var visible = PROJECTS.filter(shown), html = "";
+  document.getElementById("f-count").textContent = visible.length === PROJECTS.length ? plural(PROJECTS.length, "project") : visible.length + " of " + plural(PROJECTS.length, "project");
+  PANELS.forEach(function (panel) {
+    var rows = visible.filter(function (p) { return panelOf(p) === panel.id; });
+    if (!rows.length) return;
+    html += '<section class="us-panel" aria-labelledby="h-' + panel.id + '"><div class="us-panel-head"><h2 class="us-display" id="h-' + panel.id + '">' + panel.title + '</h2><span class="us-meta">' + plural(rows.length, "project") + '</span></div>' +
+      '<div class="us-table-wrap"><table class="us-table">' +
+      '<thead><tr><th scope="col">Project</th><th scope="col" class="stage">Stage</th><th scope="col" class="touched">Last touched</th><th scope="col" class="action"><span class="visually-hidden">Actions</span></th></tr></thead>';
+    AREAS.forEach(function (area) {
+      var inArea = rows.filter(function (p) { return p.area === area; }).sort(function (a, b) { return a.days - b.days; });
+      if (!inArea.length) return;
+      var key = panel.id + ":" + area, open = !folded[key];
+      html += '<tbody><tr class="us-table-group"><th colspan="4" scope="colgroup"><button class="us-table-toggle" data-key="' + key + '" aria-expanded="' + open + '">' +
+        '<i data-lucide="chevron-down" aria-hidden="true"></i><span>' + area + '</span><span class="us-table-count">' + inArea.length + '</span></button></th></tr>';
+      inArea.forEach(function (p) {
+        html += '<tr><td><span class="project-name">' + esc(p.name) + '</span><span class="project-status">' + esc(p.status) + '</span>' +
+          '<span class="project-phone">' + stageTag(p.stage) + '<span>' + shortAge(p.days) + '</span></span></td>' +
+          '<td class="stage">' + stageTag(p.stage) + '</td>' +
+          '<td class="touched" title="Last touched ' + longAge(p.days) + '">' + shortAge(p.days) + '</td>' +
+          '<td><button class="us-btn us-btn-sm" data-copy="' + p.id + '" aria-label="Copy a prompt for a new session on ' + esc(p.name) + '"><i data-lucide="copy" aria-hidden="true"></i><span>Copy prompt</span></button></td></tr>';
+      });
+      html += '</tbody>';
     });
+    html += '</table></div></section>';
   });
-  window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
+  if (!html) html = '<section class="us-panel"><div class="desk-empty"><p>No projects match these filters.</p><button class="us-btn" id="clear"><i data-lucide="x" aria-hidden="true"></i><span>Clear filters</span></button></div></section>';
+  document.getElementById("panels").innerHTML = html;
+}
+
+function render() { renderControls(); renderNav(); renderPanels(); icons(); }
+
+// Filters
+document.getElementById("f-search").addEventListener("input", function (e) { f.query = e.target.value.trim().toLowerCase(); renderPanels(); icons(); });
+document.getElementById("f-attention").addEventListener("click", function () { f.attention = !f.attention; render(); });
+document.getElementById("f-stage").addEventListener("change", function (e) { f.stage = e.target.value; render(); });
+document.getElementById("f-area").addEventListener("change", function (e) { f.area = e.target.value; render(); });
+document.getElementById("f-paused").addEventListener("change", function (e) { f.paused = e.target.checked; render(); });
+document.querySelector(".us-workspace-nav").addEventListener("click", function (e) {
+  var row = e.target.closest(".us-row"); if (!row) return;
+  e.preventDefault();
+  if (row.dataset.view) { f.area = ""; f.attention = row.dataset.view === "attention"; }
+  if (row.dataset.area) f.area = row.dataset.area;
+  render();
+});
+
+// Folding groups: the button's aria-expanded is the state; the stylesheet hides the rest of its tbody.
+document.getElementById("panels").addEventListener("click", function (e) {
+  var toggle = e.target.closest(".us-table-toggle");
+  if (toggle) { var open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); folded[toggle.dataset.key] = !open; return; }
+  if (e.target.closest("#clear")) { f = Object.assign({}, BLANK); document.getElementById("f-search").value = ""; render(); return; }
+  var btn = e.target.closest("[data-copy]"); if (btn) copyPrompt(btn);
+});
+
+// Copy prompt: the clipboard API where the page allows it, a hidden textarea where it does not.
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text).catch(function () { return fallback(text); });
+  return fallback(text);
+}
+function fallback(text) {
+  var ta = document.createElement("textarea");
+  ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+  ta.remove();
+  return ok ? Promise.resolve() : Promise.reject();
+}
+function copyPrompt(btn) {
+  var p = PROJECTS.find(function (x) { return x.id === btn.dataset.copy; });
+  copyText(promptFor(p)).then(function () { flash(btn, "check", "Copied"); }, function () { flash(btn, "x", "Couldn't copy"); });
+}
+function flash(btn, icon, label) {
+  btn.innerHTML = '<i data-lucide="' + icon + '" aria-hidden="true"></i><span>' + label + '</span>';
+  icons();
+  document.getElementById("announce").textContent = label;
+  clearTimeout(btn._t);
+  btn._t = setTimeout(function () { btn.innerHTML = '<i data-lucide="copy" aria-hidden="true"></i><span>Copy prompt</span>'; icons(); }, 1600);
+}
+
+render();
 </script>
 </body>
 </html>

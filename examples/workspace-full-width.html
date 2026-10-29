@@ -4,43 +4,65 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>Copy review</title>
+<title>Customer requests</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
-  .us-workspace { grid-template-columns: var(--nav-w, var(--nav-width)) minmax(0, 1fr); }
+  @media (min-width: 761px) { .us-workspace { grid-template-columns: var(--nav-w, var(--nav-width)) minmax(0, 1fr); } }
   .us-workspace-nav { position: sticky; }
   .nav-rules { margin-top: auto; padding: var(--space-2) var(--space-1) 0; border-top: 1px solid var(--border-subtle); }
-  .nav-rules ol { list-style: none; margin: var(--space-1) 0 0; padding: 0; font-size: 13px; line-height: 18px; }
-  .nav-rules li { display: flex; gap: 6px; padding: 3px 0; }
-  .nav-rules li span { color: var(--text-secondary); font-variant-numeric: tabular-nums; width: 18px; flex: none; }
+  .nav-rules p { margin: var(--space-1) 0 0; font-size: 13px; line-height: 18px; color: var(--text-secondary); }
   .main-col { min-width: 0; position: relative; }
   /* The nav scrolls, which would clip a strip inside it, so its strip sits outside, fixed over the nav's edge. */
   .nav-drag { position: fixed; top: 0; bottom: 0; right: auto; left: calc(var(--nav-w, var(--nav-width)) - 4px); }
-  .detail-head { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6); }
-  .detail-why { margin: 0 0 var(--space-6); }
-  .detail-label { margin-bottom: 6px; }
-  .detail-block { margin-bottom: var(--space-4); }
-  .needs { font-size: 14px; line-height: 20px; }
-  .needs .us-meta { font-size: 13px; }
+  /* List: a group heading is the shared need, with how many customers asked on the right. Rows carry two lines and an age. */
+  .us-split-heading { cursor: pointer; user-select: none; font-weight: 450; color: var(--text-secondary); background: var(--bg-band); }
+  .us-split-heading > span:first-of-type { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .us-split-heading svg.lucide { color: var(--text-secondary); transition: transform .15s ease-out; }
+  .us-split-heading[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
+  .heading-count { margin-left: auto; flex: none; font-weight: 400; color: var(--text-secondary); }
+  .us-split-row { min-height: 36px; padding-top: 6px; padding-bottom: 6px; }   /* content-box: 36px plus padding makes a 48px row */
+  .row-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .row-text > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row-customer { color: var(--text-secondary); }
+  .row-age { flex: none; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .us-split-row[aria-selected="true"] :is(.row-customer, .row-age) { color: var(--on-selection); opacity: .85; }
+  /* The search stays at the top of the list while it scrolls. */
+  .list-search { position: sticky; top: 0; z-index: 1; padding: var(--space-2); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
+  .list-search .us-search { display: flex; width: 100%; }
+  .issue-none { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
+  .list-empty { padding: var(--space-4) var(--space-3); font-size: 14px; color: var(--text-secondary); }
+  /* Detail: tags, title, meta line, then label and value rows split by hairlines. */
+  .detail-head { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .detail-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .us-record-where span { display: inline-flex; align-items: center; gap: 6px; }
+  .us-record-where svg.lucide { width: 14px; height: 14px; }
+  .record-rows { margin: 0 0 var(--space-4); }
+  .record-row { display: grid; grid-template-columns: 136px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--border-subtle); }
+  .record-row:last-child { border-bottom: 1px solid var(--border-subtle); }
+  .record-row dt { font-size: 14px; line-height: 24px; color: var(--text-secondary); }
+  .record-row dd { margin: 0; }
+  .same-ask { display: flex; flex-direction: column; gap: 4px; }
+  .same-ask a { color: var(--link); text-decoration: none; }
+  .same-ask a:hover { text-decoration: underline; }
+  .issue-id { font-family: var(--font-mono); font-size: 14px; }
+  .detail-note { margin-bottom: var(--space-6); }
+  @container (max-width: 520px) { .record-row { grid-template-columns: 1fr; gap: 2px; } }
 </style>
 </head>
 <body>
 <div class="us-workspace is-flat" id="ws">
-  <nav class="us-workspace-nav" aria-label="Rounds">
-    <div class="us-list-label">Rounds</div>
-    <a class="us-row" href="#" data-round="2" aria-current="true"><i data-lucide="folder" aria-hidden="true"></i><span>Round 2</span><span class="us-row-count">4</span></a>
-    <a class="us-row" href="#" data-round="1"><i data-lucide="folder" aria-hidden="true"></i><span>Round 1</span><span class="us-row-count">2</span></a>
+  <nav class="us-workspace-nav" aria-label="Requests">
+    <div class="us-list-label">Group by</div>
+    <a class="us-row" href="#" data-group="need" aria-current="true"><i data-lucide="layers" aria-hidden="true"></i><span>Same ask</span></a>
+    <a class="us-row" href="#" data-group="customer"><i data-lucide="building-2" aria-hidden="true"></i><span>Customer</span></a>
+    <div class="us-list-label">Show</div>
+    <div id="filters"></div>
     <div class="nav-rules">
-      <div class="us-meta">Rules</div>
-      <ol>
-        <li><span>01</span>Lead with the action</li>
-        <li><span>02</span>Plain words over jargon</li>
-        <li><span>03</span>One idea per sentence</li>
-        <li><span>04</span>Name the number</li>
-      </ol>
+      <div class="us-meta">How this works</div>
+      <p>Requests come from calls, tickets and renewal notes. Ones that ask for the same thing sit together, so a need shows up once with everyone behind it.</p>
     </div>
   </nav>
   <div class="us-drag nav-drag" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
@@ -49,145 +71,268 @@
     <div class="us-tracker" id="tracker"></div>
     <div class="us-split" id="split">
       <div class="us-split-col">
-        <div class="us-split-list" id="list" role="listbox" aria-label="Changes"></div>
+        <div class="us-split-list">
+          <div class="list-search"><label class="us-search"><i data-lucide="search" aria-hidden="true"></i><input type="search" id="search" placeholder="Search requests or customers" aria-label="Search requests or customers"></label></div>
+          <div id="list" role="listbox" aria-label="Requests"></div>
+        </div>
         <div class="us-drag" data-drag="list" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize list"></div>
       </div>
       <div class="us-split-detail" id="detail"></div>
     </div>
   </div>
 </div>
-<button class="us-quote-btn" id="quote" hidden><i data-lucide="quote" aria-hidden="true"></i><span>Add to comment</span></button>
 
+<script id="data" type="application/json">
+{
+  "needs": {
+    "sync": "Connect to their existing systems",
+    "export": "Get data out in their own formats",
+    "access": "Control who sees what",
+    "alerts": "Know when something needs them",
+    "bulk": "Work through many at once",
+    "audit": "Prove what happened",
+    "mobile": "Use it away from a desk"
+  },
+  "requests": [
+    { "id": "r1", "need": "sync", "customer": "Halden Logistics", "title": "Push approved orders straight into our ERP", "days": 2, "status": "new", "contact": "Mira Okafor, finance ops",
+      "why": "They re-key every approved order into their ERP by hand, about forty a day.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r2", "need": "sync", "customer": "Kestrel Foods", "title": "Keep the supplier list in sync with our accounting system", "days": 90, "status": "tracked", "contact": "Jonas Pell, purchasing",
+      "why": "Suppliers get added in accounting first, so the two lists drift apart within a week.", "committed": "Theo, their account manager, said it was on the roadmap. No date given.", "issue": "PLT-388" },
+    { "id": "r3", "need": "sync", "customer": "Tidewell Energy", "title": "A webhook when a request is approved", "days": 30, "status": "shipped", "contact": "Rhea Sandoval, IT",
+      "why": "Their own scripts start the purchase once a request is approved.", "committed": "Shipped in the June release.", "issue": "PLT-341" },
+    { "id": "r4", "need": "sync", "customer": "Northgate Builders", "title": "Pull cost codes from the project system", "days": 150, "status": "new", "unclear": true, "contact": "Not recorded",
+      "why": "Every order has to carry a cost code, and they type them from a printed list.", "committed": "Nothing promised.", "issue": null,
+      "note": "Came in through a support ticket forwarded twice. The original sender is no longer in the thread." },
+    { "id": "r5", "need": "sync", "customer": "Corvid Freight", "title": "Import last year's orders so reports start complete", "days": 14, "status": "tracked", "contact": "Ines Duarte, controller",
+      "why": "Year-on-year spend reports are empty until a full year has passed.", "committed": "Promised before their go-live by Ana in sales.", "issue": "PLT-402" },
+
+    { "id": "r6", "need": "export", "customer": "Marlow & Finch", "title": "Month-end report as a spreadsheet, not a PDF", "days": 7, "status": "new", "contact": "Fenella Marsh, finance director",
+      "why": "Their accountant rebuilds the PDF in a spreadsheet each month.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r7", "need": "export", "customer": "Brightwater Clinics", "title": "Scheduled export to a shared folder every Monday", "days": 60, "status": "tracked", "contact": "Sana Kader, operations",
+      "why": "Each clinic manager expects the weekly numbers in the same folder on Monday morning.", "committed": "Promised for the spring release by Ana on the renewal call.", "issue": "PLT-377" },
+    { "id": "r8", "need": "export", "customer": "Saltmarsh Hotels", "title": "Choose which columns go in the export", "days": 120, "status": "shipped", "contact": "Owen Tull, group buyer",
+      "why": "The full export has thirty columns and they delete twenty-four of them.", "committed": "Shipped in March.", "issue": "PLT-298" },
+    { "id": "r9", "need": "export", "customer": "Kestrel Foods", "title": "Totals by cost centre in the export", "days": 3, "status": "new", "contact": "Jonas Pell, purchasing",
+      "why": "Budget holders only care about their own centre's total.", "committed": "Nothing promised.", "issue": null },
+
+    { "id": "r10", "need": "access", "customer": "Brightwater Clinics", "title": "Hide budgets from outside contractors", "days": 21, "status": "tracked", "contact": "Sana Kader, operations",
+      "why": "Contractors raise requests but should not see what each clinic can spend.", "committed": "Nothing promised.", "issue": "PLT-395" },
+    { "id": "r11", "need": "access", "customer": "Ostrava Labs", "title": "Read-only seats for auditors", "days": 60, "status": "tracked", "contact": "Petra Novak, compliance",
+      "why": "Auditors log in twice a year and today need a full paid seat.", "committed": "Theo offered free auditor seats until it ships.", "issue": "PLT-361" },
+    { "id": "r12", "need": "access", "customer": "Pinecrest Schools", "title": "Approvers limited to their own school", "days": 5, "status": "new", "contact": "Gil Hammond, district office",
+      "why": "A head teacher can currently approve orders for every school in the district.", "committed": "Ana said yes during the demo.", "issue": null,
+      "note": "The yes was given live in the demo. Product has not agreed to it yet." },
+    { "id": "r13", "need": "access", "customer": "Juniper Dental Group", "title": "Single sign-on for every practice", "days": 210, "status": "shipped", "contact": "Ruth Aldana, IT lead",
+      "why": "Staff turnover is high and they wanted access to end the day someone leaves.", "committed": "Shipped as part of the enterprise plan.", "issue": "PLT-244" },
+    { "id": "r14", "need": "access", "customer": "Halden Logistics", "title": "Separate permissions per warehouse", "days": 30, "status": "tracked", "contact": "Mira Okafor, finance ops",
+      "why": "Each warehouse lead should only see their own site's orders.", "committed": "Nothing promised.", "issue": "PLT-415" },
+
+    { "id": "r15", "need": "alerts", "customer": "Saltmarsh Hotels", "title": "Remind approvers after two days", "days": 7, "status": "tracked", "contact": "Owen Tull, group buyer",
+      "why": "Requests sit unapproved over weekends and the kitchen runs short.", "committed": "Nothing promised.", "issue": "PLT-420" },
+    { "id": "r16", "need": "alerts", "customer": "Corvid Freight", "title": "Alerts in our team chat, not email", "days": 90, "status": "new", "unclear": true, "contact": "Not recorded",
+      "why": "Noted on a call as something the team wants. Nobody is named.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r17", "need": "alerts", "customer": "Tidewell Energy", "title": "A daily digest instead of one email per request", "days": 2, "status": "new", "contact": "Rhea Sandoval, IT",
+      "why": "Approvers get thirty emails a day and have started filtering them out.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r18", "need": "alerts", "customer": "Northgate Builders", "title": "Warn us before a budget runs out", "days": 60, "status": "tracked", "contact": "Colm Byrne, site finance",
+      "why": "They found out a project was over budget only at month end.", "committed": "Promised for Q1 by Theo.", "issue": "PLT-366" },
+
+    { "id": "r19", "need": "bulk", "customer": "Marlow & Finch", "title": "Approve twenty requests at once", "days": 4, "status": "tracked", "contact": "Fenella Marsh, finance director",
+      "why": "Stationery requests pile up and each one takes four clicks.", "committed": "Nothing promised.", "issue": "PLT-418" },
+    { "id": "r20", "need": "bulk", "customer": "Juniper Dental Group", "title": "Upload a price list instead of typing each item", "days": 7, "status": "new", "unclear": true, "contact": "Not recorded",
+      "why": "Mentioned in a renewal note. It is not clear whether the practices or head office asked.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r21", "need": "bulk", "customer": "Ostrava Labs", "title": "Reassign everything from someone who left", "days": 90, "status": "shipped", "contact": "Petra Novak, compliance",
+      "why": "A departed buyer left sixty open requests nobody could touch.", "committed": "Shipped in July.", "issue": "PLT-312" },
+    { "id": "r22", "need": "bulk", "customer": "Pinecrest Schools", "title": "Copy last term's orders as a starting point", "days": 150, "status": "new", "unclear": true, "contact": "Not recorded",
+      "why": "Schools order the same supplies every term.", "committed": "Nothing promised.", "issue": null },
+
+    { "id": "r23", "need": "audit", "customer": "Ostrava Labs", "title": "Who changed an amount, and when", "days": 14, "status": "tracked", "contact": "Petra Novak, compliance",
+      "why": "Their auditors flagged an order whose total changed after approval.", "committed": "Promised to their auditors by Theo, for the next audit in spring.", "issue": "PLT-404" },
+    { "id": "r24", "need": "audit", "customer": "Brightwater Clinics", "title": "Keep records for seven years", "days": 240, "status": "new", "contact": "Sana Kader, operations",
+      "why": "Health sector rules ask them to keep purchase records for seven years.", "committed": "Nothing promised.", "issue": null,
+      "note": "Legal needs to say whether the current retention already covers this before it goes in the tracker." },
+    { "id": "r25", "need": "audit", "customer": "Halden Logistics", "title": "Attach the signed quote to the order", "days": 6, "status": "shipped", "contact": "Mira Okafor, finance ops",
+      "why": "The quote lived in email and went missing when people left.", "committed": "Shipped this week.", "issue": "PLT-409" },
+
+    { "id": "r26", "need": "mobile", "customer": "Northgate Builders", "title": "Approve from a phone on site", "days": 7, "status": "tracked", "contact": "Colm Byrne, site finance",
+      "why": "Site managers are away from a laptop most of the day.", "committed": "Nothing promised.", "issue": "PLT-421" },
+    { "id": "r27", "need": "mobile", "customer": "Saltmarsh Hotels", "title": "Photograph a receipt and file it", "days": 60, "status": "new", "unclear": true, "contact": "Not recorded",
+      "why": "Came from a hotel manager in a feedback form with no name attached.", "committed": "Nothing promised.", "issue": null },
+    { "id": "r28", "need": "mobile", "customer": "Kestrel Foods", "title": "Works without signal in the cold store", "days": 120, "status": "new", "contact": "Jonas Pell, purchasing",
+      "why": "Stock is counted inside the cold store, where phones have no signal.", "committed": "Nothing promised.", "issue": null }
+  ]
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>
-var RULES = { "01": "Lead with the action", "02": "Plain words over jargon", "03": "One idea per sentence", "04": "Name the number" };
-var ROUNDS = {
-  "2": { name: "Round 2", readOnly: false, items: [
-    { id: "a", source: "Help center", page: "Getting started", title: "Start with the import, not the tour", where: "First paragraph", rules: ["01"], why: "The old opening explained the product before telling people what to do first.",
-      old: "Welcome! Before diving in, let's take a quick tour of everything the workspace can do for you.", rewrite: "Import your data first. The rest of the workspace fills in from it.",
-      diff: '<del>Welcome! Before diving in, let\'s take a quick tour of everything the workspace can do for you.</del> <ins>Import your data first. The rest of the workspace fills in from it.</ins>', state: "open",
-      needs: "Is the import still the first step for teams on the free plan?" },
-    { id: "b", source: "Help center", page: "Getting started", title: "Say how long the import takes", where: "Import section", rules: ["04"], why: "People asked whether they could leave the page. A number answers that.",
-      old: "The import may take some time depending on the size of your data.", rewrite: "Most imports finish in under two minutes. You can leave the page while it runs.",
-      diff: '<del>The import may take some time depending on the size of your data.</del> <ins>Most imports finish in under two minutes. You can leave the page while it runs.</ins>', state: "success" },
-    { id: "c", source: "App", page: "Settings", title: "Drop the word provision", where: "Seats panel", rules: ["02"], why: "Nobody outside the billing team says provision.",
-      old: "Provision additional seats for your organization.", rewrite: "Add seats for your team.",
-      diff: '<del>Provision additional seats for your organization.</del> <ins>Add seats for your team.</ins>', state: "open" },
-    { id: "d", source: "App", page: "Settings", title: "Split the export warning in two", where: "Export dialog", rules: ["03"], why: "One sentence carried both the delay and the file format.",
-      old: "Exports are generated in the background and delivered as a zip of CSV files when ready.", rewrite: "We build the export in the background. You get a zip of CSV files when it is ready.",
-      diff: 'Exports are generated in the background <del>and delivered as</del><ins>. You get</ins> a zip of CSV files when <del>ready</del><ins>it is ready</ins>.', state: "danger", comment: "Keep \"we\" out of app strings." }
-  ] },
-  "1": { name: "Round 1", readOnly: true, items: [
-    { id: "e", source: "Help center", page: "Billing", title: "Name the refund window", where: "Refunds", rules: ["04"], why: "\"A short period\" made people write in to ask.",
-      old: "Refunds are available for a short period after purchase.", rewrite: "You can get a refund within 14 days of buying.",
-      diff: '<del>Refunds are available for a short period after purchase.</del> <ins>You can get a refund within 14 days of buying.</ins>', state: "success", comment: "Good." },
-    { id: "f", source: "Help center", page: "Billing", title: "Keep the invoice heading", where: "Invoices", rules: ["01"], why: "Proposed leading with the download button.",
-      old: "Invoices", rewrite: "Download your invoices", diff: '<del>Invoices</del> <ins>Download your invoices</ins>', state: "muted", comment: "The heading is fine as a noun." }
-  ] }
+var DATA = JSON.parse(document.getElementById("data").textContent);
+var NEEDS = DATA.needs, REQUESTS = DATA.requests;
+var STATUS = {
+  new: { label: "Not in tracker", tag: "us-tag-outline", dot: "" },
+  tracked: { label: "In tracker", tag: "", dot: "is-muted" },
+  shipped: { label: "Shipped", tag: "us-tag-success", dot: "is-success" }
 };
-var round = "2", selected = "a";
+var FILTERS = [
+  { id: "all", label: "All requests", icon: "list", test: function () { return true; } },
+  { id: "new", label: "Not in tracker", icon: "circle-dashed", test: function (r) { return r.status === "new"; } },
+  { id: "tracked", label: "In tracker", icon: "circle-dot", test: function (r) { return r.status === "tracked"; } },
+  { id: "shipped", label: "Shipped", icon: "circle-check", test: function (r) { return r.status === "shipped"; } },
+  { id: "unclear", label: "Unclear who asked", icon: "circle-help", test: function (r) { return !!r.unclear; } }
+];
+var groupBy = "need", filter = "all", query = "", selected = "r1", collapsed = {};
 
 function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
-function current() { return ROUNDS[round].items.find(function (i) { return i.id === selected; }); }
+function byId(id) { return REQUESTS.find(function (r) { return r.id === id; }); }
+function current() { return byId(selected); }
+function matches(r) { return !query || (r.title + " " + r.customer + " " + NEEDS[r.need]).toLowerCase().indexOf(query) > -1; }
+function visible() { var f = FILTERS.find(function (x) { return x.id === filter; }); return REQUESTS.filter(function (r) { return f.test(r) && matches(r); }); }
+function plural(n, word) { return n + " " + word + (n === 1 ? "" : "s"); }
+function customersIn(list) { return list.map(function (r) { return r.customer; }).filter(function (c, i, a) { return a.indexOf(c) === i; }); }
+function shortAge(d) { return d < 7 ? d + "d" : d < 30 ? Math.floor(d / 7) + "w" : d < 365 ? Math.floor(d / 30) + "mo" : Math.floor(d / 365) + "y"; }
+function longAge(d) {
+  if (d === 0) return "Asked today";
+  var n = d < 7 ? d : d < 30 ? Math.floor(d / 7) : d < 365 ? Math.floor(d / 30) : Math.floor(d / 365);
+  return "Asked " + plural(n, d < 7 ? "day" : d < 30 ? "week" : d < 365 ? "month" : "year") + " ago";
+}
+
+// Groups in a stable order: needs as listed in the data, customers alphabetically. Rows newest first.
+function groups() {
+  var rows = visible(), keys;
+  if (groupBy === "need") keys = Object.keys(NEEDS);
+  else keys = customersIn(REQUESTS).sort();
+  return keys.map(function (k) {
+    var all = REQUESTS.filter(function (r) { return (groupBy === "need" ? r.need : r.customer) === k; });
+    var shown = rows.filter(function (r) { return all.indexOf(r) > -1; }).sort(function (a, b) { return a.days - b.days; });
+    var count = groupBy === "need" ? plural(customersIn(all).length, "customer") : plural(all.length, "request");
+    return { key: k, name: groupBy === "need" ? NEEDS[k] : k, count: count, rows: shown };
+  }).filter(function (g) { return g.rows.length; });
+}
 
 function renderTracker() {
-  var r = ROUNDS[round], done = r.items.filter(function (i) { return i.state !== "open"; }).length;
-  var pct = function (s) { return (r.items.filter(function (i) { return i.state === s; }).length / r.items.length * 100) + "%"; };
+  var n = function (s) { return REQUESTS.filter(function (r) { return r.status === s; }).length; };
   document.getElementById("tracker").innerHTML =
-    '<span class="us-tracker-name">' + esc(r.name) + '</span>' + (r.readOnly ? '<span class="us-tag">Read only</span>' : '') +
-    '<div class="us-progress" role="progressbar" aria-valuenow="' + done + '" aria-valuemax="' + r.items.length + '"><span class="is-success" style="width:' + pct("success") + '"></span><span class="is-danger" style="width:' + pct("danger") + '"></span><span class="is-muted" style="width:' + pct("muted") + '"></span></div>' +
-    '<span class="us-tracker-count"><strong>' + done + '</strong> of ' + r.items.length + ' reviewed</span>';
+    '<span class="us-tracker-name">Customer requests</span>' +
+    '<div class="us-progress" role="progressbar" aria-label="Shipped and tracked" aria-valuenow="' + (n("shipped") + n("tracked")) + '" aria-valuemax="' + REQUESTS.length + '">' +
+    '<span class="is-success" style="width:' + (n("shipped") / REQUESTS.length * 100) + '%"></span><span class="is-muted" style="width:' + (n("tracked") / REQUESTS.length * 100) + '%"></span></div>' +
+    '<span class="us-tracker-count"><strong>' + REQUESTS.length + '</strong> requests from ' + customersIn(REQUESTS).length + ' customers, ' + n("shipped") + ' shipped, ' + n("new") + ' not in the tracker</span>';
+}
+
+function renderNav() {
+  document.querySelectorAll("[data-group]").forEach(function (r) { r.setAttribute("aria-current", String(r.dataset.group === groupBy)); });
+  document.getElementById("filters").innerHTML = FILTERS.map(function (f) {
+    return '<a class="us-row" href="#" data-filter="' + f.id + '" aria-current="' + (f.id === filter) + '"><i data-lucide="' + f.icon + '" aria-hidden="true"></i><span>' + esc(f.label) + '</span><span class="us-row-count">' + REQUESTS.filter(f.test).length + '</span></a>';
+  }).join("");
 }
 
 function renderList() {
-  var html = "", lastSource, lastPage;
-  ROUNDS[round].items.forEach(function (i) {
-    if (i.source !== lastSource) { html += '<div class="us-split-group">' + esc(i.source) + '</div>'; lastSource = i.source; lastPage = null; }
-    if (i.page !== lastPage) { html += '<div class="us-split-heading"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(i.page) + '</span></div>'; lastPage = i.page; }
-    var dot = i.state === "open" ? "" : " is-" + i.state;
-    html += '<div class="us-split-row" role="option" tabindex="0" data-id="' + i.id + '" aria-selected="' + (i.id === selected) + '"><span class="us-dot' + dot + '"></span><span>' + esc(i.title) + '</span></div>';
+  var html = "";
+  groups().forEach(function (g) {
+    var open = !collapsed[groupBy + ":" + g.key];
+    html += '<div class="us-split-heading" role="button" tabindex="0" data-key="' + esc(g.key) + '" aria-expanded="' + open + '"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(g.name) + '</span><span class="heading-count">' + g.count + '</span></div>';
+    if (!open) return;
+    g.rows.forEach(function (r) {
+      var sub = groupBy === "need" ? r.customer : NEEDS[r.need];
+      html += '<div class="us-split-row" role="option" tabindex="0" data-id="' + r.id + '" aria-selected="' + (r.id === selected) + '"><span class="us-dot ' + STATUS[r.status].dot + '"></span>' +
+        '<span class="row-text"><span>' + esc(r.title) + '</span><span class="row-customer">' + esc(sub) + '</span></span><span class="row-age" title="' + longAge(r.days) + '">' + shortAge(r.days) + '</span></div>';
+    });
   });
-  document.getElementById("list").innerHTML = html;
+  document.getElementById("list").innerHTML = html || '<div class="list-empty">' + (query ? "No requests match that search." : "No requests match this filter.") + '</div>';
 }
 
 function renderDetail() {
-  var i = current(), r = ROUNDS[round];
-  var rules = i.rules.map(function (n) { return '<span title="' + esc(RULES[n]) + '">' + n + '</span>'; }).join("");
-  var dock;
-  if (r.readOnly) {
-    var verdict = { success: "Approved", danger: "Changes requested", muted: "Kept current", open: "Not reviewed" }[i.state];
-    dock = '<div class="us-meta">' + verdict + '</div>' + (i.comment ? '<div class="us-quote">' + esc(i.comment) + '</div>' : '');
-  } else {
-    var pressed = function (s) { return i.state === s ? "true" : "false"; };
-    dock = (i.needs ? '<div class="needs"><div class="us-meta">Needs from you</div>' + esc(i.needs) + '</div>' : '') +
-      '<div class="us-composer"><textarea id="comment" rows="1" placeholder="What should change, or your own wording" aria-label="Comment">' + esc(i.comment || "") + '</textarea>' +
-      '<div class="us-composer-actions">' +
-      '<button class="us-btn us-btn-success" data-state="success" aria-pressed="' + pressed("success") + '"><i data-lucide="check" aria-hidden="true"></i><span>Approve</span></button>' +
-      '<button class="us-btn us-btn-danger" data-state="danger" aria-pressed="' + pressed("danger") + '"><i data-lucide="pencil" aria-hidden="true"></i><span>Request changes</span></button>' +
-      '<button class="us-btn" data-state="muted" aria-pressed="' + pressed("muted") + '"><i data-lucide="rotate-ccw" aria-hidden="true"></i><span>Keep current</span></button>' +
-      '</div></div>';
-  }
+  var r = current();
+  var s = STATUS[r.status];
+  var tags = '<span class="us-tag ' + s.tag + '">' + s.label + '</span>' + (r.unclear ? '<span class="us-tag us-tag-outline">Unclear who asked</span>' : '');
+  var others = REQUESTS.filter(function (o) { return o.need === r.need && o.id !== r.id; });
+  var same = '<div class="same-ask"><span>' + esc(NEEDS[r.need]) + '</span>' + others.map(function (o) {
+    return '<a href="#" data-goto="' + o.id + '">' + esc(o.customer) + ': ' + esc(o.title) + '</a>';
+  }).join("") + '</div>';
+  var row = function (label, value) { return '<div class="record-row"><dt>' + label + '</dt><dd>' + value + '</dd></div>'; };
   document.getElementById("detail").innerHTML =
-    '<div class="detail-head"><h2 class="us-record-title">' + esc(i.title) + '</h2>' +
-    '<div class="us-record-where"><a href="#"><span>' + esc(i.where) + '</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>' + rules + '</div></div>' +
-    '<p class="detail-why">' + esc(i.why) + '</p>' +
-    '<div class="detail-block"><div class="us-meta detail-label">Current</div><p class="us-record-text is-old">' + esc(i.old) + '</p></div>' +
-    '<div class="detail-block"><div class="us-meta detail-label">Rewrite</div><p class="us-record-text">' + i.diff + '</p></div>' +
-    '<div class="us-dock">' + dock + '</div>';
-  var ta = document.getElementById("comment");
-  if (ta) { requestAnimationFrame(function () { grow(ta); }); ta.addEventListener("input", function () { i.comment = ta.value; grow(ta); }); }
+    '<div class="detail-head"><div class="detail-tags">' + tags + '</div><h2 class="us-record-title">' + esc(r.title) + '</h2>' +
+    '<div class="us-record-where"><span><i data-lucide="building-2" aria-hidden="true"></i>' + esc(r.customer) + '</span>' +
+    '<span><i data-lucide="calendar" aria-hidden="true"></i>' + longAge(r.days) + '</span>' +
+    '<span><i data-lucide="user" aria-hidden="true"></i>' + esc(r.contact) + '</span></div></div>' +
+    '<dl class="record-rows">' +
+    row("Why", esc(r.why)) +
+    row("Committed", esc(r.committed)) +
+    row("Same ask", same) +
+    row("Issue", r.issue ? '<span class="issue-id">' + esc(r.issue) + '</span>' :
+      '<div class="issue-none"><span>No issue yet</span><button class="us-btn us-btn-sm" data-track="' + r.id + '"><i data-lucide="plus" aria-hidden="true"></i><span>Add to tracker</span></button></div>') +
+    '</dl>' +
+    (r.note ? '<div class="us-quote detail-note">' + esc(r.note) + '</div>' : '');
 }
 
-function grow(ta) { ta.style.height = "auto"; ta.style.height = Math.max(48, ta.scrollHeight) + "px"; }
-
 function render() {
-  renderTracker(); renderList(); renderDetail();
-  document.getElementById("split").style.setProperty("--us-bar-h", document.getElementById("tracker").offsetHeight + "px");
+  renderTracker(); renderNav(); renderList(); renderDetail();
   window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
+}
+
+// The list sticks under the tracker, so the split needs the tracker's height. The tracker wraps when the pane
+// narrows, so watch it rather than measuring once; a stale height leaves the list too low and the page scrolls.
+var tracker = document.getElementById("tracker"), split = document.getElementById("split");
+function setBarHeight() { split.style.setProperty("--us-bar-h", tracker.offsetHeight + "px"); }
+if (window.ResizeObserver) new ResizeObserver(setBarHeight).observe(tracker);
+else window.addEventListener("resize", setBarHeight);
+
+// Keep the selection on a request the list shows; fall back to the first one.
+function keepSelection() {
+  var rows = visible();
+  if (!rows.some(function (r) { return r.id === selected; })) { var g = groups()[0]; if (g) selected = g.rows[0].id; }
+}
+function select(id) {
+  var r = byId(id);
+  if (!visible().some(function (v) { return v.id === id; })) { filter = "all"; query = ""; document.getElementById("search").value = ""; }
+  delete collapsed[groupBy + ":" + (groupBy === "need" ? r.need : r.customer)];
+  selected = id; render();
+  var el = document.querySelector('.us-split-row[data-id="' + id + '"]');
+  if (el) el.scrollIntoView({ block: "nearest" });
 }
 
 document.querySelector(".us-workspace-nav").addEventListener("click", function (e) {
   var row = e.target.closest(".us-row"); if (!row) return;
   e.preventDefault();
-  round = row.dataset.round; selected = ROUNDS[round].items[0].id;
-  document.querySelectorAll(".us-workspace-nav .us-row").forEach(function (r) { r.setAttribute("aria-current", String(r === row)); });
-  render();
+  if (row.dataset.group) groupBy = row.dataset.group;
+  if (row.dataset.filter) filter = row.dataset.filter;
+  keepSelection(); render();
 });
+function toggle(heading) {
+  var k = groupBy + ":" + heading.dataset.key;
+  collapsed[k] = !collapsed[k]; renderList();
+  window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
+  var again = document.querySelector('.us-split-heading[data-key="' + CSS.escape(heading.dataset.key) + '"]'); if (again) again.focus();
+}
 document.getElementById("list").addEventListener("click", function (e) {
+  var heading = e.target.closest(".us-split-heading"); if (heading) { toggle(heading); return; }
   var row = e.target.closest(".us-split-row"); if (!row) return;
   selected = row.dataset.id; render();
 });
 document.getElementById("list").addEventListener("keydown", function (e) {
+  var heading = e.target.closest(".us-split-heading");
+  if (heading && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggle(heading); return; }
   if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
   e.preventDefault();
-  var items = ROUNDS[round].items, at = items.indexOf(current());
-  var next = items[Math.min(items.length - 1, Math.max(0, at + (e.key === "ArrowDown" ? 1 : -1)))];
-  selected = next.id; render();
+  var ids = Array.prototype.map.call(document.querySelectorAll(".us-split-row"), function (r) { return r.dataset.id; });
+  if (!ids.length) return;
+  var at = ids.indexOf(selected);
+  selected = ids[Math.min(ids.length - 1, Math.max(0, at + (e.key === "ArrowDown" ? 1 : -1)))]; render();
   document.querySelector('.us-split-row[data-id="' + selected + '"]').focus();
 });
 document.getElementById("detail").addEventListener("click", function (e) {
-  var btn = e.target.closest(".us-composer-actions .us-btn"); if (!btn) return;
-  var i = current(); i.state = i.state === btn.dataset.state ? "open" : btn.dataset.state; render();
+  var track = e.target.closest("[data-track]");
+  if (track) {
+    // Adding to the tracker files an issue: take the next number after the highest one so far.
+    var next = Math.max.apply(null, REQUESTS.filter(function (r) { return r.issue; }).map(function (r) { return +r.issue.split("-")[1]; })) + 1;
+    var r = byId(track.dataset.track); r.status = "tracked"; r.issue = "PLT-" + next;
+    keepSelection(); render(); return;
+  }
+  var link = e.target.closest("[data-goto]"); if (!link) return;
+  e.preventDefault(); select(link.dataset.goto);
+});
+document.getElementById("search").addEventListener("input", function (e) {
+  query = e.target.value.trim().toLowerCase(); keepSelection(); render();
 });
 
-// Select text in the record to add it, quoted, to the comment.
-var quoteBtn = document.getElementById("quote");
-document.addEventListener("selectionchange", function () {
-  var sel = window.getSelection(), text = sel.toString().trim();
-  var inRecord = sel.rangeCount && sel.anchorNode && sel.anchorNode.parentElement && sel.anchorNode.parentElement.closest(".us-record-text");
-  if (!text || !inRecord || ROUNDS[round].readOnly) { quoteBtn.hidden = true; return; }
-  var rect = sel.getRangeAt(0).getBoundingClientRect();
-  quoteBtn.style.left = rect.left + "px"; quoteBtn.style.top = Math.max(8, rect.top - 36) + "px"; quoteBtn.hidden = false;
-});
-quoteBtn.addEventListener("mousedown", function (e) { e.preventDefault(); });
-quoteBtn.addEventListener("click", function () {
-  var ta = document.getElementById("comment"), text = window.getSelection().toString().trim();
-  if (!ta || !text) return;
-  ta.value = (ta.value ? ta.value + "\n" : "") + "> " + text + "\n"; current().comment = ta.value;
-  grow(ta); ta.focus(); quoteBtn.hidden = true;
-});
-
-// Drag strips: resize the nav (180 to 420px) and the list (220 to 560px). Double-click resets.
+// Drag strips: resize the nav (180 to 420px) and the list (220 to 560px). Arrow keys move a focused strip 16px. Double-click resets.
 var LIMITS = { nav: [180, 420, "--nav-w", "ws"], list: [220, 560, "--list-width", "split"] };
 function store(k, v) { try { localStorage.setItem("understudy-" + k, v); } catch (e) {} }
 function load(k) { try { return localStorage.getItem("understudy-" + k); } catch (e) { return null; } }
@@ -206,6 +351,13 @@ document.querySelectorAll(".us-drag").forEach(function (strip) {
     }
     function up() { strip.classList.remove("is-dragging"); strip.removeEventListener("pointermove", move); strip.removeEventListener("pointerup", up); }
     strip.addEventListener("pointermove", move); strip.addEventListener("pointerup", up);
+  });
+  strip.addEventListener("keydown", function (e) {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    e.preventDefault();
+    var from = (strip.dataset.drag === "nav" ? document.querySelector(".us-workspace-nav") : strip.parentElement).getBoundingClientRect().width;
+    var w = Math.round(Math.min(l[1], Math.max(l[0], from + (e.key === "ArrowRight" ? 16 : -16))));
+    host.style.setProperty(l[2], w + "px"); store(strip.dataset.drag, w);
   });
   strip.addEventListener("dblclick", function () { host.style.removeProperty(l[2]); try { localStorage.removeItem("understudy-" + strip.dataset.drag); } catch (e) {} });
 });

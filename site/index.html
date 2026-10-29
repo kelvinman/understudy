@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understudy</title>
+<meta name="description" content="A free theme that makes Claude artifacts look like part of the Claude app, in light and dark.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/avatar.png">
+<meta property="og:title" content="Understudy">
+<meta property="og:description" content="A free theme that makes Claude artifacts look like part of the Claude app, in light and dark.">
+<meta property="og:image" content="https://understudyui.com/brand/og.png">
+<meta property="og:url" content="https://understudyui.com">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* The layout of kelvinman.com and his other sites (one narrow column, 100px down, small labels,
+     blocks that fade up), built from Understudy's own type, buttons, lists and colors. */
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .page { display: flex; flex-direction: column; align-items: center; padding: 100px max(16px, env(safe-area-inset-right)) 100px max(16px, env(safe-area-inset-left)); }
+  .col { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: var(--space-4); }
+  .wide { width: 100%; max-width: 1080px; }
+
+  .mark { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; }
+  .mark svg { width: 20px; height: 20px; flex: none; }
+  h1 { font: 500 22px/30px var(--font-sans); margin: var(--space-6) 0 0; }
+  p { margin: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+
+  .demo { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-3); }
+  .frame { position: relative; height: 640px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
+  .frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+  /* Under the example's own width, show it at desktop size, scaled down to fit. */
+  .frame.is-scaled iframe { position: absolute; top: 0; left: 0; width: 1080px; height: 640px; transform-origin: 0 0; transform: scale(var(--scale)); }
+
+  section { margin-top: var(--space-8); display: flex; flex-direction: column; gap: var(--space-3); }
+  section h2 { margin: 0; }
+  .us-card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); background: var(--bg-muted); border-color: transparent; }
+  .us-list { margin: 0 calc(-1 * var(--space-2)); }
+  .us-row { color: var(--text); text-decoration: none !important; }
+  .us-row svg.lucide { color: var(--text-secondary); width: 16px; height: 16px; }
+  code { font: 450 0.9em/1 var(--font-mono); background: var(--bg-muted); border-radius: 4px; padding: 1px 4px; }
+
+  footer { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-1); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal > * { animation: reveal 600ms cubic-bezier(.2, 0, 0, 1) both; }
+    .reveal > :nth-child(2) { animation-delay: 80ms; }
+    .reveal > :nth-child(n + 3) { animation-delay: 160ms; }
+  }
+  @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
+</style>
+</head>
+<body>
+<main class="page reveal">
+  <div class="col">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8 1h8a7 7 0 0 1 7 7v8a7 7 0 0 1-7 7H8a7 7 0 0 1-7-7V8a7 7 0 0 1 7-7zM15 4h1a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-1a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z"/></svg>
+      <span>Understudy</span>
+    </div>
+    <h1>A free theme that makes Claude artifacts look like part of the app.</h1>
+    <p>Understudy gives the pages Claude makes the app's own greys, controls and 16px text, in light and dark. A page sits beside the chat instead of looking like a separate website.</p>
+    <div class="actions">
+      <button class="us-btn us-btn-primary" type="button" data-copy><i data-lucide="copy" aria-hidden="true"></i><span>Copy the prompt</span></button>
+      <a class="us-btn" href="https://github.com/kelvinman/understudy" style="color: var(--text); text-decoration: none"><span>GitHub</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <div class="wide demo">
+    <div><div class="us-tabs" role="tablist" aria-label="Examples">
+      <button class="us-tab" role="tab" aria-selected="true" data-src="examples/workspace-full-width.html">Workspace, full width</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/workspace-cards.html">Workspace, cards</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/tool.html">Tool</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/report.html">Report</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/short-page.html">Short page</button>
+    </div></div>
+    <div class="frame"><iframe id="demo" src="examples/workspace-full-width.html" title="A live Understudy example"></iframe></div>
+  </div>
+
+  <div class="col">
+    <section>
+      <h2 class="us-meta">Use it</h2>
+      <p>Paste this at the start of a request for a page.</p>
+      <div class="us-card">
+        <span id="prompt">Use the Understudy theme from github.com/kelvinman/understudy. Read its README, start from the example closest to what I want, and inline tokens.css and the classes you use.</span>
+        <button class="us-btn" type="button" data-copy><i data-lucide="copy" aria-hidden="true"></i><span>Copy</span></button>
+      </div>
+      <p class="us-meta">To do it by hand, paste <code>tokens.css</code> at the top of the page's style, then the parts of <code>components.css</code> it uses. Artifacts can't load files from elsewhere, so everything goes inline.</p>
+    </section>
+
+    <section>
+      <h2 class="us-meta">What is in it</h2>
+      <nav class="us-list" aria-label="Files">
+        <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/tokens.json"><i data-lucide="braces" aria-hidden="true"></i><span>tokens.json</span><span class="us-row-meta">Every value, with its source</span></a>
+        <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/tokens.css"><i data-lucide="palette" aria-hidden="true"></i><span>tokens.css</span><span class="us-row-meta">Light and dark</span></a>
+        <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/components.css"><i data-lucide="component" aria-hidden="true"></i><span>components.css</span><span class="us-row-meta">The us- classes</span></a>
+        <a class="us-row" href="https://github.com/kelvinman/understudy/tree/main/examples"><i data-lucide="layout-template" aria-hidden="true"></i><span>examples</span><span class="us-row-meta">Five layouts</span></a>
+      </nav>
+    </section>
+
+    <section>
+      <h2 class="us-meta">Measured, not guessed</h2>
+      <p>The colors, text sizes, row heights and corners come from screenshots of the Claude desktop app in October 2026. The app draws dark colors about a third lighter than the code sets them, so the dark theme is set a step lower to land on the app's colors.</p>
+    </section>
+
+    <footer class="us-meta">
+      <span>Made by <a href="https://kelvinman.com">Kelvin Man</a>. MIT license.</span>
+      <span>Not made by or affiliated with Anthropic.</span>
+    </footer>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>
+  window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+  var frame = document.getElementById("demo");
+
+  // Keep the example at desktop size on narrow screens.
+  function fit() {
+    var box = frame.parentNode, w = box.clientWidth, small = w < 1000;
+    box.classList.toggle("is-scaled", small);
+    box.style.setProperty("--scale", w / 1080);
+    box.style.height = small ? Math.round(640 * w / 1080) + "px" : "";
+  }
+  fit(); addEventListener("resize", fit);
+
+  document.querySelectorAll(".us-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      document.querySelectorAll(".us-tab").forEach(function (t) { t.setAttribute("aria-selected", t === tab); });
+      frame.src = tab.dataset.src;
+    });
+  });
+
+  document.querySelectorAll("[data-copy]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var label = btn.querySelector("span"), was = label.textContent;
+      navigator.clipboard.writeText(document.getElementById("prompt").textContent).then(function () {
+        label.textContent = "Copied";
+        setTimeout(function () { label.textContent = was; }, 1500);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+// Cloudflare Workers config for understudyui.com. worker.js sends www to the bare domain;
+// everything else is the static site that scripts/build-site.mjs writes to dist/.
+{
+  "name": "understudy",
+  "compatibility_date": "2026-05-01",
+  "main": "./worker.js",
+  "build": { "command": "node scripts/build-site.mjs" },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "understudyui.com", "custom_domain": true },
+    { "pattern": "www.understudyui.com", "custom_domain": true }
+  ]
+}
