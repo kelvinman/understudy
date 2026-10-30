@@ -54,6 +54,13 @@ const html = entries.map((e) => `    <article class="entry" id="${anchor(e.date)
 const page = readFileSync("site/changelog.html", "utf8").replace("<!--ENTRIES-->", html);
 writeFileSync("dist/changelog.html", page);
 
+// The homepage's "Updated" line under the hero, from the newest entry.
+const latest = entries[0];
+const short = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+const home = readFileSync("site/index.html", "utf8").replace("<!--LATEST-->",
+  `<a class="us-meta latest" href="changelog#${anchor(latest.date)}">Updated ${short(latest.date)}: ${inline(latest.title.charAt(0).toLowerCase() + latest.title.slice(1))}<i data-lucide="arrow-right" aria-hidden="true"></i></a>`);
+writeFileSync("dist/index.html", home);
+
 const rss = `<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"><channel>
 <title>Understudy changelog</title>

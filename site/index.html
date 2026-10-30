@@ -46,6 +46,10 @@
   .us-row svg.lucide { color: var(--text-secondary); width: 16px; height: 16px; }
   code { font: 450 0.9em/1 var(--font-mono); background: var(--bg-muted); border-radius: 4px; padding: 1px 4px; }
 
+  /* The newest changelog entry, written in by the build from CHANGELOG.md. */
+  .latest { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; color: var(--text-secondary); }
+  .latest:hover { color: var(--text); text-decoration: none; }
+  .latest svg.lucide { width: 14px; height: 14px; }
   footer { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-1); }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -69,6 +73,7 @@
       <button class="us-btn us-btn-primary" type="button" data-copy><i data-lucide="copy" aria-hidden="true"></i><span>Copy the prompt</span></button>
       <a class="us-btn" href="https://github.com/kelvinman/understudy" style="color: var(--text); text-decoration: none"><span>GitHub</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
     </div>
+    <!--LATEST-->
   </div>
 
   <div class="wide demo">
