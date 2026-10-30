@@ -1,6 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400..600&display=swap");
-/* Understudy components. Every value comes from tokens.css. */
+/* Understudy components. Every value comes from tokens.css.
+
+   How this file is laid out: one base section that every page includes, then one section per component.
+   Each component's rules live only under its own comment, so you can copy the base plus the sections a page
+   uses and nothing breaks. Where a component builds on another, its comment says "Needs:". */
+
+/* ==========================================================================
+   Base. Every page includes this section, whatever components it uses.
+   ========================================================================== */
 body { margin: 0; background: var(--bg); color: var(--text); font: 450 16px/24px var(--font-sans); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+a { color: var(--link); text-underline-offset: 2px; }
+/* Focus: a 2px ring with a 2px offset on anything you can tab to that is not a text field. */
+:where(a, button, select, summary, [tabindex], input[type="checkbox"], input[type="radio"]):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+/* Text fields focus like the app's composer: no ring, the border steps up. */
+:where(input:not([type="checkbox"], [type="radio"]), textarea):focus { outline: none; border-color: var(--border-strong); }
+/* Icons: Lucide outline at 16px, 1.75 stroke, currentColor. */
+svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none; }
+
+/* ==========================================================================
+   Components
+   ========================================================================== */
+
+/* Button. Variants: filled, ghost, primary, and pressed states for success and danger. */
 .us-btn { font: 450 15px/20px var(--font-sans); height: var(--control-height); padding: 0 var(--space-3); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
   border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; }
 .us-btn:hover { border-color: var(--border-strong); background: var(--bg-muted); }
@@ -11,24 +32,82 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 450 16px/24px
 .us-btn-success[aria-pressed="true"] { background: var(--success); border-color: var(--success); color: var(--on-status); }
 .us-btn-danger[aria-pressed="true"] { background: var(--danger); border-color: var(--danger); color: var(--on-status); }
 .us-btn:disabled { opacity: .5; cursor: default; }
-:where(.us-btn, .us-tab, .us-row, a):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
-/* Text fields focus like the app's composer: no ring, the border steps up. */
-.us-input:focus, .us-textarea:focus { outline: none; border-color: var(--border-strong); }
-.us-input, .us-textarea { font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg-input); width: 100%; box-sizing: border-box;
+/* Small button: 28px, for table rows, filter bars and the composer. Add it next to us-btn. */
+.us-btn.us-btn-sm { height: var(--control-height-sm); font-size: 14px; padding: 0 10px 0 var(--space-2); gap: var(--space-1); }
+
+/* Text input */
+.us-input { font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg-input); width: 100%; box-sizing: border-box; height: 40px;
   border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-2) var(--space-3); }
-.us-input { height: 40px; }
-.us-textarea { min-height: 88px; resize: vertical; }
-.us-input::placeholder, .us-textarea::placeholder { color: var(--text-placeholder); }
-.us-input:hover, .us-textarea:hover { border-color: var(--border-strong); }
+.us-input::placeholder { color: var(--text-placeholder); }
+.us-input:hover { border-color: var(--border-strong); }
+.us-input:focus { outline: none; border-color: var(--border-strong); }
+
+/* Textarea */
+.us-textarea { font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg-input); width: 100%; box-sizing: border-box; min-height: 88px; resize: vertical;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-2) var(--space-3); }
+.us-textarea::placeholder { color: var(--text-placeholder); }
+.us-textarea:hover { border-color: var(--border-strong); }
+.us-textarea:focus { outline: none; border-color: var(--border-strong); }
+
+/* Search field: a text input with a leading icon. The label is the box, so the whole box is a click target.
+   <label class="us-search"><i data-lucide="search" aria-hidden="true"></i><input type="search" placeholder="Search" aria-label="Search"></label> */
+.us-search { display: inline-flex; align-items: center; gap: 6px; height: var(--control-height); box-sizing: border-box; min-width: 0; padding: 0 var(--space-3) 0 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-input); color: var(--text-secondary); cursor: text; }
+.us-search:hover, .us-search:focus-within { border-color: var(--border-strong); }
+.us-search input { flex: 1; min-width: 0; height: 100%; border: 0; padding: 0; background: none; font: 450 15px/20px var(--font-sans); color: var(--text); }
+.us-search input:focus { outline: none; }
+.us-search input::placeholder { color: var(--text-placeholder); }
+.us-search input::-webkit-search-cancel-button { display: none; }
+
+/* Select: a native select, styled like a button with a chevron. The span carries the chevron.
+   <span class="us-select"><select aria-label="Stage"><option>All stages</option></select></span>
+   Add is-set to the span while it filters something, so the border steps up. */
+.us-select { position: relative; display: inline-flex; min-width: 0; }
+.us-select select { appearance: none; -webkit-appearance: none; width: 100%; height: var(--control-height); box-sizing: border-box; padding: 0 30px 0 var(--space-3);
+  font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-overflow: ellipsis; }
+.us-select select:hover { border-color: var(--border-strong); background: var(--bg-muted); }
+.us-select.is-set select { border-color: var(--border-strong); }
+.us-select::after { content: ""; position: absolute; right: 10px; top: 50%; width: 14px; height: 14px; margin-top: -7px; pointer-events: none; background: var(--text-secondary);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+/* Checkbox: a native checkbox in a label.
+   <label class="us-check"><input type="checkbox"><span>Show paused</span></label> */
+.us-check { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--control-height); font: 450 15px/20px var(--font-sans); color: var(--text); cursor: pointer; }
+.us-check input { appearance: none; -webkit-appearance: none; position: relative; flex: none; width: 16px; height: 16px; margin: 0; border: 1px solid var(--border-strong); border-radius: 4px; background: var(--bg-input); cursor: pointer; }
+.us-check input:hover { border-color: var(--text-secondary); }
+.us-check input:checked { background: var(--strong); border-color: var(--strong); }
+.us-check input:checked::after { content: ""; position: absolute; inset: 1px; background: var(--on-strong);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat; }
+.us-check input:disabled, .us-check input:disabled + * { opacity: .5; cursor: default; }
+
+/* Filter bar: one row of selects, toggles, a search and a count, wrapping on narrow screens.
+   Toggles are small buttons with aria-pressed; pressed reads as selected, not as a primary action.
+   Put the count (us-filters-count) in us-filters-end to push it to the right.
+   Needs: Button, and whichever of Select, Search and Checkbox it holds. */
+.us-filters { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.us-filters .us-btn[aria-pressed="true"] { background: var(--bg-selected); border-color: var(--border-strong); color: var(--text); }
+.us-filters .us-btn[aria-pressed="true"]:hover { background: var(--bg-selected); }
+.us-filters .us-search { width: 220px; }
+.us-filters .us-filters-end { margin-left: auto; display: flex; align-items: center; gap: var(--space-2); }
+.us-filters .us-filters-count { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) { .us-filters .us-search { width: 100%; } }
+
+/* Tag. Variants: outline, success, danger. */
 .us-tag { display: inline-flex; align-items: center; font: 500 12px/16px var(--font-sans); padding: 2px var(--space-2); border-radius: var(--radius-sm);
   background: var(--bg-muted); color: var(--text-secondary); white-space: nowrap; }
 .us-tag-outline { background: none; box-shadow: inset 0 0 0 1px var(--border); }
 .us-tag-success { color: var(--success); background: var(--success-soft); }
 .us-tag-danger { color: var(--danger); background: var(--danger-soft); }
+
+/* Tabs: a segmented group of toggles. */
 .us-tabs { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-md); background: var(--bg-muted); flex-wrap: wrap; }
-.us-tab { font: 450 15px/20px var(--font-sans); height: 28px; padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; color: var(--text-secondary); cursor: pointer; }
+.us-tab { font: 450 15px/20px var(--font-sans); height: var(--control-height-sm); padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; color: var(--text-secondary); cursor: pointer; }
 .us-tab:hover { color: var(--text); }
 .us-tab[aria-pressed="true"], .us-tab[aria-selected="true"] { background: var(--bg); color: var(--text); box-shadow: 0 0 0 1px var(--border-subtle); }
+
+/* List: rows of links or options, with a quiet label above a group. */
 .us-list { display: flex; flex-direction: column; gap: 2px; }
 .us-list-label { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); padding: var(--space-3) var(--space-2) var(--space-1); }
 .us-row { font: 450 15px/20px var(--font-sans); min-height: var(--control-height); display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-2);
@@ -36,63 +115,114 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 450 16px/24px
 .us-row:hover { background: var(--bg-muted); }
 .us-row[aria-current="true"], .us-row[aria-selected="true"] { background: var(--bg-selected); }
 .us-row .us-row-meta { margin-left: auto; color: var(--text-secondary); font-size: 14px; }
+.us-row-action { margin-left: auto; color: var(--text-secondary); }
+
+/* Card */
 .us-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-4); background: var(--bg); }
+
+/* Quote */
 .us-quote { background: var(--bg-muted); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); }
 .us-quote blockquote { margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--border-strong); color: var(--text-secondary); }
+
+/* Progress: one bar, optionally split into success, danger and muted parts. */
 .us-progress { display: flex; height: 6px; border-radius: var(--radius-pill); background: var(--bg-muted); overflow: hidden; }
 .us-progress > span { display: block; height: 100%; background: var(--strong); transition: width .3s ease-out; }
 .us-progress > .is-success { background: var(--success); }
 .us-progress > .is-danger { background: var(--danger); }
 .us-progress > .is-muted { background: var(--text-secondary); }
-.us-meta { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
-.us-divider { border: 0; border-top: 1px solid var(--border-subtle); margin: 0; }
-/* Full-width rule: runs to both edges of the pane while content keeps the gutter. Needs overflow-x: clip on body. */
-.us-rule { position: relative; }
-.us-rule::before { content: ""; position: absolute; left: -100vw; right: -100vw; top: 0; border-top: 1px solid var(--border-subtle); }
-a { color: var(--link); text-underline-offset: 2px; }
-ins.us-ins { text-decoration: none; background: var(--success-soft); border-radius: 3px; }
-del.us-del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); border-radius: 3px; }
-/* Steps: a short list in a bordered card, like the app's task list in the chat. */
-.us-steps { list-style: none; margin: 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg); display: flex; flex-direction: column; }
-.us-steps > li { display: flex; align-items: baseline; gap: 6px; min-height: 28px; padding-block: 4px; box-sizing: border-box; font: 450 15px/20px var(--font-sans); color: var(--text); }
-.us-steps > li > svg.lucide { width: 14px; height: 14px; align-self: flex-start; margin-top: 3px; color: var(--text-placeholder); }
-.us-steps > li > .us-step-num { flex: none; width: 18px; text-align: left; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-variant-numeric: tabular-nums; font-size: 14px; }
-.us-steps > li.is-done { color: var(--text-secondary); }
-.us-steps > li.is-done > svg.lucide { color: var(--text-secondary); }
-/* Icons: Lucide outline at 16px, 1.75 stroke, currentColor. */
-svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none; }
-.us-meta svg.lucide { width: 14px; height: 14px; }
-.us-iconed { display: inline-flex; align-items: center; gap: 6px; }
 @media (prefers-reduced-motion: reduce) { .us-progress > span { transition: none; } }
 
-/* Workspace preset: white panels on a grey canvas, as in the design system viewer. */
+/* Meta line: secondary text, with an optional leading icon (add us-iconed). */
+.us-meta { font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
+.us-meta svg.lucide { width: 14px; height: 14px; }
+.us-iconed { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Divider */
+.us-divider { border: 0; border-top: 1px solid var(--border-subtle); margin: 0; }
+
+/* Full-width rule: runs to both edges of the pane while content keeps the gutter. Needs overflow-x: clip on body (in Base). */
+.us-rule { position: relative; }
+.us-rule::before { content: ""; position: absolute; left: -100vw; right: -100vw; top: 0; border-top: 1px solid var(--border-subtle); }
+
+/* Inline diff: inserted and deleted text. */
+ins.us-ins { text-decoration: none; background: var(--success-soft); border-radius: 3px; }
+del.us-del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); border-radius: 3px; }
+
+/* Steps: a short list in a bordered card, like the app's task list in the chat. */
+.us-steps { list-style: none; margin: 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg); display: flex; flex-direction: column; }
+.us-steps > li { display: flex; align-items: baseline; gap: 6px; min-height: var(--control-height-sm); padding-block: var(--space-1); box-sizing: border-box; font: 450 15px/20px var(--font-sans); color: var(--text); }
+.us-steps > li > svg.lucide { width: 14px; height: 14px; align-self: flex-start; margin-top: 3px; color: var(--text-placeholder); }
+.us-steps > li > .us-step-num { flex: none; width: 18px; text-align: left; font-variant-numeric: tabular-nums; color: var(--text-secondary); font-size: 14px; }
+.us-steps > li.is-done { color: var(--text-secondary); }
+.us-steps > li.is-done > svg.lucide { color: var(--text-secondary); }
+
+/* Status dot: hollow by default (open, not yet decided), filled with is-success, is-danger or is-muted. */
+.us-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px var(--text-secondary); }
+.us-dot.is-success { background: var(--success); box-shadow: none; }
+.us-dot.is-danger { background: var(--danger); box-shadow: none; }
+.us-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
+
+/* ==========================================================================
+   Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
+   Add is-flat for the full-width variant: no canvas and no cards. Needs: List.
+   ========================================================================== */
 .us-canvas { background: var(--bg-canvas); }
 .us-workspace { display: grid; grid-template-columns: var(--nav-width) minmax(0, 1fr); align-items: start; background: var(--bg-canvas); min-height: 100vh; }
 /* The nav is a white sidebar the full height of the pane with a hairline on its right; only the main column shows the canvas. */
 .us-workspace-nav { position: sticky; top: 0; height: 100vh; box-sizing: border-box; overflow-y: auto; background: var(--bg-nav); border-right: 1px solid var(--border-subtle); padding: var(--space-2); display: flex; flex-direction: column; gap: 2px; }
 .us-workspace-nav .us-row svg.lucide { color: var(--text-secondary); }
-.us-workspace-nav .us-row-count { color: var(--text-secondary); font-size: 13px; font-variant-numeric: tabular-nums; }
-/* In the nav: the tracker (progress and counts) anchors to the bottom. */
-.us-tracker { margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 6px; }
+.us-workspace-nav .us-row-count { margin-left: auto; color: var(--text-secondary); font-size: 13px; font-variant-numeric: tabular-nums; }
+/* Workspace nav: the List component at the viewer's tighter pitch and smaller text. */
+.us-workspace .us-row { min-height: var(--control-height-sm); font-size: 14px; }
+.us-workspace .us-list-label, .us-workspace-nav .us-meta { font-size: 13px; line-height: 18px; }
+.us-workspace .us-row[aria-current="true"] { background: var(--bg-muted); }
 .us-workspace-main { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); min-width: 0; }
+.us-workspace.is-flat { background: var(--bg-panel); }
+.us-workspace.is-flat .us-workspace-main { padding: 0; gap: 0; }
+@media (max-width: 760px) { .us-workspace { grid-template-columns: 1fr; } .us-workspace-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border-subtle); } }
+
+/* Panel: a white card on the Workspace canvas, opening with a serif title (us-display). */
 .us-panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); min-width: 0; }
 .us-panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
 .us-display { font: 400 36px/44px var(--font-serif); letter-spacing: -0.01em; margin: 0; color: var(--text); }
 .us-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font: 500 15px/20px var(--font-sans); padding: var(--space-3) 0; }
-/* Table: 56px rows, quiet header, hairlines between rows and columns. */
+.us-workspace.is-flat .us-panel { border: 0; border-radius: 0; border-bottom: 1px solid var(--border-subtle); padding: var(--space-6); }
+@media (max-width: 760px) { .us-panel { padding: var(--space-4); } }
+
+/* Table: rows at least 56px that grow with their content, a quiet header, hairlines between rows and columns.
+   Inside a panel, wrap it in us-table-wrap so it runs to the panel's edges. */
 .us-table-wrap { overflow-x: auto; margin: 0 calc(-1 * var(--space-8)); }
 .us-table { width: 100%; border-collapse: collapse; font: 450 15px/20px var(--font-sans); }
 .us-table th { font: 400 14px/20px var(--font-sans); color: var(--text-placeholder); text-align: left; height: 40px; padding: 0 var(--space-4); }
-.us-table td { height: var(--row-height); padding: 0 var(--space-4); }
+.us-table td { height: var(--row-height); padding: var(--space-2) var(--space-4); box-sizing: border-box; }
 .us-table th, .us-table td { border-top: 1px solid var(--border-subtle); }
 .us-table th + th, .us-table td + td { border-left: 1px solid var(--border-subtle); }
 .us-table th:first-child, .us-table td:first-child { padding-left: var(--space-8); }
 .us-table td.us-num { text-align: right; font-variant-numeric: tabular-nums; }
 .us-table tbody tr:hover { background: var(--bg-sidebar); }
 .us-table .us-name { font-family: var(--font-mono); font-size: 14px; }
+@media (max-width: 760px) { .us-table-wrap { margin: 0 calc(-1 * var(--space-4)); } .us-table th:first-child, .us-table td:first-child { padding-left: var(--space-4); } }
+
+/* Table groups: rows grouped under a heading row that folds. Put each group in its own tbody, starting with the heading row.
+   The button's aria-expanded is the only state: set it to false and the rest of that tbody hides.
+   <tbody><tr class="us-table-group"><th colspan="4" scope="colgroup"><button class="us-table-toggle" aria-expanded="true">
+     <i data-lucide="chevron-down" aria-hidden="true"></i><span>Website</span><span class="us-table-count">3</span></button></th></tr> ...rows</tbody>
+   Needs: Table. */
+.us-table .us-table-group th { height: 36px; padding: 0 var(--space-4) 0 var(--space-6); background: var(--bg-band); color: var(--text); font: 500 14px/20px var(--font-sans); }
+.us-table tbody .us-table-group:hover { background: none; }
+.us-table-toggle { display: inline-flex; align-items: center; gap: 6px; height: var(--control-height-sm); padding: 0 var(--space-2) 0 var(--space-1); margin-left: calc(-1 * var(--space-1)); border: 0; border-radius: var(--radius-sm); background: none; font: inherit; color: inherit; cursor: pointer; }
+.us-table-toggle:hover { background: var(--bg-muted); }
+.us-table-toggle svg.lucide { color: var(--text-secondary); transition: transform .15s ease-out; }
+.us-table-toggle[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
+.us-table-count { color: var(--text-secondary); font-weight: 400; font-variant-numeric: tabular-nums; }
+.us-table tbody:has(> .us-table-group [aria-expanded="false"]) > tr:not(.us-table-group) { display: none; }
+@media (prefers-reduced-motion: reduce) { .us-table-toggle svg.lucide { transition: none; } }
+@media (max-width: 760px) { .us-table .us-table-group th { padding-left: var(--space-3); } }
+
+/* Token value: a bordered value with a color swatch, for tables of tokens or settings. */
 .us-value { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 180px; height: 26px; padding: 0 var(--space-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font: 450 14px/20px var(--font-sans); background: var(--bg); }
 .us-swatch { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--border); flex: none; }
-.us-row-action { margin-left: auto; color: var(--text-secondary); }
+
 /* File list: grouped rows with an icon, a name and a meta line; one selected row in bg-selection. */
 .us-files { display: flex; flex-direction: column; }
 .us-files-label { font: 500 13px/18px var(--font-sans); color: var(--text-secondary); padding: var(--space-3) var(--space-4) var(--space-1); border-top: 1px solid var(--border-subtle); background: var(--bg-sidebar); }
@@ -105,34 +235,47 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 .us-file-size { margin-left: auto; font: 400 12px/16px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-file[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
 .us-file[aria-selected="true"] :is(.us-file-meta, .us-file-size, svg.lucide) { color: var(--on-selection); opacity: .85; }
+
+/* Detail aside: a grey column beside a file list. */
 .us-detail { background: var(--bg-sidebar); border-left: 1px solid var(--border-subtle); padding: var(--space-4); width: var(--detail-width); box-sizing: border-box; }
-/* Workspace nav: the List component at the viewer's tighter pitch and smaller text. */
-.us-workspace .us-row { min-height: 28px; font-size: 14px; }
-.us-workspace .us-list-label, .us-workspace-nav .us-meta { font-size: 13px; line-height: 18px; }
-.us-workspace .us-row[aria-current="true"] { background: var(--bg-muted); }
-/* Workspace, full width: no canvas and no cards. Sections run to the pane's edges and are split by hairlines only. */
-.us-workspace.is-flat { background: var(--bg-panel); }
-.us-workspace.is-flat .us-workspace-main { padding: 0; gap: 0; }
-.us-workspace.is-flat .us-panel { border: 0; border-radius: 0; border-bottom: 1px solid var(--border-subtle); padding: var(--space-6); }
+@media (max-width: 760px) { .us-detail { width: auto; border-left: 0; border-top: 1px solid var(--border-subtle); } }
+
+/* Tracker: a bar across the top of the main column: the set's name, a status tag, the bar, the count on the right.
+   It wraps on narrow screens, so measure it with a ResizeObserver, not once. Inside a Workspace nav it anchors
+   to the bottom above a hairline, stacked. Needs: Progress. */
+.us-tracker { position: sticky; top: 0; z-index: 5; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-3) var(--space-6); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
+.us-tracker .us-progress { flex: 1 1 120px; }
+.us-tracker-name { font-weight: 600; }
+.us-tracker-count { font-size: 14px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-tracker-count strong { color: var(--text); }
+.us-workspace-nav .us-tracker { position: static; margin-top: auto; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
+.us-workspace-nav .us-tracker .us-progress { flex: none; }
+@media (max-width: 760px) { .us-tracker { padding: var(--space-3) var(--space-4); } }
+
 /* Split: a list of records on the left and the selected one on the right, as in the design system viewer's file view.
-   Packed rows, each closed by a hairline; sites as a grey band; the selection in the viewer's blue with white text and a white dot. */
+   Packed rows, each closed by a hairline; groups as a grey band; the selection in the viewer's blue with white text and a white dot.
+   Set --us-bar-h on the split to the height of anything sticky above it (the tracker) and keep it current with a
+   ResizeObserver, or the list sits too low after a resize and the page scrolls. Needs: Status dot. */
 .us-split { display: grid; grid-template-columns: var(--list-width) minmax(0, 1fr); align-items: start; }
 .us-split-col { align-self: stretch; position: relative; background: var(--bg-row); border-right: 1px solid var(--border-subtle); min-width: 0; }
 .us-split-list { position: sticky; top: var(--us-bar-h, 0px); max-height: calc(100vh - var(--us-bar-h, 0px)); overflow-y: auto; }
-.us-split-group, .us-split-heading, .us-split-row { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle); }
-.us-split-group { min-height: 32px; font-size: 13px; line-height: 18px; color: var(--text-secondary); background: var(--bg-band); }
-.us-split-heading { min-height: 36px; font: 600 14px/20px var(--font-sans); background: var(--bg-row); }
-.us-split-row { min-height: 36px; font: 450 14px/18px var(--font-sans); color: var(--text); background: var(--bg-row); cursor: pointer; }
+.us-split-group { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle);
+  min-height: var(--control-height); font-size: 13px; line-height: 18px; color: var(--text-secondary); background: var(--bg-band); }
+.us-split-heading { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle);
+  min-height: 36px; font: 600 14px/20px var(--font-sans); background: var(--bg-row); }
+.us-split-row { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle);
+  min-height: 36px; font: 450 14px/18px var(--font-sans); color: var(--text); background: var(--bg-row); cursor: pointer; }
 .us-split-row > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .us-split-row:hover { background: var(--bg-sidebar); }
+.us-split-row:focus-visible, .us-split-heading:focus-visible { outline-offset: -2px; }   /* inside the scrolling list, so the ring sits inside the row */
 .us-split-row[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
-.us-split-row .us-dot { margin: 0 4px; }   /* the dot sits in the chevron's column, so names line up with the heading above */
+.us-split-row .us-dot { margin: 0 var(--space-1); }   /* the dot sits in the chevron's column, so names line up with the heading above */
 .us-split-row[aria-selected="true"] .us-dot { background: var(--on-selection); box-shadow: none; }
 .us-split-row[aria-selected="true"] .us-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
 .us-split-detail { align-self: stretch; display: flex; flex-direction: column; min-height: calc(100vh - var(--us-bar-h, 0px)); box-sizing: border-box; padding: var(--space-6) var(--space-6) 0; min-width: 0; background: var(--bg-band); container-type: inline-size; }
-.us-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px var(--text-secondary); }
-.us-dot.is-success { background: var(--success); box-shadow: none; } .us-dot.is-danger { background: var(--danger); box-shadow: none; } .us-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
-/* The record: title, a quiet location line (the section links out, then the rule numbers), the why, then the two texts in grey boxes. */
+@media (max-width: 760px) { .us-split { grid-template-columns: 1fr; } .us-split-col { border-right: 0; border-bottom: 1px solid var(--border-subtle); } .us-split-list { position: static; max-height: none; } .us-split-detail { min-height: 0; padding: var(--space-4) var(--space-4) 0; } }
+
+/* Record: title, a quiet location line (links out, then ids), the why, then texts in grey boxes. */
 .us-record-title { font: 400 28px/36px var(--font-serif); margin: 0; text-wrap: balance; }
 .us-record-where { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-4); font-size: 14px; line-height: 20px; color: var(--text-secondary); }
 .us-record-where a { display: inline-flex; align-items: center; gap: 2px; color: var(--link); text-decoration: none; }
@@ -142,8 +285,9 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 .us-record-text.is-old { color: var(--text-secondary); }
 .us-record-text del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); color: var(--text); border-radius: 3px; }
 .us-record-text ins { text-decoration: none; background: var(--success-soft); border-radius: 3px; }
-/* The decision, docked like the app's composer: always at the bottom of the detail column under a full-width hairline.
-   One box holds the comment and the decision buttons along its bottom edge. */
+
+/* Dock and composer: the decision, docked like the app's composer at the bottom of the split's detail column under a full-width hairline.
+   One box holds the comment and the decision buttons along its bottom edge. Needs: Button, Split. */
 .us-dock { position: sticky; bottom: 0; z-index: 3; margin: auto calc(-1 * var(--space-6)) 0; padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); background: var(--bg-band); border-top: 1px solid var(--border-subtle); }
 .us-composer { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-input); }
 .us-composer:hover, .us-composer:focus-within { border-color: var(--border-strong); }
@@ -151,22 +295,16 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 .us-composer textarea:focus { outline: none; }
 .us-composer textarea::placeholder { color: var(--text-placeholder); }
 .us-composer .us-composer-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-2); }
-.us-composer .us-btn { height: 28px; font-size: 14px; padding: 0 10px 0 8px; }
-/* Select text in a record to add it, quoted, to the comment. */
-.us-quote-btn { position: fixed; z-index: 20; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); font: 450 13px/18px var(--font-sans); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.08); cursor: pointer; }
+.us-composer .us-btn { height: var(--control-height-sm); font-size: 14px; padding: 0 10px 0 var(--space-2); }
+@media (max-width: 760px) { .us-dock { position: static; margin: var(--space-4) calc(-1 * var(--space-4)) 0; } }
+
+/* Quote button: select text in a record to add it, quoted, to the comment. */
+.us-quote-btn { position: fixed; z-index: 20; display: inline-flex; align-items: center; gap: 6px; height: var(--control-height-sm); padding: 0 10px; border-radius: var(--radius-md); border: 1px solid var(--border); background: var(--bg); font: 450 13px/18px var(--font-sans); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.08); cursor: pointer; }
 .us-quote-btn[hidden] { display: none; }
-/* Draggable dividers: a 7px strip over a column's edge that turns blue on hover or drag. Double-click resets. */
+
+/* Drag strip: a 7px strip over a column's edge that turns blue on hover, drag or focus. Double-click resets. */
 .us-drag { position: absolute; top: 0; bottom: 0; right: -4px; width: 7px; cursor: col-resize; z-index: 6; touch-action: none; }
+.us-drag:focus-visible { outline: none; }
 .us-drag::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; }
 .us-drag:hover::after, .us-drag.is-dragging::after, .us-drag:focus-visible::after { width: 2px; left: 2px; background: var(--focus); }
-/* The tracker: a white bar across the top of the right side: the set's name, a status tag, the bar, the count on the right. */
-.us-tracker { position: sticky; top: 0; z-index: 5; display: flex; flex-direction: row; margin-top: 0; border-top: 0; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-6); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
-.us-tracker .us-progress { flex: 1 1 auto; }
-.us-tracker-name { font-weight: 600; }
-.us-tracker-count { font-size: 14px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-.us-tracker-count strong { color: var(--text); }
-/* The same tracker inside a Workspace nav: anchored to the bottom above a hairline, stacked. */
-.us-workspace-nav .us-tracker { position: static; margin-top: auto; flex-direction: column; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
-.us-workspace-nav .us-tracker .us-progress { flex: none; }
-@media (max-width: 760px) { .us-split { grid-template-columns: 1fr; } .us-split-col { border-right: 0; border-bottom: 1px solid var(--border-subtle); } .us-split-list { position: static; max-height: none; } .us-split-detail { min-height: 0; padding: var(--space-4) var(--space-4) 0; } .us-dock { position: static; margin: var(--space-4) calc(-1 * var(--space-4)) 0; } .us-drag { display: none; } }
-@media (max-width: 760px) { .us-workspace { grid-template-columns: 1fr; } .us-workspace-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border-subtle); } .us-panel { padding: var(--space-4); } .us-table-wrap { margin: 0 calc(-1 * var(--space-4)); } .us-table th:first-child, .us-table td:first-child { padding-left: var(--space-4); } .us-detail { width: auto; border-left: 0; border-top: 1px solid var(--border-subtle); } }
+@media (max-width: 760px) { .us-drag { display: none; } }
