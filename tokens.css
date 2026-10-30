@@ -51,6 +51,7 @@
   --nav-width: 240px;
   --detail-width: 340px;
   --list-width: 320px;
+  --top-bar-height: 57px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {

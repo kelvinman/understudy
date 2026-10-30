@@ -10,32 +10,18 @@
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
-  @media (min-width: 761px) { .us-workspace { grid-template-columns: var(--nav-w, var(--nav-width)) minmax(0, 1fr); } }
   .us-workspace-nav { position: sticky; }
   .nav-rules { margin-top: auto; padding: var(--space-2) var(--space-1) 0; border-top: 1px solid var(--border-subtle); }
   .nav-rules p { margin: var(--space-1) 0 0; font-size: 13px; line-height: 18px; color: var(--text-secondary); }
+  .nav-rules + .us-nav-foot { margin-top: 0; }   /* the rules take the free space, the footer sits under them */
   .main-col { min-width: 0; position: relative; }
-  /* The nav scrolls, which would clip a strip inside it, so its strip sits outside, fixed over the nav's edge. */
-  .nav-drag { position: fixed; top: 0; bottom: 0; right: auto; left: calc(var(--nav-w, var(--nav-width)) - 4px); }
-  /* List: a group heading is the shared need, with how many customers asked on the right. Rows carry two lines and an age. */
-  .us-split-heading { cursor: pointer; user-select: none; font-weight: 450; color: var(--text-secondary); background: var(--bg-band); }
-  .us-split-heading > span:first-of-type { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .us-split-heading svg.lucide { color: var(--text-secondary); transition: transform .15s ease-out; }
-  .us-split-heading[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
-  .heading-count { margin-left: auto; flex: none; font-weight: 400; color: var(--text-secondary); }
-  .us-split-row { min-height: 36px; padding-top: 6px; padding-bottom: 6px; }   /* content-box: 36px plus padding makes a 48px row */
-  .row-text { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-  .row-text > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .row-customer { color: var(--text-secondary); }
-  .row-age { flex: none; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-  .us-split-row[aria-selected="true"] :is(.row-customer, .row-age) { color: var(--on-selection); opacity: .85; }
   /* The search stays at the top of the list while it scrolls. */
   .list-search { position: sticky; top: 0; z-index: 1; padding: var(--space-2); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
   .list-search .us-search { display: flex; width: 100%; }
   .issue-none { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); }
   .list-empty { padding: var(--space-4) var(--space-3); font-size: 14px; color: var(--text-secondary); }
   /* Detail: tags, title, meta line, then label and value rows split by hairlines. */
-  .detail-head { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6); }
+  .detail-head { display: flex; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-3); }
   .detail-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .us-record-where span { display: inline-flex; align-items: center; gap: 6px; }
   .us-record-where svg.lucide { width: 14px; height: 14px; }
@@ -55,6 +41,8 @@
 <body>
 <div class="us-workspace is-flat" id="ws">
   <nav class="us-workspace-nav" aria-label="Requests">
+    <div class="us-nav-top"><span class="us-nav-title">Requests</span>
+      <button class="us-nav-toggle" id="nav-hide" aria-label="Hide sidebar" title="Hide sidebar (Cmd or Ctrl and \)" aria-keyshortcuts="Meta+\ Control+\"><i data-lucide="panel-left-close" aria-hidden="true"></i></button></div>
     <div class="us-list-label">Group by</div>
     <a class="us-row" href="#" data-group="need" aria-current="true"><i data-lucide="layers" aria-hidden="true"></i><span>Same ask</span></a>
     <a class="us-row" href="#" data-group="customer"><i data-lucide="building-2" aria-hidden="true"></i><span>Customer</span></a>
@@ -64,8 +52,11 @@
       <div class="us-meta">How this works</div>
       <p>Requests come from calls, tickets and renewal notes. Ones that ask for the same thing sit together, so a need shows up once with everyone behind it.</p>
     </div>
+    <div class="us-nav-foot"><span class="us-meta" id="read-at">Read just now</span>
+      <button class="us-icon-btn" id="reread" aria-label="Read again"><i data-lucide="refresh-cw" aria-hidden="true"></i></button></div>
   </nav>
-  <div class="us-drag nav-drag" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
+  <div class="us-drag is-nav" data-drag="nav" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize sidebar"></div>
+  <button class="us-nav-toggle us-nav-expand" id="nav-show" aria-label="Show sidebar" title="Show sidebar (Cmd or Ctrl and \)"><i data-lucide="panel-left-open" aria-hidden="true"></i></button>
 
   <div class="main-col">
     <div class="us-tracker" id="tracker"></div>
@@ -227,12 +218,12 @@ function renderList() {
   var html = "";
   groups().forEach(function (g) {
     var open = !collapsed[groupBy + ":" + g.key];
-    html += '<div class="us-split-heading" role="button" tabindex="0" data-key="' + esc(g.key) + '" aria-expanded="' + open + '"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(g.name) + '</span><span class="heading-count">' + g.count + '</span></div>';
+    html += '<button class="us-split-group is-toggle" data-key="' + esc(g.key) + '" aria-expanded="' + open + '"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(g.name) + '</span><span class="us-split-count">' + g.count + '</span></button>';
     if (!open) return;
     g.rows.forEach(function (r) {
       var sub = groupBy === "need" ? r.customer : NEEDS[r.need];
       html += '<div class="us-split-row" role="option" tabindex="0" data-id="' + r.id + '" aria-selected="' + (r.id === selected) + '"><span class="us-dot ' + STATUS[r.status].dot + '"></span>' +
-        '<span class="row-text"><span>' + esc(r.title) + '</span><span class="row-customer">' + esc(sub) + '</span></span><span class="row-age" title="' + longAge(r.days) + '">' + shortAge(r.days) + '</span></div>';
+        '<span class="us-split-name">' + esc(r.title) + '<span class="us-split-sub">' + esc(sub) + '</span></span><span class="us-split-when" title="' + longAge(r.days) + '">' + shortAge(r.days) + '</span></div>';
     });
   });
   document.getElementById("list").innerHTML = html || '<div class="list-empty">' + (query ? "No requests match that search." : "No requests match this filter.") + '</div>';
@@ -247,7 +238,7 @@ function renderDetail() {
     return '<a href="#" data-goto="' + o.id + '">' + esc(o.customer) + ': ' + esc(o.title) + '</a>';
   }).join("") + '</div>';
   var row = function (label, value) { return '<div class="record-row"><dt>' + label + '</dt><dd>' + value + '</dd></div>'; };
-  document.getElementById("detail").innerHTML =
+  document.getElementById("detail").innerHTML = '<div class="us-split-page">' +
     '<div class="detail-head"><div class="detail-tags">' + tags + '</div><h2 class="us-record-title">' + esc(r.title) + '</h2>' +
     '<div class="us-record-where"><span><i data-lucide="building-2" aria-hidden="true"></i>' + esc(r.customer) + '</span>' +
     '<span><i data-lucide="calendar" aria-hidden="true"></i>' + longAge(r.days) + '</span>' +
@@ -259,7 +250,7 @@ function renderDetail() {
     row("Issue", r.issue ? '<span class="issue-id">' + esc(r.issue) + '</span>' :
       '<div class="issue-none"><span>No issue yet</span><button class="us-btn us-btn-sm" data-track="' + r.id + '"><i data-lucide="plus" aria-hidden="true"></i><span>Add to tracker</span></button></div>') +
     '</dl>' +
-    (r.note ? '<div class="us-quote detail-note">' + esc(r.note) + '</div>' : '');
+    (r.note ? '<div class="us-quote detail-note">' + esc(r.note) + '</div>' : '') + '</div>';
 }
 
 function render() {
@@ -299,16 +290,14 @@ function toggle(heading) {
   var k = groupBy + ":" + heading.dataset.key;
   collapsed[k] = !collapsed[k]; renderList();
   window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
-  var again = document.querySelector('.us-split-heading[data-key="' + CSS.escape(heading.dataset.key) + '"]'); if (again) again.focus();
+  var again = document.querySelector('.us-split-group[data-key="' + CSS.escape(heading.dataset.key) + '"]'); if (again) again.focus();
 }
 document.getElementById("list").addEventListener("click", function (e) {
-  var heading = e.target.closest(".us-split-heading"); if (heading) { toggle(heading); return; }
+  var heading = e.target.closest(".us-split-group.is-toggle"); if (heading) { toggle(heading); return; }
   var row = e.target.closest(".us-split-row"); if (!row) return;
   selected = row.dataset.id; render();
 });
 document.getElementById("list").addEventListener("keydown", function (e) {
-  var heading = e.target.closest(".us-split-heading");
-  if (heading && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggle(heading); return; }
   if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
   e.preventDefault();
   var ids = Array.prototype.map.call(document.querySelectorAll(".us-split-row"), function (r) { return r.dataset.id; });
@@ -333,7 +322,7 @@ document.getElementById("search").addEventListener("input", function (e) {
 });
 
 // Drag strips: resize the nav (180 to 420px) and the list (220 to 560px). Arrow keys move a focused strip 16px. Double-click resets.
-var LIMITS = { nav: [180, 420, "--nav-w", "ws"], list: [220, 560, "--list-width", "split"] };
+var LIMITS = { nav: [180, 420, "--us-nav-w", "ws"], list: [220, 560, "--list-width", "split"] };
 function store(k, v) { try { localStorage.setItem("understudy-" + k, v); } catch (e) {} }
 function load(k) { try { return localStorage.getItem("understudy-" + k); } catch (e) { return null; } }
 Object.keys(LIMITS).forEach(function (k) {
@@ -361,6 +350,29 @@ document.querySelectorAll(".us-drag").forEach(function (strip) {
   });
   strip.addEventListener("dblclick", function () { host.style.removeProperty(l[2]); try { localStorage.removeItem("understudy-" + strip.dataset.drag); } catch (e) {} });
 });
+
+// Hide the nav from its button or Cmd or Ctrl and backslash; bring it back from the button at the top left. Remembered per browser.
+var ws = document.getElementById("ws");
+function setNav(hidden, focus) {
+  ws.classList.toggle("is-nav-hidden", hidden);
+  store("nav-hidden", hidden ? "1" : "");
+  if (focus) document.getElementById(hidden ? "nav-show" : "nav-hide").focus();
+}
+setNav(load("nav-hidden") === "1");
+document.getElementById("nav-hide").addEventListener("click", function () { setNav(true, true); });
+document.getElementById("nav-show").addEventListener("click", function () { setNav(false, true); });
+document.addEventListener("keydown", function (e) {
+  if (e.key === "\\" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setNav(!ws.classList.contains("is-nav-hidden")); }
+});
+
+// The footer says when the requests were last read. Reading again here only resets the clock.
+var readAt = Date.now();
+function renderReadAt() {
+  var m = Math.floor((Date.now() - readAt) / 60000);
+  document.getElementById("read-at").textContent = m < 1 ? "Read just now" : "Read " + plural(m, "minute") + " ago";
+}
+document.getElementById("reread").addEventListener("click", function () { readAt = Date.now(); renderReadAt(); });
+setInterval(renderReadAt, 30000);
 
 render();
 </script>

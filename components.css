@@ -165,9 +165,10 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 /* ==========================================================================
    Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
    Add is-flat for the full-width variant: no canvas and no cards. Needs: List.
+   Set --us-nav-w on the workspace to change the nav's width (Nav hide and resize does this).
    ========================================================================== */
 .us-canvas { background: var(--bg-canvas); }
-.us-workspace { display: grid; grid-template-columns: var(--nav-width) minmax(0, 1fr); align-items: start; background: var(--bg-canvas); min-height: 100vh; }
+.us-workspace { display: grid; grid-template-columns: var(--us-nav-w, var(--nav-width)) minmax(0, 1fr); align-items: start; background: var(--bg-canvas); min-height: 100vh; }
 /* The nav is a white sidebar the full height of the pane with a hairline on its right; only the main column shows the canvas. */
 .us-workspace-nav { position: sticky; top: 0; height: 100vh; box-sizing: border-box; overflow-y: auto; background: var(--bg-nav); border-right: 1px solid var(--border-subtle); padding: var(--space-2); display: flex; flex-direction: column; gap: 2px; }
 .us-workspace-nav .us-row svg.lucide { color: var(--text-secondary); }
@@ -180,6 +181,33 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-workspace.is-flat { background: var(--bg-panel); }
 .us-workspace.is-flat .us-workspace-main { padding: 0; gap: 0; }
 @media (max-width: 760px) { .us-workspace { grid-template-columns: 1fr; } .us-workspace-nav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border-subtle); } }
+
+/* Nav top band: the page's name and a button, in a band the height of the main column's top bar, so the two hairlines meet in one line.
+   Put it first in the nav: <div class="us-nav-top"><span class="us-nav-title">Requests</span>...</div>. Needs: Workspace; pair it with Tracker. */
+.us-nav-top { flex: none; box-sizing: border-box; height: var(--top-bar-height); display: flex; align-items: center; gap: var(--space-2); margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) var(--space-2); padding: 0 var(--space-3); border-bottom: 1px solid var(--border-subtle); }
+.us-nav-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 600 15px/20px var(--font-sans); }
+
+/* Nav hide and resize: the nav hides from its own button (us-nav-toggle, in the top band) or Cmd or Ctrl and backslash, and comes back
+   from a button fixed at the top left (us-nav-toggle us-nav-expand, placed inside the workspace). A us-drag is-nav strip, also inside
+   the workspace, drags it wider or narrower by setting --us-nav-w. Remember both per browser. On a phone the nav stacks and neither applies.
+   Needs: Workspace, Drag strip. */
+.us-workspace.is-nav-hidden { grid-template-columns: minmax(0, 1fr); }
+.us-workspace.is-nav-hidden :is(.us-workspace-nav, .us-drag.is-nav) { display: none; }
+.us-nav-toggle { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: var(--radius-md); background: none; color: var(--text-secondary); cursor: pointer; }
+.us-nav-toggle:hover { background: var(--bg-muted); color: var(--text); }
+.us-nav-expand { position: fixed; z-index: 8; top: calc(env(safe-area-inset-top, 0px) + 14px); left: max(var(--space-3), env(safe-area-inset-left, 0px)); display: none; }
+.us-workspace.is-nav-hidden .us-nav-expand { display: inline-flex; }
+.us-workspace.is-nav-hidden .us-tracker { padding-left: 56px; }   /* clear of the expand button */
+/* The nav scrolls, which would clip a strip inside it, so its strip is fixed over the nav's right edge. */
+.us-drag.is-nav { position: fixed; top: 0; bottom: 0; right: auto; left: calc(var(--us-nav-w, var(--nav-width)) - 4px); }
+@media (max-width: 760px) { .us-drag.is-nav, .us-nav-toggle { display: none; } .us-workspace.is-nav-hidden { grid-template-columns: 1fr; } .us-workspace.is-nav-hidden .us-workspace-nav { display: flex; } }
+
+/* Nav footer: a short grey line, such as when the page was last refreshed, centred at the bottom of the nav with a small icon button beside it.
+   Icon button: a 22px button holding one 13px icon, with an aria-label. Needs: Workspace. */
+.us-nav-foot { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: var(--space-1); padding: var(--space-2) 0 var(--space-3); }
+.us-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; padding: 0; border: 0; border-radius: var(--radius-sm); background: none; color: var(--text-secondary); cursor: pointer; }
+.us-icon-btn:hover { background: var(--bg-muted); color: var(--text); }
+.us-icon-btn svg.lucide { width: 13px; height: 13px; }
 
 /* Panel: a white card on the Workspace canvas, opening with a serif title (us-display). */
 .us-panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); min-width: 0; }
@@ -219,6 +247,51 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 @media (prefers-reduced-motion: reduce) { .us-table-toggle svg.lucide { transition: none; } }
 @media (max-width: 760px) { .us-table .us-table-group th { padding-left: var(--space-3); } }
 
+/* Fixed columns: add is-fixed and a colgroup of widths, so opening rows or sorting never shifts the columns.
+   Text that does not fit ends in an ellipsis; a cell that must wrap, such as a long title, takes is-wrap. Needs: Table. */
+.us-table.is-fixed { table-layout: fixed; }
+.us-table.is-fixed td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.us-table.is-fixed td.is-wrap { white-space: normal; }
+
+/* Sortable headers: each header's text is a button. The sorted one shows a small arrow-up or arrow-down icon and its th carries
+   aria-sort="ascending" or "descending". Clicking it again flips the direction. Needs: Table. */
+.us-th-sort { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
+.us-th-sort:hover, th[aria-sort] .us-th-sort { color: var(--text); }
+.us-th-sort svg.lucide { width: 12px; height: 12px; }
+
+/* Resizable columns: a us-drag strip in each header but the last, running the full height of the table. Set --us-table-h on the table
+   to its height and keep it current with a ResizeObserver. Add is-resizable to the wrap, so it never scrolls vertically and the strips
+   never catch the wheel. Dragging moves the column's right edge; double-click resets. Needs: Table, Fixed columns, Drag strip. */
+.us-table th { position: relative; }
+.us-table th .us-drag { z-index: 2; bottom: auto; height: var(--us-table-h, 100%); }
+.us-table-wrap.is-resizable { overflow-y: hidden; }
+
+/* Rows that open: a chevron button in the first cell (us-row-toggle, the chevron then the name) shows the rows that belong to it
+   underneath, as us-table-child rows in the same columns on the band colour. aria-expanded on the button is the state. Needs: Table. */
+.us-row-toggle { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; padding: 0; border: 0; background: none; font: inherit; color: var(--text); text-align: left; cursor: pointer; }
+.us-row-toggle > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.us-row-toggle svg.lucide { width: 14px; height: 14px; color: var(--text-secondary); transition: transform .15s ease-out; }
+.us-row-toggle[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
+.us-table tr.us-table-child td { background: var(--bg-band); height: auto; padding-block: var(--space-2); font-size: 14px; }
+.us-table tr.us-table-child td:first-child { padding-left: calc(var(--space-8) + 20px); white-space: normal; }   /* past the chevron, under the name */
+@media (prefers-reduced-motion: reduce) { .us-row-toggle svg.lucide { transition: none; } }
+@media (max-width: 760px) { .us-table tr.us-table-child td:first-child { padding-left: calc(var(--space-4) + 20px); } }
+
+/* Person: initials in a grey circle, then the name. With nobody, an outlined circle with a user icon (us-avatar is-none) and a grey
+   word such as "Unassigned", so rows still line up. */
+.us-person { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; white-space: nowrap; }
+.us-avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font: 600 10px/1 var(--font-sans); background: var(--bg-selected); color: var(--text); }
+.us-avatar.is-none { background: none; color: var(--text-placeholder); box-shadow: inset 0 0 0 1px var(--border-strong); }
+.us-avatar.is-none svg.lucide { width: 12px; height: 12px; }
+
+/* Status: a status dot, then the word, for a status in a table cell. Never a dot without the word. Needs: Status dot. */
+.us-status { display: inline-flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+
+/* Progress cell: a short bar, then a count such as "3 of 8 done". Needs: Progress, Meta line. */
+.us-progress-cell { display: flex; align-items: center; gap: var(--space-2); white-space: nowrap; }
+.us-progress-cell .us-progress { width: 96px; flex: none; }
+.us-progress-cell .us-meta { font-variant-numeric: tabular-nums; }
+
 /* Token value: a bordered value with a color swatch, for tables of tokens or settings. */
 .us-value { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 180px; height: 26px; padding: 0 var(--space-2); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font: 450 14px/20px var(--font-sans); background: var(--bg); }
 .us-swatch { width: 16px; height: 16px; border-radius: 4px; box-shadow: inset 0 0 0 1px var(--border); flex: none; }
@@ -241,14 +314,14 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 @media (max-width: 760px) { .us-detail { width: auto; border-left: 0; border-top: 1px solid var(--border-subtle); } }
 
 /* Tracker: a bar across the top of the main column: the set's name, a status tag, the bar, the count on the right.
-   It wraps on narrow screens, so measure it with a ResizeObserver, not once. Inside a Workspace nav it anchors
+   At least top-bar-height tall, so its hairline meets the nav's top band. It wraps on narrow screens, so measure it with a ResizeObserver, not once. Inside a Workspace nav it anchors
    to the bottom above a hairline, stacked. Needs: Progress. */
-.us-tracker { position: sticky; top: 0; z-index: 5; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-3) var(--space-6); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
+.us-tracker { position: sticky; top: 0; z-index: 5; box-sizing: border-box; min-height: var(--top-bar-height); display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); padding: var(--space-3) var(--space-6); background: var(--bg-row); border-bottom: 1px solid var(--border-subtle); }
 .us-tracker .us-progress { flex: 1 1 120px; }
 .us-tracker-name { font-weight: 600; }
 .us-tracker-count { font-size: 14px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-tracker-count strong { color: var(--text); }
-.us-workspace-nav .us-tracker { position: static; margin-top: auto; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
+.us-workspace-nav .us-tracker { position: static; min-height: 0; margin-top: auto; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
 .us-workspace-nav .us-tracker .us-progress { flex: none; }
 @media (max-width: 760px) { .us-tracker { padding: var(--space-3) var(--space-4); } }
 
@@ -274,6 +347,29 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-split-row[aria-selected="true"] .us-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
 .us-split-detail { align-self: stretch; display: flex; flex-direction: column; min-height: calc(100vh - var(--us-bar-h, 0px)); box-sizing: border-box; padding: var(--space-6) var(--space-6) 0; min-width: 0; background: var(--bg-band); container-type: inline-size; }
 @media (max-width: 760px) { .us-split { grid-template-columns: 1fr; } .us-split-col { border-right: 0; border-bottom: 1px solid var(--border-subtle); } .us-split-list { position: static; max-height: none; } .us-split-detail { min-height: 0; padding: var(--space-4) var(--space-4) 0; } }
+
+/* Split groups that fold: the group band as a button, with a chevron in the dot column, the group's name, and its count on the right.
+   <button class="us-split-group is-toggle" aria-expanded="true"><i data-lucide="chevron-down" aria-hidden="true"></i><span>Billing</span><span class="us-split-count">4</span></button>
+   aria-expanded is the state; leave the group's rows out while it is folded. Needs: Split. */
+.us-split-group.is-toggle { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--border-subtle); font: 450 13px/18px var(--font-sans); text-align: left; cursor: pointer; gap: 6px; }
+.us-split-group.is-toggle:hover { color: var(--text); }
+.us-split-group.is-toggle:focus-visible { outline-offset: -2px; }
+.us-split-group.is-toggle svg.lucide { width: 14px; height: 14px; transition: transform .15s ease-out; }
+.us-split-group.is-toggle[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
+.us-split-group.is-toggle > span:not(.us-split-count) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.us-split-count { margin-left: auto; flex: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .us-split-group.is-toggle svg.lucide { transition: none; } }
+
+/* Split row name and date: the name fills the row and ends in an ellipsis; a short relative date ("2w") sits on the right.
+   Add a second grey line (us-split-sub, inside the name) only when the grouping hides where the record came from. Needs: Split. */
+.us-split-row .us-split-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.us-split-row .us-split-sub { display: block; font-size: 12px; line-height: 16px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; }
+.us-split-row:has(.us-split-sub) { padding-block: 6px; }
+.us-split-row .us-split-when { flex: none; font-size: 12px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-split-row[aria-selected="true"] :is(.us-split-sub, .us-split-when) { color: var(--on-selection); opacity: .85; }
+
+/* Split page: the detail's content stops at content-width and centres when the column is wider. Wrap the record in it. Needs: Split. */
+.us-split-page { width: 100%; max-width: var(--content-width); margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-3); }
 
 /* Record: title, a quiet location line (links out, then ids), the why, then texts in grey boxes. */
 .us-record-title { font: 400 28px/36px var(--font-serif); margin: 0; text-wrap: balance; }
