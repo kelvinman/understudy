@@ -19,6 +19,7 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
 | `components.css` | A base section every page needs, then one section per component, as `us-` classes. The components are listed below. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
+| `CHANGELOG.md` | What changed, newest first, by component and class. The site shows it at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
 | `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
 
