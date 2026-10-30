@@ -21,7 +21,6 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
 | `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
-| `brand/` | The mark, wordmark and lockups as SVG, the avatar, banner and link preview, and a template for posts. |
 
 ## How to use it
 
@@ -116,7 +115,7 @@ The app will change. When it does, these values will drift until someone measure
 
 ## Credits and licenses
 
-Made by [Kelvin Man](https://kelvinman.com). Released under the [MIT license](LICENSE).
+Made by [Kelvin Man](https://kelvinman.com). Released under the [MIT license](LICENSE). The license covers the code and tokens; the Understudy name and mark are not included.
 
 Understudy loads these from public CDNs and does not bundle them:
 

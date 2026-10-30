@@ -8,7 +8,4 @@ cpSync("site", "dist", { recursive: true });
 for (const path of ["tokens.css", "tokens.json", "components.css", "examples", "docs"]) {
   cpSync(path, `dist/${path}`, { recursive: true });
 }
-// The link preview and touch icon come from brand/, which holds the rest of the brand files.
-mkdirSync("dist/brand");
-for (const file of ["og.png", "avatar.png"]) cpSync(`brand/${file}`, `dist/brand/${file}`);
 console.log("Built dist/");
