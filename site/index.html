@@ -12,6 +12,7 @@
 <meta property="og:image" content="https://understudyui.com/og.png">
 <meta property="og:url" content="https://understudyui.com">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="Understudy changelog" href="changelog.xml">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="components.css">
 <style>
@@ -45,6 +46,10 @@
   .us-row svg.lucide { color: var(--text-secondary); width: 16px; height: 16px; }
   code { font: 450 0.9em/1 var(--font-mono); background: var(--bg-muted); border-radius: 4px; padding: 1px 4px; }
 
+  /* The newest changelog entry, written in by the build from CHANGELOG.md. */
+  .latest { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; color: var(--text-secondary); }
+  .latest:hover { color: var(--text); text-decoration: none; }
+  .latest svg.lucide { width: 14px; height: 14px; }
   footer { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-1); }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -68,6 +73,7 @@
       <button class="us-btn us-btn-primary" type="button" data-copy><i data-lucide="copy" aria-hidden="true"></i><span>Copy the prompt</span></button>
       <a class="us-btn" href="https://github.com/kelvinman/understudy" style="color: var(--text); text-decoration: none"><span>GitHub</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
     </div>
+    <!--LATEST-->
   </div>
 
   <div class="wide demo">
@@ -96,6 +102,7 @@
         <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/tokens.css"><i data-lucide="palette" aria-hidden="true"></i><span>tokens.css</span><span class="us-row-meta">Light and dark</span></a>
         <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/components.css"><i data-lucide="component" aria-hidden="true"></i><span>components.css</span><span class="us-row-meta">The us- classes</span></a>
         <a class="us-row" href="https://github.com/kelvinman/understudy/tree/main/examples"><i data-lucide="layout-template" aria-hidden="true"></i><span>examples</span><span class="us-row-meta">A request tracker and a project desk</span></a>
+        <a class="us-row" href="changelog"><i data-lucide="history" aria-hidden="true"></i><span>Changelog</span><span class="us-row-meta">What changed, newest first</span></a>
       </nav>
     </section>
 

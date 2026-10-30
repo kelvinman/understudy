@@ -14,7 +14,7 @@
   .desk-bar { position: sticky; top: 0; z-index: 4; margin: calc(-1 * var(--space-3)) calc(-1 * var(--space-3)) 0; padding: var(--space-3); background: var(--bg-canvas); }
   .us-panel { padding-bottom: 0; overflow: hidden; }
   .us-panel-head { margin-bottom: var(--space-4); }
-  .us-table { table-layout: fixed; }
+  .desk-table { table-layout: fixed; }
   /* Fixed layout takes column widths from the header row. */
   th.stage { width: 128px; }
   th.touched { width: 120px; }
@@ -25,18 +25,22 @@
   td.touched { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
   .desk-empty { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-3); padding-bottom: var(--space-8); }
   .desk-empty p { margin: 0; }
+  /* The tasks table: sorted, resized and opened by the reader. On a phone it keeps its columns and scrolls sideways. */
+  .work-table .when { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .work-table .is-unassigned { color: var(--text-secondary); }
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   @media (max-width: 760px) {
     .desk-bar { position: static; }
     /* On a phone the table stacks: each row is the project with its button beside it, stage and date under the status. */
-    .stage, .touched, .us-table thead { display: none; }
-    .us-table, .us-table tbody { display: block; }
-    .us-table tr { display: flex; align-items: center; border-top: 1px solid var(--border-subtle); }
-    .us-table td, .us-table th { border-top: 0; }
-    .us-table td { height: auto; padding-block: var(--space-3); }
-    .us-table td:first-child { flex: 1; min-width: 0; }
-    .us-table td + td { border-left: 0; padding-left: 0; }
-    .us-table .us-table-group th { flex: 1; display: flex; align-items: center; }
+    .desk-table :is(.stage, .touched), .desk-table thead { display: none; }
+    .desk-table, .desk-table tbody { display: block; }
+    .desk-table tr { display: flex; align-items: center; border-top: 1px solid var(--border-subtle); }
+    .desk-table td, .desk-table th { border-top: 0; }
+    .desk-table td { height: auto; padding-block: var(--space-3); }
+    .desk-table td:first-child { flex: 1; min-width: 0; }
+    .desk-table td + td { border-left: 0; padding-left: 0; }
+    .desk-table .us-table-group th { flex: 1; display: flex; align-items: center; }
+    .work-table { min-width: 960px; }
     .project-phone { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); font: 400 14px/20px var(--font-sans); color: var(--text-secondary); }
     .desk-empty { padding-bottom: var(--space-4); }
   }
@@ -107,7 +111,24 @@
       "status": "First list of roles. No budget yet.", "next": "Turn the role list into a plan with a rough cost per quarter.", "folder": "~/work/ops/hiring" },
     { "id": "office", "name": "Office move checklist", "area": "Operations", "stage": "Paused", "days": 120,
       "status": "On hold until the lease is signed.", "next": "Check whether the lease is signed before doing anything else.", "folder": "~/work/ops/office-move" }
-  ]
+  ],
+  "work": {
+    "pricing": { "lead": "Ada Brennan", "tasks": [["Final copy", "Ada Brennan", "done"], ["Plan comparison table", "Tomas Ruiz", "blocked"], ["Check the page on a phone", null, "todo"]] },
+    "help": { "lead": "Priya Nair", "tasks": [["Move the remaining 79 articles", "Priya Nair", "doing"], ["Redirect map for moved articles", "Leo Varga", "todo"], ["Retire the old search", null, "todo"], ["Move the first 41 articles", "Priya Nair", "done"]] },
+    "blog": { "lead": null, "tasks": [["Article template", null, "todo"], ["Pick a new type scale", "Hana Sato", "done"]] },
+    "statuspage": { "lead": "Leo Varga", "tasks": [["Uptime history", "Leo Varga", "done"], ["Incident template", "Leo Varga", "done"]] },
+    "offline": { "lead": "Tomas Ruiz", "tasks": [["Failing test for the merge order", "Tomas Ruiz", "doing"], ["Keep the newer edit on conflict", "Tomas Ruiz", "blocked"], ["Queue edits made offline", "Hana Sato", "done"], ["Show when the app is offline", "Hana Sato", "done"], ["Sync after a long time away", null, "todo"]] },
+    "shortcuts": { "lead": "Hana Sato", "tasks": [["Command menu", "Hana Sato", "done"], ["Shortcut list for the help page", "Priya Nair", "todo"], ["Let people change a shortcut", null, "todo"]] },
+    "onboarding": { "lead": "Ada Brennan", "tasks": [["Design sign-off", "Ada Brennan", "done"], ["Two empty states", "Ada Brennan", "doing"], ["Review with support", "Priya Nair", "todo"]] },
+    "dark": { "lead": "Hana Sato", "tasks": [["Theme tokens", "Hana Sato", "done"], ["Contrast fix on secondary text", "Hana Sato", "doing"], ["Release in 3.2", "Leo Varga", "done"]] },
+    "push": { "lead": null, "tasks": [["One-page spec", null, "todo"], ["Ask the three customers which events matter", "Tomas Ruiz", "todo"]] },
+    "churn": { "lead": "Leo Varga", "tasks": [["Compare one month with the billing export", "Leo Varga", "doing"], ["Count refunds the same way as billing", null, "blocked"], ["First version of the chart", "Leo Varga", "done"]] },
+    "metrics": { "lead": "Leo Varga", "tasks": [["Monday send", "Leo Varga", "done"], ["Unsubscribe link", "Leo Varga", "done"]] },
+    "events": { "lead": "Priya Nair", "tasks": [["List events that have not fired", "Priya Nair", "todo"], ["Group them by screen", null, "todo"]] },
+    "vendors": { "lead": "Tomas Ruiz", "tasks": [["Summarise the two unsigned contracts", "Tomas Ruiz", "doing"], ["Sign the hosting contract", "Ada Brennan", "blocked"], ["Renew the three unchanged contracts", "Tomas Ruiz", "done"]] },
+    "hiring": { "lead": "Ada Brennan", "tasks": [["First list of roles", "Ada Brennan", "done"], ["Rough cost per quarter", null, "todo"]] },
+    "office": { "lead": null, "tasks": [["Wait for the lease", null, "todo"], ["Movers' quotes", "Priya Nair", "done"]] }
+  }
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
@@ -177,7 +198,7 @@ function renderPanels() {
     var rows = visible.filter(function (p) { return panelOf(p) === panel.id; });
     if (!rows.length) return;
     html += '<section class="us-panel" aria-labelledby="h-' + panel.id + '"><div class="us-panel-head"><h2 class="us-display" id="h-' + panel.id + '">' + panel.title + '</h2><span class="us-meta">' + plural(rows.length, "project") + '</span></div>' +
-      '<div class="us-table-wrap"><table class="us-table">' +
+      '<div class="us-table-wrap"><table class="us-table desk-table">' +
       '<thead><tr><th scope="col">Project</th><th scope="col" class="stage">Stage</th><th scope="col" class="touched">Last touched</th><th scope="col" class="action"><span class="visually-hidden">Actions</span></th></tr></thead>';
     AREAS.forEach(function (area) {
       var inArea = rows.filter(function (p) { return p.area === area; }).sort(function (a, b) { return a.days - b.days; });
@@ -196,9 +217,121 @@ function renderPanels() {
     });
     html += '</table></div></section>';
   });
+  if (visible.length) html += renderWork(visible);
   if (!html) html = '<section class="us-panel"><div class="desk-empty"><p>No projects match these filters.</p><button class="us-btn" id="clear"><i data-lucide="x" aria-hidden="true"></i><span>Clear filters</span></button></div></section>';
   document.getElementById("panels").innerHTML = html;
+  watchWork();
 }
+
+// The tasks table: one row per project that opens to show its tasks in the same columns.
+// Sort, column widths and which rows are open are remembered per browser.
+var WORK = DATA.work;
+var TASK = { todo: ["To do", ""], doing: ["In progress", "is-muted"], done: ["Done", "is-success"], blocked: ["Blocked", "is-danger"] };
+var COLS = [
+  { id: "name", label: "Project", sort: function (p) { return p.name.toLowerCase(); } },
+  { id: "lead", label: "Lead", width: 180, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
+  { id: "status", label: "Status", width: 180, sort: function (p) { return statusOf(p)[2]; } },
+  { id: "progress", label: "Progress", width: 224, sort: function (p) { var t = WORK[p.id].tasks; return doneIn(t) / t.length; } },
+  { id: "when", label: "Updated", width: 112, sort: function (p) { return p.days; } }
+];
+function store(k, v) { try { localStorage.setItem("understudy-" + k, JSON.stringify(v)); } catch (e) {} }
+function load(k, fallback) { try { var v = JSON.parse(localStorage.getItem("understudy-" + k)); return v == null ? fallback : v; } catch (e) { return fallback; } }
+var sortBy = load("work-sort", { col: "when", dir: "ascending" });
+var openRows = load("work-open", {});
+var widths = load("work-widths", null);
+
+function statusOf(p) {
+  if (p.attention) return ["Needs attention", "is-danger", 0];
+  if (p.stage === "Paused") return ["Paused", "is-muted", 3];
+  if (p.stage === "Shipped") return ["Shipped", "is-success", 4];
+  return [p.stage, "", p.stage === "Idea" ? 2 : 1];
+}
+function doneIn(tasks) { return tasks.filter(function (t) { return t[2] === "done"; }).length; }
+function initials(name) { return name.split(" ").map(function (w) { return w[0]; }).join("").slice(0, 2); }
+function person(name, none) {
+  return name ? '<span class="us-person"><span class="us-avatar" aria-hidden="true">' + initials(name) + '</span>' + esc(name) + '</span>'
+    : '<span class="us-person is-unassigned"><span class="us-avatar is-none" aria-hidden="true"><i data-lucide="user"></i></span>' + none + '</span>';
+}
+function status(word, dot) { return '<span class="us-status"><span class="us-dot ' + dot + '"></span>' + word + '</span>'; }
+
+function renderWork(rows) {
+  var col = COLS.find(function (c) { return c.id === sortBy.col; }), sign = sortBy.dir === "ascending" ? 1 : -1;
+  rows = rows.slice().sort(function (a, b) { var x = col.sort(a), y = col.sort(b); return (x < y ? -1 : x > y ? 1 : 0) * sign || a.name.localeCompare(b.name); });
+  var allOpen = rows.every(function (p) { return openRows[p.id]; });
+  var html = '<section class="us-panel" aria-labelledby="h-work"><div class="us-panel-head"><h2 class="us-display" id="h-work">Tasks</h2>' +
+    '<button class="us-btn us-btn-sm" id="expand-all" data-open="' + !allOpen + '"><i data-lucide="' + (allOpen ? "chevrons-down-up" : "chevrons-up-down") + '" aria-hidden="true"></i><span>' + (allOpen ? "Collapse all" : "Expand all") + '</span></button></div>' +
+    '<div class="us-table-wrap is-resizable"><table class="us-table is-fixed work-table" id="work"><colgroup>' +
+    COLS.map(function (c) { return '<col data-col="' + c.id + '">'; }).join("") + '</colgroup><thead><tr>' +
+    COLS.map(function (c, i) {
+      var on = c.id === sortBy.col;
+      return '<th scope="col"' + (on ? ' aria-sort="' + sortBy.dir + '"' : '') + '><button class="us-th-sort" data-sort="' + c.id + '">' + c.label +
+        (on ? '<i data-lucide="' + (sortBy.dir === "ascending" ? "arrow-up" : "arrow-down") + '" aria-hidden="true"></i>' : '') + '</button>' +
+        (i < COLS.length - 1 ? '<div class="us-drag" data-col="' + c.id + '" tabindex="0" role="separator" aria-orientation="vertical" aria-label="Resize the ' + c.label.toLowerCase() + ' column"></div>' : '') + '</th>';
+    }).join("") + '</tr></thead><tbody>';
+  rows.forEach(function (p) {
+    var w = WORK[p.id], open = !!openRows[p.id], st = statusOf(p), done = doneIn(w.tasks);
+    html += '<tr><td><button class="us-row-toggle" data-open-row="' + p.id + '" aria-expanded="' + open + '"><i data-lucide="chevron-down" aria-hidden="true"></i><span>' + esc(p.name) + '</span></button></td>' +
+      '<td>' + person(w.lead, "No lead") + '</td><td>' + status(st[0], st[1]) + '</td>' +
+      '<td><div class="us-progress-cell"><div class="us-progress" role="progressbar" aria-label="Tasks done" aria-valuenow="' + done + '" aria-valuemax="' + w.tasks.length + '"><span class="is-success" style="width:' + (done / w.tasks.length * 100) + '%"></span></div>' +
+      '<span class="us-meta">' + done + ' of ' + w.tasks.length + ' done</span></div></td>' +
+      '<td class="when" title="Updated ' + longAge(p.days) + '">' + shortAge(p.days) + '</td></tr>';
+    if (open) w.tasks.forEach(function (t) {
+      html += '<tr class="us-table-child"><td class="is-wrap">' + esc(t[0]) + '</td><td>' + person(t[1], "Unassigned") + '</td><td>' + status(TASK[t[2]][0], TASK[t[2]][1]) + '</td><td></td><td></td></tr>';
+    });
+  });
+  return html + '</tbody></table></div></section>';
+}
+
+// Column widths. Until the reader drags, Project takes the room the fixed columns leave. Once they drag, every column but the last
+// keeps a width and the last takes what is left; past the panel's width the table scrolls sideways.
+function applyWidths() {
+  var table = document.getElementById("work"); if (!table) return;
+  var sum = 0;
+  COLS.forEach(function (c, i) {
+    var w = widths ? (i < COLS.length - 1 ? widths[c.id] : null) : c.width;
+    table.querySelector('col[data-col="' + c.id + '"]').style.width = w ? w + "px" : "";
+    if (widths && w) sum += w;
+  });
+  table.style.minWidth = widths ? (sum + 96) + "px" : "";
+}
+function freezeWidths() {
+  if (widths) return;
+  widths = {};
+  document.querySelectorAll("#work thead th").forEach(function (th, i) { if (i < COLS.length - 1) widths[COLS[i].id] = Math.round(th.getBoundingClientRect().width); });
+}
+function resize(col, w) { widths[col] = Math.round(Math.min(640, Math.max(80, w))); applyWidths(); store("work-widths", widths); }
+
+// The drag strips run the table's full height, so the table's height goes in --us-table-h, kept current as rows open and close.
+var tableObserver = window.ResizeObserver ? new ResizeObserver(function (entries) {
+  entries.forEach(function (e) { e.target.style.setProperty("--us-table-h", e.target.offsetHeight + "px"); });
+}) : null;
+function watchWork() {
+  var table = document.getElementById("work"); if (!table) return;
+  applyWidths();
+  if (tableObserver) { tableObserver.disconnect(); tableObserver.observe(table); }
+  else table.style.setProperty("--us-table-h", table.offsetHeight + "px");
+}
+
+var panels = document.getElementById("panels");
+panels.addEventListener("pointerdown", function (e) {
+  var strip = e.target.closest("#work .us-drag"); if (!strip) return;
+  e.preventDefault();
+  freezeWidths();
+  var col = strip.dataset.col, start = e.clientX, from = widths[col];
+  strip.setPointerCapture(e.pointerId); strip.classList.add("is-dragging");
+  function move(ev) { resize(col, from + ev.clientX - start); }
+  function up() { strip.classList.remove("is-dragging"); strip.removeEventListener("pointermove", move); strip.removeEventListener("pointerup", up); }
+  strip.addEventListener("pointermove", move); strip.addEventListener("pointerup", up);
+});
+panels.addEventListener("keydown", function (e) {
+  var strip = e.target.closest("#work .us-drag"); if (!strip || (e.key !== "ArrowLeft" && e.key !== "ArrowRight")) return;
+  e.preventDefault(); freezeWidths();
+  resize(strip.dataset.col, widths[strip.dataset.col] + (e.key === "ArrowRight" ? 16 : -16));
+});
+panels.addEventListener("dblclick", function (e) {
+  if (!e.target.closest("#work .us-drag")) return;
+  widths = null; applyWidths(); try { localStorage.removeItem("understudy-work-widths"); } catch (err) {}
+});
 
 function render() { renderControls(); renderNav(); renderPanels(); icons(); }
 
@@ -218,6 +351,27 @@ document.querySelector(".us-workspace-nav").addEventListener("click", function (
 
 // Folding groups: the button's aria-expanded is the state; the stylesheet hides the rest of its tbody.
 document.getElementById("panels").addEventListener("click", function (e) {
+  var sort = e.target.closest("[data-sort]");
+  if (sort) {
+    var id = sort.dataset.sort;
+    sortBy = { col: id, dir: sortBy.col === id && sortBy.dir === "ascending" ? "descending" : "ascending" };
+    store("work-sort", sortBy); renderPanels(); icons();
+    document.querySelector('[data-sort="' + id + '"]').focus(); return;
+  }
+  var row = e.target.closest("[data-open-row]");
+  if (row) {
+    var pid = row.dataset.openRow;
+    if (openRows[pid]) delete openRows[pid]; else openRows[pid] = true;
+    store("work-open", openRows); renderPanels(); icons();
+    document.querySelector('[data-open-row="' + pid + '"]').focus(); return;
+  }
+  var all = e.target.closest("#expand-all");
+  if (all) {
+    var opening = all.dataset.open === "true";
+    PROJECTS.filter(shown).forEach(function (p) { if (opening) openRows[p.id] = true; else delete openRows[p.id]; });
+    store("work-open", openRows); renderPanels(); icons();
+    document.getElementById("expand-all").focus(); return;
+  }
   var toggle = e.target.closest(".us-table-toggle");
   if (toggle) { var open = toggle.getAttribute("aria-expanded") !== "true"; toggle.setAttribute("aria-expanded", String(open)); folded[toggle.dataset.key] = !open; return; }
   if (e.target.closest("#clear")) { f = Object.assign({}, BLANK); document.getElementById("f-search").value = ""; render(); return; }

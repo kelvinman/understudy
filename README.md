@@ -19,6 +19,7 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
 | `components.css` | A base section every page needs, then one section per component, as `us-` classes. The components are listed below. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
+| `CHANGELOG.md` | What changed, newest first, by component and class. The site shows it at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
 | `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
 
@@ -65,12 +66,23 @@ Each is one section of `components.css`.
 | Steps | `us-steps`, `us-step-num` |
 | Status dot | `us-dot`: hollow when open, or `is-success`, `is-danger`, `is-muted` |
 | Workspace | `us-workspace` (add `is-flat` for full width), `us-workspace-nav`, `us-workspace-main`, `us-canvas` |
+| Nav top band | `us-nav-top`, `us-nav-title`: the nav's first band, the same height as the tracker beside it. |
+| Nav hide and resize | `us-nav-toggle` (hide), `us-nav-toggle us-nav-expand` (show), `is-nav-hidden` on the workspace, `us-drag is-nav` (sets `--us-nav-w`). |
+| Nav footer, icon button | `us-nav-foot`, `us-icon-btn` |
 | Panel | `us-panel`, `us-panel-head`, `us-display`, `us-section-head` |
 | Table | `us-table`, `us-table-wrap`, `us-num`, `us-name` |
 | Table groups | `us-table-group` (the heading row), `us-table-toggle` (its button, with a chevron), `us-table-count`. One `tbody` per group; the button's `aria-expanded` folds it. |
+| Fixed columns | `is-fixed` on the table, a `colgroup` of widths, `is-wrap` on a cell that wraps. |
+| Sortable headers | `us-th-sort` (a button in each `th`), `aria-sort` on the sorted `th`. |
+| Resizable columns | a `us-drag` in each `th` but the last, `--us-table-h` on the table, `is-resizable` on the wrap. |
+| Rows that open | `us-row-toggle` (the first cell's button), `us-table-child` (the rows it shows). |
+| Person, status, progress cell | `us-person`, `us-avatar` (`is-none` for nobody), `us-status`, `us-progress-cell` |
 | Token value, file list, detail | `us-value`, `us-swatch`, `us-files`, `us-file`, `us-detail` |
 | Tracker | `us-tracker`, `us-tracker-name`, `us-tracker-count` |
 | Split | `us-split`, `us-split-col`, `us-split-list`, `us-split-group`, `us-split-heading`, `us-split-row`, `us-split-detail` |
+| Split groups that fold | `us-split-group is-toggle` (a button with `aria-expanded`), `us-split-count` |
+| Split row name and date | `us-split-name`, `us-split-sub`, `us-split-when` |
+| Split page | `us-split-page`: the detail's content, at most `content-width` and centred. |
 | Record | `us-record-title`, `us-record-where`, `us-record-text` |
 | Dock and composer | `us-dock`, `us-composer`, `us-composer-actions` |
 | Quote button, drag strip | `us-quote-btn`, `us-drag` |
@@ -86,6 +98,35 @@ Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left
 - **Workspace, full width** ([examples/workspace-full-width.html](examples/workspace-full-width.html)). One working surface you move through, such as a request tracker or a review queue. The same nav, then no canvas and no cards: a tracker across the top and a split list and detail below it, with resizable columns, folding groups and a status dot per record. The example tracks customer requests: the nav groups them by the shared ask or by customer and filters them by status, and the detail shows why they asked, what was committed, the other customers with the same ask and the issue. When each record needs a decision, dock it at the bottom of the detail like a message composer (`us-dock`, `us-composer`).
 
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
+
+The project desk also ends with a Tasks panel: a table you sort from its headers, resize by dragging any column's edge, and open row by row to see each project's tasks. The full-width example shows the nav's top band, hiding the nav, the nav footer and folding Split groups.
+
+### Workspace nav
+
+- **Top band.** Open the nav with `us-nav-top`: the page's name in `us-nav-title` and, on the right, the button that hides the nav. It is exactly `top-bar-height` tall and the tracker beside it is at least that tall, so their hairlines meet in one line across the page.
+- **Hiding.** The nav hides from that button (`us-nav-toggle`, with a `panel-left-close` icon and an `aria-label`) or Cmd or Ctrl and backslash. Add `is-nav-hidden` to the workspace. A second `us-nav-toggle us-nav-expand`, inside the workspace, appears at the top left to bring it back, and the tracker moves over to clear it. Move focus to whichever button is now showing.
+- **Resizing.** Put a `us-drag is-nav` strip inside the workspace, after the nav. Dragging it sets `--us-nav-w` on the workspace; arrow keys move it 16px; double-click resets. Keep it between about 180 and 420px.
+- **Remember** whether the nav is hidden and how wide it is in `localStorage`, wrapped in try/catch, since storage can be blocked. On a phone the nav stacks above the page, so the strip and the expand button do not show.
+- **Footer.** `us-nav-foot` sits at the bottom of the nav: one short grey line, such as when the page was last read, with at most one `us-icon-btn` beside it. An icon button always has an `aria-label`.
+
+### Split list
+
+- **Folding groups.** Make the group band a button: `us-split-group is-toggle` with `aria-expanded`, a `chevron-down` icon (it turns to point right when folded), the group's name, and its count in `us-split-count` on the right. Leave a folded group's rows out of the list, and keep focus on the band after it folds.
+- **Rows.** The record's name goes in `us-split-name`, which fills the row and ends in an ellipsis. A short relative date in `us-split-when` sits on the right: "3d", "2w", "4mo", with the full date or age in its `title`. Add a second grey line (`us-split-sub`, inside the name) only when the grouping hides where the record came from, such as the customer when rows are grouped by request.
+- **Detail.** Wrap the record in `us-split-page`, so its lines stop at `content-width` and the page centres in a wide column.
+
+### A table people work in
+
+For a table someone sorts, resizes and opens, such as projects with their tasks.
+
+- **One fact per column.** Put the lead, status, progress and date in their own columns rather than stacked under the name.
+- **Fixed columns.** Add `is-fixed` and a `colgroup` of widths, so opening rows or sorting never shifts the columns. Cells end in an ellipsis; a cell that must wrap, such as a task title, takes `is-wrap`.
+- **Sort from the headers.** Every header's text is a `us-th-sort` button. The sorted one shows a small `arrow-up` or `arrow-down` icon and its `th` carries `aria-sort`. Clicking it again flips the direction. No separate sort control elsewhere on the page.
+- **Resize from any row.** Each header but the last holds a `us-drag` strip. Set `--us-table-h` on the table to its height with a ResizeObserver, so the strip runs the full height and follows rows as they open, and add `is-resizable` to the wrap so it never scrolls vertically and catches the wheel. Double-click resets. Remember the widths per browser.
+- **Rows that open.** The first cell's `us-row-toggle` (a chevron, then the name) shows `us-table-child` rows underneath in the same columns: a task's title under the name, its owner under the person column, its status under the status column. Offer an Expand all or Collapse all button in the panel's head, and remember which rows are open.
+- **People.** `us-person` with a `us-avatar` of initials. With nobody, `us-avatar is-none` (an outlined circle with a `user` icon) and a grey "Unassigned" or "No lead", so rows line up.
+- **Status.** `us-status`: a status dot, then the word. The dots keep their meanings: hollow for open or not started, `is-success` for done, `is-danger` for something that needs someone, `is-muted` for in progress or parked. Use it instead of tags in a table, and never show a dot without its word.
+- **Progress.** `us-progress-cell`: a short `us-progress` bar, then a count such as "3 of 8 done".
 
 ## Rules
 
