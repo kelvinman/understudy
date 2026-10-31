@@ -2,6 +2,18 @@
 
 What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
 
+## 2026-10-31: Amber for work in motion
+
+Work under way now reads as moving. A grey in-progress dot looked like nothing was happening.
+
+### Added
+
+- Tokens `warning` and `warning-soft`, amber in light and dark, with `us-dot is-warning`, `us-tag-warning` and `is-warning` in `us-progress`.
+
+### Changed
+
+- The dots now mean: hollow for not started, `is-warning` for in motion, `is-success` for done, `is-danger` for needs someone, `is-muted` for parked. Both examples show in-progress work in amber.
+
 ## 2026-10-30: Tables people work in, and a nav that hides
 
 A table you can sort, resize and open, built for lists of work with owners and status. The workspace nav and the Split catch up with patterns first made for the Claude desktop board.

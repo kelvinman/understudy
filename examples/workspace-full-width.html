@@ -159,7 +159,7 @@ var DATA = JSON.parse(document.getElementById("data").textContent);
 var NEEDS = DATA.needs, REQUESTS = DATA.requests;
 var STATUS = {
   new: { label: "Not in tracker", tag: "us-tag-outline", dot: "" },
-  tracked: { label: "In tracker", tag: "", dot: "is-muted" },
+  tracked: { label: "In tracker", tag: "", dot: "is-warning" },
   shipped: { label: "Shipped", tag: "us-tag-success", dot: "is-success" }
 };
 var FILTERS = [
@@ -203,7 +203,7 @@ function renderTracker() {
   document.getElementById("tracker").innerHTML =
     '<span class="us-tracker-name">Customer requests</span>' +
     '<div class="us-progress" role="progressbar" aria-label="Shipped and tracked" aria-valuenow="' + (n("shipped") + n("tracked")) + '" aria-valuemax="' + REQUESTS.length + '">' +
-    '<span class="is-success" style="width:' + (n("shipped") / REQUESTS.length * 100) + '%"></span><span class="is-muted" style="width:' + (n("tracked") / REQUESTS.length * 100) + '%"></span></div>' +
+    '<span class="is-success" style="width:' + (n("shipped") / REQUESTS.length * 100) + '%"></span><span class="is-warning" style="width:' + (n("tracked") / REQUESTS.length * 100) + '%"></span></div>' +
     '<span class="us-tracker-count"><strong>' + REQUESTS.length + '</strong> requests from ' + customersIn(REQUESTS).length + ' customers, ' + n("shipped") + ' shipped, ' + n("new") + ' not in the tracker</span>';
 }
 

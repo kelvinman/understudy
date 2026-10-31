@@ -28,6 +28,8 @@
   --on-status: #ffffff;
   --success-soft: rgba(31,150,67,0.15);
   --danger-soft: rgba(229,72,77,0.09);
+  --warning: #cf9a2e;
+  --warning-soft: rgba(207,154,46,0.15);
   --font-sans: Figtree, ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
   --font-serif: "Source Serif 4", Georgia, serif;
@@ -83,6 +85,8 @@
     --on-status: #141414;
     --success-soft: rgba(108,194,135,0.18);
     --danger-soft: rgba(236,139,160,0.16);
+    --warning: #e2b45a;
+    --warning-soft: rgba(226,180,90,0.16);
     color-scheme: dark;
   }
 }
@@ -115,5 +119,7 @@
   --on-status: #141414;
   --success-soft: rgba(108,194,135,0.18);
   --danger-soft: rgba(236,139,160,0.16);
+  --warning: #e2b45a;
+  --warning-soft: rgba(226,180,90,0.16);
   color-scheme: dark;
 }
