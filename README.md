@@ -125,7 +125,7 @@ For a table someone sorts, resizes and opens, such as projects with their tasks.
 - **Resize from any row.** Each header but the last holds a `us-drag` strip. Set `--us-table-h` on the table to its height with a ResizeObserver, so the strip runs the full height and follows rows as they open, and add `is-resizable` to the wrap so it never scrolls vertically and catches the wheel. Double-click resets. Remember the widths per browser.
 - **Rows that open.** The first cell's `us-row-toggle` (a chevron, then the name) shows `us-table-child` rows underneath in the same columns: a task's title under the name, its owner under the person column, its status under the status column. Offer an Expand all or Collapse all button in the panel's head, and remember which rows are open.
 - **People.** `us-person` with a `us-avatar` of initials. With nobody, `us-avatar is-none` (an outlined circle with a `user` icon) and a grey "Unassigned" or "No lead", so rows line up.
-- **Status.** `us-status`: a status dot, then the word. The dots keep their meanings: hollow for open or not started, `is-success` for done, `is-danger` for something that needs someone, `is-muted` for in progress or parked. Use it instead of tags in a table, and never show a dot without its word.
+- **Status.** `us-status`: a status dot, then the word. The dots keep their meanings: hollow for open or not started, `is-success` for done, `is-warning` (amber) for in motion, `is-danger` for something that needs someone, `is-muted` for parked. Use it instead of tags in a table, and never show a dot without its word.
 - **Progress.** `us-progress-cell`: a short `us-progress` bar, then a count such as "3 of 8 done".
 
 ## Rules

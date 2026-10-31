@@ -226,7 +226,7 @@ function renderPanels() {
 // The tasks table: one row per project that opens to show its tasks in the same columns.
 // Sort, column widths and which rows are open are remembered per browser.
 var WORK = DATA.work;
-var TASK = { todo: ["To do", ""], doing: ["In progress", "is-muted"], done: ["Done", "is-success"], blocked: ["Blocked", "is-danger"] };
+var TASK = { todo: ["To do", ""], doing: ["In progress", "is-warning"], done: ["Done", "is-success"], blocked: ["Blocked", "is-danger"] };
 var COLS = [
   { id: "name", label: "Project", sort: function (p) { return p.name.toLowerCase(); } },
   { id: "lead", label: "Lead", width: 180, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
@@ -244,7 +244,7 @@ function statusOf(p) {
   if (p.attention) return ["Needs attention", "is-danger", 0];
   if (p.stage === "Paused") return ["Paused", "is-muted", 3];
   if (p.stage === "Shipped") return ["Shipped", "is-success", 4];
-  return [p.stage, "", p.stage === "Idea" ? 2 : 1];
+  return [p.stage, p.stage === "Idea" ? "" : "is-warning", p.stage === "Idea" ? 2 : 1];
 }
 function doneIn(tasks) { return tasks.filter(function (t) { return t[2] === "done"; }).length; }
 function initials(name) { return name.split(" ").map(function (w) { return w[0]; }).join("").slice(0, 2); }
