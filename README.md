@@ -64,7 +64,7 @@ Each is one section of `components.css`.
 | Meta line | `us-meta`, `us-iconed` |
 | Diff | `ins.us-ins`, `del.us-del` |
 | Steps | `us-steps`, `us-step-num` |
-| Status dot | `us-dot`: hollow when not started, or `is-warning`, `is-success`, `is-danger`, `is-muted`; `is-blank` for a row with no status |
+| Status dot | `us-dot`: hollow when not started, or `is-warning`, `is-success`, `is-danger`, `is-muted`; `is-blank` for a row with no status. The colored dots are built like the macOS window buttons. |
 | Workspace | `us-workspace` (add `is-flat` for full width), `us-workspace-nav`, `us-workspace-main`, `us-canvas` |
 | Nav top band | `us-nav-top`, `us-nav-title`: the nav's first band, the same height as the tracker beside it. |
 | Nav hide and resize | `us-nav-toggle` (hide), `us-nav-toggle us-nav-expand` (show), `is-nav-hidden` on the workspace, `us-drag is-nav` (sets `--us-nav-w`). |
@@ -76,15 +76,22 @@ Each is one section of `components.css`.
 | Sortable headers | `us-th-sort` (a button in each `th`), `aria-sort` on the sorted `th`. |
 | Resizable columns | a `us-drag` in each `th` but the last, `--us-table-h` on the table, `is-resizable` on the wrap. |
 | Rows that open | `us-row-toggle` (the first cell's button), `us-table-child` (the rows it shows). |
-| Person, status, progress cell | `us-person`, `us-avatar` (`is-none` for nobody), `us-status`, `us-progress-cell` |
+| Person, status, progress cell | `us-person`, `us-avatar` (grey, or one of `is-orange`, `is-pink`, `is-blue`, `is-green`, `is-purple`, `is-teal` per person; `is-none` for nobody), `us-status`, `us-progress-cell` |
 | Token value, file list, detail | `us-value`, `us-swatch`, `us-files`, `us-file`, `us-detail` |
 | Tracker | `us-tracker`, `us-tracker-name`, `us-tracker-count` |
 | Split | `us-split`, `us-split-col`, `us-split-list`, `us-split-group`, `us-split-heading`, `us-split-row`, `us-split-detail` |
 | Split groups that fold | `us-split-group is-toggle` (a button with `aria-expanded`), `us-split-count` |
 | Split row name and date | `us-split-name`, `us-split-sub`, `us-split-when` |
 | Split page | `us-split-page`: the detail's content, at most `content-width` and centred. |
-| Record | `us-record-title`, `us-record-where`, `us-record-text` |
-| Dock and composer | `us-dock`, `us-composer`, `us-composer-actions` |
+| Record | `us-record-tags` (above the title), `us-record-title`, `us-record-where`, `us-record-text` |
+| Fields | `us-fields`: a `dl` of label and value rows closed by hairlines, stacking in a narrow column. |
+| Prose | `us-prose`: markdown read in place; wrap its tables in `us-prose-table`. |
+| Out link | `a.us-out`: a link that leaves the page, its label then an `arrow-up-right` icon. |
+| Dock and composer | `us-dock`, `us-composer`, `us-composer-actions`, `us-composer-note` |
+| Top bar, view | `us-topbar`: a bar across the top of the right side, `top-bar-height` tall like the nav's top band. `us-view`: a full width view under it. |
+| Nav extras | `us-nav-divider`, `us-side-note`, `us-legend` (what each dot means in this view), `us-row-out` (a nav row that leaves the page). |
+| Split empty | `us-split-empty`: one grey line when a list is empty. |
+| Phone nav and paged Split | `is-drawer` on the workspace, `us-nav-menu`, `us-scrim`, `is-nav-open`; `is-paged` and `is-open` on a `us-split`, `us-split-back`. Under 760px only. |
 | Quote button, drag strip | `us-quote-btn`, `us-drag` |
 
 ## Layout presets
@@ -149,6 +156,8 @@ For a table someone sorts, resizes and opens, such as projects with their tasks.
 Measured from screenshots of the Claude desktop app in October 2026: the light theme colors, the 16px body text (checked against the chat and file viewer beside an open artifact), the 32px rows and the 8px and 12px corners. Dark values were measured from the app in dark mode.
 
 The artifact pane draws dark colors about a third lighter than the code sets them (`#1c1c1c` shows as `#252525`). So dark surfaces, lines and the link color are set a step lower than they appear, to land on the app's colors inside the pane. In an ordinary browser, dark mode looks a touch darker than the app.
+
+Chosen, not measured: the status dots, built like the macOS window buttons, the flat traffic light colors on progress bars, and the six avatar colors. They are a designer's call rather than a copy of the app.
 
 Assumed, not measured: the typefaces (the app's own are not available, so Figtree and Source Serif 4 stand in as the closest open matches), the 6px tag radius, the motion timings, and a few dark values marked in `tokens.json`.
 

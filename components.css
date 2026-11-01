@@ -128,9 +128,9 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 /* Progress: one bar, optionally split into success, danger and muted parts. */
 .us-progress { display: flex; height: 6px; border-radius: var(--radius-pill); background: var(--bg-muted); overflow: hidden; }
 .us-progress > span { display: block; height: 100%; background: var(--strong); transition: width .3s ease-out; }
-.us-progress > .is-success { background: var(--success); }
-.us-progress > .is-danger { background: var(--danger); }
-.us-progress > .is-warning { background: var(--warning); }
+.us-progress > .is-success { background: var(--light-green); }   /* bars use the flat traffic light colors; tags and text keep the darker success, warning and danger */
+.us-progress > .is-danger { background: var(--light-red); }
+.us-progress > .is-warning { background: var(--light-amber); }
 .us-progress > .is-muted { background: var(--text-secondary); }
 @media (prefers-reduced-motion: reduce) { .us-progress > span { transition: none; } }
 
@@ -159,10 +159,13 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-steps > li.is-done > svg.lucide { color: var(--text-secondary); }
 
 /* Status dot: hollow by default (open, not yet decided), filled with is-success (done), is-warning (in motion), is-danger (needs someone) or is-muted (parked). */
-.us-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px var(--text-secondary); }
-.us-dot.is-success { background: var(--success); box-shadow: none; }
-.us-dot.is-danger { background: var(--danger); box-shadow: none; }
-.us-dot.is-warning { background: var(--warning); box-shadow: none; }
+.us-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; box-shadow: inset 0 0 0 1.5px var(--text-secondary); }
+/* The colored dots are built like the macOS window buttons: a top-to-bottom gradient, a darker rim and a faint shadow. Chosen, not measured from the app. */
+.us-dot.is-success { background: linear-gradient(180deg, #48c41c, #8bd973); box-shadow: inset 0 0 0 .5px #208c14, 0 .5px 1px rgba(0,0,0,.12); }
+.us-dot.is-danger { background: linear-gradient(180deg, #ff5d55, #f58a84); box-shadow: inset 0 0 0 .5px #d0261f, 0 .5px 1px rgba(0,0,0,.12); }
+.us-dot.is-warning { background: linear-gradient(180deg, #f7b021, #fdd44c); box-shadow: inset 0 0 0 .5px #c47a06, 0 .5px 1px rgba(0,0,0,.12); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) :is(.us-dot.is-danger, .us-dot.is-warning, .us-dot.is-success) { box-shadow: inset 0 0 0 .5px rgba(0,0,0,.35); } }
+:root[data-theme="dark"] :is(.us-dot.is-danger, .us-dot.is-warning, .us-dot.is-success) { box-shadow: inset 0 0 0 .5px rgba(0,0,0,.35); }
 .us-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
 .us-dot.is-blank { background: none; box-shadow: none; }   /* a row with no status: keeps the column, shows nothing */
 
@@ -281,10 +284,17 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 @media (prefers-reduced-motion: reduce) { .us-row-toggle svg.lucide { transition: none; } }
 @media (max-width: 760px) { .us-table tr.us-table-child td:first-child { padding-left: calc(var(--space-4) + 20px); } }
 
-/* Person: initials in a grey circle, then the name. With nobody, an outlined circle with a user icon (us-avatar is-none) and a grey
+/* Person: initials in a circle, then the name. Grey by default; give each person one of is-orange, is-pink, is-blue, is-green, is-purple or is-teal, the same one everywhere, to tell people apart at a glance. With nobody, an outlined circle with a user icon (us-avatar is-none) and a grey
    word such as "Unassigned", so rows still line up. */
 .us-person { display: inline-flex; align-items: center; gap: var(--space-2); min-width: 0; white-space: nowrap; }
 .us-avatar { flex: none; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font: 600 10px/1 var(--font-sans); background: var(--bg-selected); color: var(--text); }
+.us-avatar:is(.is-orange, .is-pink, .is-blue, .is-green, .is-purple, .is-teal) { color: #fff; }   /* each 4.5:1 or better under white initials */
+.us-avatar.is-orange { background: var(--avatar-orange); }
+.us-avatar.is-pink { background: var(--avatar-pink); }
+.us-avatar.is-blue { background: var(--avatar-blue); }
+.us-avatar.is-green { background: var(--avatar-green); }
+.us-avatar.is-purple { background: var(--avatar-purple); }
+.us-avatar.is-teal { background: var(--avatar-teal); }
 .us-avatar.is-none { background: none; color: var(--text-placeholder); box-shadow: inset 0 0 0 1px var(--border-strong); }
 .us-avatar.is-none svg.lucide { width: 12px; height: 12px; }
 
@@ -347,7 +357,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-split-row:focus-visible, .us-split-heading:focus-visible { outline-offset: -2px; }   /* inside the scrolling list, so the ring sits inside the row */
 .us-split-row[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
 .us-split-row .us-dot { margin: 0 var(--space-1); }   /* the dot sits in the chevron's column, so names line up with the heading above */
-.us-split-row[aria-selected="true"] .us-dot { background: var(--on-selection); box-shadow: none; }
+.us-split-row[aria-selected="true"] .us-dot, :root .us-split-row[aria-selected="true"] .us-dot.us-dot:is(.is-danger, .is-warning, .is-success) { background: var(--on-selection); box-shadow: none; }
 .us-split-row[aria-selected="true"] .us-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
 .us-split-row[aria-selected="true"] .us-dot.is-blank { background: none; box-shadow: none; }   /* stays empty when selected */
 .us-split-detail { align-self: stretch; display: flex; flex-direction: column; min-height: calc(100vh - var(--us-bar-h, 0px)); box-sizing: border-box; padding: var(--space-6) var(--space-6) 0; min-width: 0; background: var(--bg-band); container-type: inline-size; }
@@ -409,3 +419,74 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-drag::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; }
 .us-drag:hover::after, .us-drag.is-dragging::after, .us-drag:focus-visible::after { width: 2px; left: 2px; background: var(--focus); }
 @media (max-width: 760px) { .us-drag { display: none; } }
+
+/* Top bar: the bar across the top of the right side, top-bar-height tall like the nav's top band, so their bottom lines meet in one line. */
+.us-topbar { position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); min-height: var(--top-bar-height); box-sizing: border-box; padding: var(--space-3) var(--space-6); background: var(--bg-panel); border-bottom: 1px solid var(--border-subtle); }
+.us-topbar .us-progress { flex: 1 1 160px; }
+.us-workspace.is-nav-hidden .us-topbar { padding-left: 56px; }
+/* View: a full width view under a top bar: the list sticks under the bar, the detail ends with room to scroll. */
+.us-view { min-width: 0; min-height: 100vh; background: var(--bg-panel); --us-bar-h: var(--top-bar-height); }
+.us-view .us-split-detail { padding-bottom: var(--space-8); }
+.us-view .us-split-detail:has(.us-dock) { padding-bottom: 0; }
+/* Nav rows: buttons or links reset to look like rows. The current one is bold; a count sits on the right. */
+.us-workspace-nav .us-row { width: 100%; box-sizing: border-box; border: 0; background: none; font-family: var(--font-sans); text-align: left; }
+.us-workspace-nav .us-row:hover { background: var(--bg-muted); }
+.us-workspace-nav .us-row[aria-current="true"] { background: var(--bg-muted); font-weight: 600; }
+.us-workspace-nav .us-row > span:not(.us-row-count) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.us-workspace-nav .us-row .us-row-count, .us-workspace-nav .us-row .us-row-out { margin-left: auto; }
+.us-workspace-nav .us-row svg.us-row-out { width: 13px; height: 13px; }
+/* Nav divider and side note: a plain hairline between parts of the nav, and a short grey note under a label. */
+.us-nav-divider { border: 0; border-top: 1px solid var(--border-subtle); margin: var(--space-2); }
+.us-side-note { margin: var(--space-2) var(--space-2) 0; font-size: 13px; line-height: 18px; }
+/* Legend: a key under a nav label saying what each dot means in this view. */
+.us-legend { display: flex; flex-direction: column; gap: 4px; margin: var(--space-2) var(--space-2) 0; font-size: 13px; line-height: 18px; color: var(--text-secondary); }
+.us-legend > span { display: flex; align-items: center; gap: var(--space-2); }
+/* Split empty: an empty list says so in one grey line. */
+.us-split-empty { margin: 0; padding: var(--space-3); font-size: 14px; line-height: 20px; color: var(--text-secondary); }
+/* Record tags: the record's tags sit above its title. */
+.us-record-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+/* Out link: a link that leaves the page: its label and a small up-right arrow. */
+a.us-out { display: inline-flex; align-items: center; gap: 2px; }
+a.us-out svg.lucide { width: 14px; height: 14px; }
+/* Fields: a label column and a value, closed by hairlines; stacks in a narrow column. */
+.us-fields { display: flex; flex-direction: column; margin: var(--space-2) 0 0; border-top: 1px solid var(--border-subtle); }
+.us-fields > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--border-subtle); }
+.us-fields dt { color: var(--text-secondary); font-size: 14px; line-height: 24px; }
+.us-fields dd { margin: 0; overflow-wrap: anywhere; }
+.us-fields dd > * + * { margin-top: var(--space-1); }
+@container (max-width: 520px) { .us-fields > div { grid-template-columns: 1fr; gap: 2px; } }
+/* Composer note: a grey note beside the composer's buttons. */
+.us-composer-note { margin-left: auto; align-self: center; }
+/* Prose: markdown read in place. Tables sit in a box that scrolls sideways. */
+.us-prose { font-size: 15px; line-height: 24px; overflow-wrap: anywhere; }
+.us-prose > :first-child { margin-top: 0; }
+.us-prose h1 { font: 400 28px/36px var(--font-serif); margin: var(--space-6) 0 var(--space-3); text-wrap: balance; }
+.us-prose h2, .us-prose h3, .us-prose h4 { font: 600 16px/24px var(--font-sans); margin: var(--space-6) 0 var(--space-1); }
+.us-prose h3, .us-prose h4 { font-size: 15px; margin-top: var(--space-4); }
+.us-prose p, .us-prose ul, .us-prose ol, .us-prose blockquote, .us-prose pre { margin: 0 0 var(--space-3); }
+.us-prose ul, .us-prose ol { padding-left: 1.25em; }
+.us-prose li + li { margin-top: 4px; }
+.us-prose code { font: 400 13px/18px var(--font-mono); background: var(--bg-muted); padding: 1px 4px; border-radius: 4px; }
+.us-prose pre { background: var(--bg-muted); padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); overflow-x: auto; }
+.us-prose pre code { background: none; padding: 0; }
+.us-prose blockquote { padding: var(--space-3) var(--space-4); background: var(--bg-muted); border-radius: var(--radius-lg); }
+.us-prose blockquote > :last-child { margin-bottom: 0; }
+.us-prose hr { border: 0; border-top: 1px solid var(--border-subtle); margin: var(--space-6) 0; }
+.us-prose img { display: block; max-width: 100%; height: auto; border-radius: var(--radius-lg); margin: var(--space-4) 0; box-shadow: 0 0 0 1px var(--border-subtle); }
+.us-prose input[type="checkbox"] { margin: 0 6px 0 0; }
+.us-prose-table { overflow-x: auto; margin: 0 0 var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); }
+.us-prose table { width: 100%; border-collapse: collapse; font: 450 14px/20px var(--font-sans); }
+.us-prose th, .us-prose td { text-align: left; vertical-align: top; padding: var(--space-2) var(--space-3); border-top: 1px solid var(--border-subtle); }
+.us-prose thead th { border-top: 0; font-weight: 600; color: var(--text-secondary); background: var(--bg-muted); white-space: nowrap; }
+/* Nav drawer and paged Split: on a phone the nav hides behind a us-nav-menu button at the top left of the top bar. Opt in with is-drawer on the workspace; is-nav-open shows the nav over a us-scrim. A Split with is-paged shows the list or one record, never both; is-open shows the record and its us-split-back button. */
+.us-nav-menu, .us-scrim, .us-split-back { display: none; }
+@media (max-width: 760px) {
+  .us-workspace.is-drawer .us-nav-menu { display: inline-flex; margin-left: calc(-1 * var(--space-1)); }
+  .us-workspace.is-drawer .us-workspace-nav { display: none; }
+  .us-workspace.is-drawer.is-nav-open .us-workspace-nav { display: flex; position: fixed; z-index: 30; inset: 0 auto 0 0; width: min(300px, 85vw); height: 100dvh; border-right: 1px solid var(--border-subtle); border-bottom: 0; box-shadow: 0 8px 32px rgba(0, 0, 0, .18); }
+  .us-workspace.is-drawer.is-nav-open .us-workspace-nav > .us-nav-top { position: sticky; }
+  .us-workspace.is-drawer.is-nav-open .us-scrim { display: block; position: fixed; inset: 0; z-index: 29; background: rgba(0, 0, 0, .25); }
+  .us-split.is-paged.is-open .us-split-col { display: none; }
+  .us-split.is-paged:not(.is-open) .us-split-detail { display: none; }
+  .us-split.is-paged .us-split-back { display: inline-flex; align-self: flex-start; margin-left: calc(-1 * var(--space-2)); }
+}
