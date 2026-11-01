@@ -9,6 +9,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
 - On a phone, the nav as a drawer: `is-drawer` on the workspace, a `us-nav-menu` button, `us-scrim`, `is-nav-open`. A paged Split that shows the list or one record: `is-paged`, `is-open`, `us-split-back`.
 - `us-topbar` and `us-view`: a bar across the top of the right side, as tall as the nav's top band, and a full width view under it.
+- The Claude design system copy now carries `tokens.css` and a Consuming section naming its namespace, `understudy`, so a Claude Design canvas can install and load it. No class changes.
 - `us-fields` for label and value rows, `us-prose` and `us-prose-table` for markdown read in place, `a.us-out` for links that leave the page, `us-record-tags` above a record's title.
 - In the nav: `us-nav-divider`, `us-side-note`, `us-legend`, and `us-row-out` on a row that leaves the page. Nav rows can be buttons.
 - `us-split-empty` and `us-composer-note`.
