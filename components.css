@@ -238,21 +238,23 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-table .us-name { font-family: var(--font-mono); font-size: 14px; }
 @media (max-width: 760px) { .us-table-wrap { margin: 0 calc(-1 * var(--space-4)); } .us-table th:first-child, .us-table td:first-child { padding-left: var(--space-4); } }
 
-/* Table groups: rows grouped under a heading row that folds. Put each group in its own tbody, starting with the heading row.
+/* Table groups: rows grouped under a full-width grey band that folds. Put each group in its own tbody, starting with the heading row.
    The button's aria-expanded is the only state: set it to false and the rest of that tbody hides.
    <tbody><tr class="us-table-group"><th colspan="4" scope="colgroup"><button class="us-table-toggle" aria-expanded="true">
      <i data-lucide="chevron-down" aria-hidden="true"></i><span>Website</span><span class="us-table-count">3</span></button></th></tr> ...rows</tbody>
    Needs: Table. */
-.us-table .us-table-group th { height: 36px; padding: 0 var(--space-4) 0 var(--space-6); background: var(--bg-band); color: var(--text); font: 500 14px/20px var(--font-sans); }
+.us-table .us-table-group th { height: auto; padding: 0; background: var(--bg-band); }
 .us-table tbody .us-table-group:hover { background: none; }
-.us-table-toggle { display: inline-flex; align-items: center; gap: 6px; height: var(--control-height-sm); padding: 0 var(--space-2) 0 var(--space-1); margin-left: calc(-1 * var(--space-1)); border: 0; border-radius: var(--radius-sm); background: none; font: inherit; color: inherit; cursor: pointer; }
-.us-table-toggle:hover { background: var(--bg-muted); }
-.us-table-toggle svg.lucide { color: var(--text-secondary); transition: transform .15s ease-out; }
+/* The whole band is the button: a quiet grey label lined up with the first column's text, the count at the right edge. */
+.us-table-toggle { display: flex; align-items: center; gap: 6px; width: 100%; min-height: 32px; padding: 0 var(--space-4) 0 var(--space-8); border: 0; background: none; font: 400 13px/18px var(--font-sans); color: var(--text-secondary); text-align: left; cursor: pointer; }
+.us-table-toggle:hover { color: var(--text); }
+.us-table-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: -2px; }
+.us-table-toggle svg.lucide { width: 14px; height: 14px; transition: transform .15s ease-out; }
 .us-table-toggle[aria-expanded="false"] svg.lucide { transform: rotate(-90deg); }
-.us-table-count { color: var(--text-secondary); font-weight: 400; font-variant-numeric: tabular-nums; }
+.us-table-count { margin-left: auto; font-variant-numeric: tabular-nums; }
 .us-table tbody:has(> .us-table-group [aria-expanded="false"]) > tr:not(.us-table-group) { display: none; }
 @media (prefers-reduced-motion: reduce) { .us-table-toggle svg.lucide { transition: none; } }
-@media (max-width: 760px) { .us-table .us-table-group th { padding-left: var(--space-3); } }
+@media (max-width: 760px) { .us-table-toggle { padding-left: var(--space-4); } }
 
 /* Fixed columns: add is-fixed and a colgroup of widths, so opening rows or sorting never shifts the columns.
    Text that does not fit ends in an ellipsis; a cell that must wrap, such as a long title, takes is-wrap. Needs: Table. */

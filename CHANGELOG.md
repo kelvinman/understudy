@@ -21,6 +21,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Changed
 
+- `us-table-group`, `us-table-toggle`, `us-table-count`: a group's heading is now a full-width grey band, and the whole band is the button. The label is small and grey, lined up with the first column's text, with the count at the right edge. Same markup.
 - The README's status dot row now lists `is-warning` too.
 - `us-dot` is 10px, and its colored states are built like the macOS window buttons: a gradient, a darker rim and a faint shadow. Chosen, not measured from the app.
 - `us-progress` segments use the flat traffic light colors (`light-green`, `light-amber`, `light-red`). Tags and text keep `success`, `warning` and `danger`.
