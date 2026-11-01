@@ -1,0 +1,64 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Understudy</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:288px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:288px; }
+  .art svg { display:block; width:480px; height:288px; }
+  .rail { fill:var(--bg-sidebar); }
+  .pane { fill:var(--bg); stroke:var(--border-subtle); stroke-width:1; }
+  .muted { fill:var(--bg-muted); }
+  .sel { fill:var(--bg-selected); }
+  .strong { fill:var(--strong); }
+  .ok { fill:var(--success); }
+  .amber { fill:var(--warning); }
+  .no { fill:var(--danger); }
+  .line { fill:var(--border); }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-size:72px; line-height:.92; font-weight:600; letter-spacing:-.02em; }
+  .tag { margin:var(--space-3) 0 0 3px; font-size:14px; line-height:20px; color:var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      bg-sidebar rail 120 wide full height · bg pane bleeding off the right · bg-selected row · warning, success, danger as status dots, strong as the one pressed control
+  arrangement the app itself, which is what the system copies: a rail on the left, a pane off the right edge, rows inside both
+  pattern     geometric modular dense UI: rows cut at control-height (32) with radius-md, the dots at radius-pill, because the README says "quiet bordered controls" and 32px rows
+  scales      rows 32 high (control-height), gaps space-2 and space-6, pane corner radius-lg 12, buttons radius-md 8
+-->
+<rect class="rail" x="0" y="0" width="120" height="288"/>
+<rect class="line" x="20" y="28" width="64" height="8" rx="4"/>
+<rect class="sel" x="8" y="64" width="104" height="32" rx="8"/>
+<rect class="line" x="20" y="76" width="72" height="8" rx="4"/>
+<rect class="line" x="20" y="116" width="56" height="8" rx="4"/>
+<rect class="line" x="20" y="156" width="80" height="8" rx="4"/>
+<rect class="pane" x="144" y="16" width="352" height="256" rx="12"/>
+<rect class="muted" x="168" y="40" width="304" height="6" rx="3"/>
+<rect class="ok" x="168" y="40" width="96" height="6" rx="3"/>
+<rect class="amber" x="264" y="40" width="48" height="6"/>
+<circle class="amber" cx="180" cy="88" r="7"/>
+<rect class="muted" x="200" y="80" width="168" height="16" rx="8"/>
+<circle class="ok" cx="180" cy="128" r="7"/>
+<rect class="muted" x="200" y="120" width="136" height="16" rx="8"/>
+<circle class="no" cx="180" cy="168" r="7"/>
+<rect class="muted" x="200" y="160" width="152" height="16" rx="8"/>
+<rect class="strong" x="384" y="216" width="88" height="32" rx="8"/>
+<rect class="line" x="168" y="200" width="304" height="1"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Understudy</h1>
+<p class="tag">Claude artifacts that look like part of the app.</p>
+</div>
+</div>
+<script></script>
+</body>
+</html>

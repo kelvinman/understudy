@@ -1,0 +1,25 @@
+<!-- @dsCard group="Actions" height=120 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Icon</title></head>
+<body>
+<div style="display:flex;flex-direction:column;gap:12px;padding:16px">
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="us-btn"><i data-lucide="check" aria-hidden="true"></i><span>Approve</span></button>
+    <button class="us-btn"><i data-lucide="pencil" aria-hidden="true"></i><span>Request changes</span></button>
+    <button class="us-btn"><i data-lucide="rotate-ccw" aria-hidden="true"></i><span>No, keep it</span></button>
+  </div>
+  <div class="us-meta" style="display:flex;gap:16px;flex-wrap:wrap">
+    <a class="us-iconed" href="#"><i data-lucide="crosshair" aria-hidden="true"></i><span>Show in place</span></a>
+    <a class="us-iconed" href="#"><span>live</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+    <span class="us-iconed"><i data-lucide="file-code" aria-hidden="true"></i><span>app/page.tsx:134</span></span>
+  </div>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>
