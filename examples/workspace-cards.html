@@ -248,8 +248,11 @@ function statusOf(p) {
 }
 function doneIn(tasks) { return tasks.filter(function (t) { return t[2] === "done"; }).length; }
 function initials(name) { return name.split(" ").map(function (w) { return w[0]; }).join("").slice(0, 2); }
+// One color per person, the same everywhere: picked from the name.
+var AVATAR_COLORS = ["orange", "pink", "blue", "green", "purple", "teal"];
+function avatarColor(name) { var h = 0; for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0; return AVATAR_COLORS[h % AVATAR_COLORS.length]; }
 function person(name, none) {
-  return name ? '<span class="us-person"><span class="us-avatar" aria-hidden="true">' + initials(name) + '</span>' + esc(name) + '</span>'
+  return name ? '<span class="us-person"><span class="us-avatar is-' + avatarColor(name) + '" aria-hidden="true">' + initials(name) + '</span>' + esc(name) + '</span>'
     : '<span class="us-person is-unassigned"><span class="us-avatar is-none" aria-hidden="true"><i data-lucide="user"></i></span>' + none + '</span>';
 }
 function status(word, dot) { return '<span class="us-status"><span class="us-dot ' + dot + '"></span>' + word + '</span>'; }

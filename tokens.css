@@ -30,6 +30,15 @@
   --danger-soft: rgba(229,72,77,0.09);
   --warning: #cf9a2e;
   --warning-soft: rgba(207,154,46,0.15);
+  --light-red: #f8665f;
+  --light-amber: #f9c03a;
+  --light-green: #5fc94a;
+  --avatar-orange: #a85a14;
+  --avatar-pink: #b03a6c;
+  --avatar-blue: #3f6fa3;
+  --avatar-green: #2f7d4a;
+  --avatar-purple: #7656ab;
+  --avatar-teal: #277a7c;
   --font-sans: Figtree, ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
   --font-serif: "Source Serif 4", Georgia, serif;
@@ -87,6 +96,15 @@
     --danger-soft: rgba(236,139,160,0.16);
     --warning: #e2b45a;
     --warning-soft: rgba(226,180,90,0.16);
+    --light-red: #f8665f;
+    --light-amber: #f9c03a;
+    --light-green: #5fc94a;
+    --avatar-orange: #a85a14;
+    --avatar-pink: #b03a6c;
+    --avatar-blue: #3f6fa3;
+    --avatar-green: #2f7d4a;
+    --avatar-purple: #7656ab;
+    --avatar-teal: #277a7c;
     color-scheme: dark;
   }
 }
@@ -121,5 +139,14 @@
   --danger-soft: rgba(236,139,160,0.16);
   --warning: #e2b45a;
   --warning-soft: rgba(226,180,90,0.16);
+  --light-red: #f8665f;
+  --light-amber: #f9c03a;
+  --light-green: #5fc94a;
+  --avatar-orange: #a85a14;
+  --avatar-pink: #b03a6c;
+  --avatar-blue: #3f6fa3;
+  --avatar-green: #2f7d4a;
+  --avatar-purple: #7656ab;
+  --avatar-teal: #277a7c;
   color-scheme: dark;
 }
