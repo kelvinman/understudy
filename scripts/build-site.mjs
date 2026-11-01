@@ -14,6 +14,8 @@ for (const path of ["tokens.css", "tokens.json", "components.css", "examples", "
 
 // CHANGELOG.md: "## YYYY-MM-DD: Title", a paragraph, an optional picture, "### Added|Changed|Fixed" lists,
 // and a closing link. Only that much markdown is read: inline code, links and bold.
+// "## Unreleased" at the top collects merged changes and is left off the site and the feed until
+// scripts/release.mjs gives it a date and a title.
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const inline = (s) => esc(s)
   .replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -21,7 +23,7 @@ const inline = (s) => esc(s)
   .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 const TAG = { Added: "us-tag us-tag-success", Changed: "us-tag", Fixed: "us-tag us-tag-outline", Removed: "us-tag us-tag-danger" };
 
-const entries = readFileSync("CHANGELOG.md", "utf8").split(/^## /m).slice(1).map((block) => {
+const entries = readFileSync("CHANGELOG.md", "utf8").split(/^## /m).slice(1).filter((block) => !/^Unreleased\s*$/m.test(block.split("\n")[0])).map((block) => {
   const [headLine, ...lines] = block.trim().split("\n");
   const [, date, title] = headLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/) || [];
   if (!date) throw new Error(`CHANGELOG.md: a heading needs "## YYYY-MM-DD: Title", got "## ${headLine}"`);

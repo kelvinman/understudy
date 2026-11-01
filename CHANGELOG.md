@@ -1,6 +1,16 @@
 # Changelog
 
-What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
+What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. Changes collect under Unreleased as they merge, already in `components.css`, and get a dated entry when they are announced, usually once a week. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
+
+## Unreleased
+
+### Added
+
+- `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
+
+### Changed
+
+- The README's status dot row now lists `is-warning` too.
 
 ## 2026-10-31: Amber for work in motion
 
