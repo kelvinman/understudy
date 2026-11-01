@@ -1,0 +1,19 @@
+<!-- @dsCard group="Workspace" height=230 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Panel</title></head>
+<body>
+<div class="us-canvas" style="padding:12px">
+  <section class="us-panel">
+    <div class="us-panel-head"><h1 class="us-display">Colors</h1><button class="us-btn"><i data-lucide="plus" aria-hidden="true"></i><span>Add</span></button></div>
+    <p style="margin:0;color:var(--text-secondary)">Every color the system uses, light and dark.</p>
+  </section>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>

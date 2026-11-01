@@ -16,6 +16,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - Tokens `light-red`, `light-amber` and `light-green`.
 - The nav's top band stays pinned while the rest of the nav scrolls under it. The workspace nav, main area and top band keep clear of a notch (`env(safe-area-inset-*)`).
 - `us-row is-here` for the page you are on among links to sibling pages, and `us-icon-btn is-copied`.
+- Understudy as a Claude design system, for Claude's canvas, decks and mockups: `scripts/build-design-system.mjs` builds it from this repo, with a guideline and live preview per component in `design-system/components/`.
 
 ### Changed
 

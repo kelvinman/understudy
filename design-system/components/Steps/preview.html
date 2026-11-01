@@ -1,0 +1,26 @@
+<!-- @dsCard group="Containers" height=300 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Steps</title></head>
+<body>
+<div style="display:flex;flex-direction:column;gap:16px;padding:16px;max-width:560px">
+  <ol class="us-steps">
+    <li><span class="us-step-num">01</span>Say what changed</li>
+    <li><span class="us-step-num">02</span>Name the classes it touches</li>
+    <li><span class="us-step-num">03</span>Add a picture when there is one</li>
+    <li><span class="us-step-num">04</span>Link the pull request</li>
+  </ol>
+  <ul class="us-steps">
+    <li class="is-done"><i data-lucide="circle-check" aria-hidden="true"></i>Read the customer notes</li>
+    <li><i data-lucide="loader-circle" aria-hidden="true"></i>Draft the export format</li>
+    <li><i data-lucide="circle-dashed" aria-hidden="true"></i>Check it with two customers</li>
+  </ul>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>

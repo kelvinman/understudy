@@ -1,0 +1,35 @@
+<!-- @dsCard group="Workspace" height=420 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Split</title></head>
+<body>
+<div style="border:1px solid var(--border-subtle)">
+  <div class="us-tracker" style="position:static"><span class="us-tracker-name">This week</span><div class="us-progress"><span class="is-success" style="width:28%"></span></div><span class="us-tracker-count"><strong>2</strong> of 7 reviewed</span></div>
+  <div class="us-split" style="--list-width:260px">
+    <div class="us-split-col"><div class="us-split-list" style="position:static">
+      <div class="us-split-group">Requests</div>
+      <div class="us-split-heading">Exports</div>
+      <div class="us-split-row" aria-selected="true"><span class="us-dot"></span><span>Push approved orders to the ERP</span></div>
+      <div class="us-split-heading">Approvals</div>
+      <div class="us-split-row"><span class="us-dot is-success"></span><span>Monthly report as a spreadsheet</span></div>
+    </div></div>
+    <div class="us-split-detail" style="min-height:340px">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">
+        <h3 class="us-record-title">Push approved orders to the ERP</h3>
+        <div class="us-record-where"><a href="#"><span>Halden Logistics</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
+      </div>
+      <div class="us-meta">Rewrite</div>
+      <p class="us-record-text" style="margin-top:6px">They re-key every approved order by hand.</p>
+      <div class="us-dock"><div class="us-composer"><textarea placeholder="What should change, or your own wording" aria-label="Comment"></textarea>
+        <div class="us-composer-actions"><button class="us-btn"><i data-lucide="check" aria-hidden="true"></i><span>Approve</span></button><button class="us-btn"><i data-lucide="pencil" aria-hidden="true"></i><span>Request changes</span></button><button class="us-btn"><i data-lucide="rotate-ccw" aria-hidden="true"></i><span>Keep current</span></button></div></div></div>
+    </div>
+  </div>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>

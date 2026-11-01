@@ -1,0 +1,43 @@
+<!-- @dsCard group="Workspace" height=520 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Table</title></head>
+<body>
+<div class="us-canvas" style="padding:12px;display:flex;flex-direction:column;gap:12px">
+  <section class="us-panel" style="padding-bottom:0">
+    <div class="us-section-head">Palette</div>
+    <div class="us-table-wrap"><table class="us-table">
+      <thead><tr><th>Name</th><th>Light</th><th>Dark</th></tr></thead>
+      <tbody>
+        <tr><td class="us-name">link</td><td><span class="us-value"><span class="us-swatch" style="background:#2c66a4"></span>#2C66A4</span></td><td><span class="us-value"><span class="us-swatch" style="background:#6aaae8"></span>#6AAAE8</span></td></tr>
+        <tr><td class="us-name">success</td><td><span class="us-value"><span class="us-swatch" style="background:#1f9643"></span>#1F9643</span></td><td><span class="us-value"><span class="us-swatch" style="background:#6cc287"></span>#6CC287</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  <section class="us-panel" style="padding-bottom:0">
+    <div class="us-section-head">A table people work in</div>
+    <div class="us-table-wrap is-resizable"><table class="us-table is-fixed" style="--us-table-h:100%">
+      <colgroup><col style="width:36%"><col style="width:20%"><col style="width:18%"><col style="width:26%"></colgroup>
+      <thead><tr>
+        <th aria-sort="none"><button class="us-th-sort" type="button">Project</button><span class="us-drag"></span></th>
+        <th aria-sort="ascending"><button class="us-th-sort" type="button">Lead<i data-lucide="arrow-up"></i></button><span class="us-drag"></span></th>
+        <th aria-sort="none"><button class="us-th-sort" type="button">Status</button><span class="us-drag"></span></th>
+        <th aria-sort="none"><button class="us-th-sort" type="button">Progress</button></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><button class="us-row-toggle" type="button" aria-expanded="true"><i data-lucide="chevron-down"></i><span>Customer exports</span></button></td><td><span class="us-person"><span class="us-avatar is-orange">DL</span><span>Dana Lee</span></span></td><td><span class="us-status"><span class="us-dot is-warning"></span>In progress</span></td><td><span class="us-progress-cell"><span class="us-progress"><span class="is-success" style="width:38%"></span><span class="is-warning" style="width:12%"></span></span><span class="us-meta">3 of 8 done</span></span></td></tr>
+        <tr class="us-table-child"><td>Export to a shared folder</td><td><span class="us-person"><span class="us-avatar is-orange">DL</span><span>Dana Lee</span></span></td><td><span class="us-status"><span class="us-dot is-warning"></span>In review</span></td><td></td></tr>
+        <tr class="us-table-child"><td>Choose which columns go out</td><td><span class="us-person"><span class="us-avatar is-none"><i data-lucide="user"></i></span><span class="us-meta">Unassigned</span></span></td><td><span class="us-status"><span class="us-dot is-muted"></span>Backlog</span></td><td></td></tr>
+        <tr><td><button class="us-row-toggle" type="button" aria-expanded="false"><i data-lucide="chevron-right"></i><span>Approvals</span></button></td><td><span class="us-person"><span class="us-avatar is-pink">SO</span><span>Sam Ortiz</span></span></td><td><span class="us-status"><span class="us-dot"></span>Planned</span></td><td><span class="us-progress-cell"><span class="us-progress"></span><span class="us-meta">0 of 3 done</span></span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>
