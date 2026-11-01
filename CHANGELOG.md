@@ -1,10 +1,8 @@
 # Changelog
 
-What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
+What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. Changes collect under Unreleased as they merge, already in `components.css`, and get a dated entry when they are announced, usually once a week. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
 
-## 2026-10-31: A blank dot for rows with no status
-
-Some lists have no status at all, such as a list of reference pages. Their rows needed the dot's column, so names still line up, but no dot. Selecting one showed a white dot that stood for nothing.
+## Unreleased
 
 ### Added
 
