@@ -263,7 +263,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 /* Sortable headers: each header's text is a button. The sorted one shows a small arrow-up or arrow-down icon and its th carries
    aria-sort="ascending" or "descending". Clicking it again flips the direction. Needs: Table. */
 .us-th-sort { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; }
-.us-th-sort:hover, th[aria-sort] .us-th-sort { color: var(--text); }
+.us-th-sort:hover, th:is([aria-sort="ascending"], [aria-sort="descending"]) .us-th-sort { color: var(--text); }
 .us-th-sort svg.lucide { width: 12px; height: 12px; }
 
 /* Resizable columns: a us-drag strip in each header but the last, running the full height of the table. Set --us-table-h on the table
@@ -356,7 +356,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-split-row:hover { background: var(--bg-sidebar); }
 .us-split-row:focus-visible, .us-split-heading:focus-visible { outline-offset: -2px; }   /* inside the scrolling list, so the ring sits inside the row */
 .us-split-row[aria-selected="true"] { background: var(--bg-selection); color: var(--on-selection); }
-.us-split-row .us-dot { margin: 0 var(--space-1); }   /* the dot sits in the chevron's column, so names line up with the heading above */
+.us-split-row .us-dot { margin: 0 3px; }   /* the dot sits in the chevron's column, so names line up with the heading above */
 .us-split-row[aria-selected="true"] .us-dot, :root .us-split-row[aria-selected="true"] .us-dot.us-dot:is(.is-danger, .is-warning, .is-success) { background: var(--on-selection); box-shadow: none; }
 .us-split-row[aria-selected="true"] .us-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
 .us-split-row[aria-selected="true"] .us-dot.is-blank { background: none; box-shadow: none; }   /* stays empty when selected */
@@ -392,6 +392,8 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-record-where a { display: inline-flex; align-items: center; gap: 2px; color: var(--link); text-decoration: none; }
 .us-record-where a:hover { text-decoration: underline; }
 .us-record-where a svg.lucide { width: 14px; height: 14px; }
+.us-record-where svg.lucide { width: 14px; height: 14px; }
+.us-record-where > span { display: inline-flex; align-items: center; gap: 4px; }
 .us-record-text { margin: 0; padding: var(--space-3) var(--space-4); background: var(--bg-muted); border-radius: var(--radius-lg); white-space: pre-line; overflow-wrap: anywhere; }
 .us-record-text.is-old { color: var(--text-secondary); }
 .us-record-text del { text-decoration: line-through; text-decoration-color: var(--danger); background: var(--danger-soft); color: var(--text); border-radius: 3px; }
@@ -490,3 +492,17 @@ a.us-out svg.lucide { width: 14px; height: 14px; }
   .us-split.is-paged:not(.is-open) .us-split-detail { display: none; }
   .us-split.is-paged .us-split-back { display: inline-flex; align-self: flex-start; margin-left: calc(-1 * var(--space-2)); }
 }
+
+/* Nav top band, pinned: it keeps its height and stays put while the rest of the nav scrolls under it. */
+.us-workspace-nav > .us-nav-top { position: sticky; top: calc(-1 * var(--space-2)); z-index: 2; background: var(--bg-nav); }
+@media (max-width: 760px) { .us-workspace-nav > .us-nav-top { position: static; } }
+
+/* Safe areas: the workspace keeps clear of a notch on either side. */
+.us-workspace-nav { padding-left: max(var(--space-2), env(safe-area-inset-left, 0px)); }
+.us-workspace-main { padding-left: max(var(--space-3), env(safe-area-inset-left, 0px)); padding-right: max(var(--space-3), env(safe-area-inset-right, 0px)); }
+.us-nav-top { margin-left: calc(-1 * max(var(--space-2), env(safe-area-inset-left, 0px))); padding-left: max(var(--space-3), env(safe-area-inset-left, 0px)); }
+
+/* Nav row for the page you are on, among links to sibling pages: grey, not a link. A copied icon button turns green. */
+.us-workspace-nav .us-row.is-here { cursor: default; color: var(--text-secondary); }
+.us-workspace-nav .us-row.is-here:hover { background: none; }
+.us-icon-btn.is-copied { color: var(--success); }

@@ -14,12 +14,16 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - `us-split-empty` and `us-composer-note`.
 - Avatar colors: `us-avatar` with `is-orange`, `is-pink`, `is-blue`, `is-green`, `is-purple` or `is-teal`, from tokens `avatar-orange` and so on, each 4.5:1 or better under white initials.
 - Tokens `light-red`, `light-amber` and `light-green`.
+- The nav's top band stays pinned while the rest of the nav scrolls under it. The workspace nav, main area and top band keep clear of a notch (`env(safe-area-inset-*)`).
+- `us-row is-here` for the page you are on among links to sibling pages, and `us-icon-btn is-copied`.
 
 ### Changed
 
 - The README's status dot row now lists `is-warning` too.
 - `us-dot` is 10px, and its colored states are built like the macOS window buttons: a gradient, a darker rim and a faint shadow. Chosen, not measured from the app.
 - `us-progress` segments use the flat traffic light colors (`light-green`, `light-amber`, `light-red`). Tags and text keep `success`, `warning` and `danger`.
+- A `us-split-row` dot sits 3px in, centred in the chevron's column at its new 10px size. Icons in `us-record-where` are 14px, each beside its text.
+- Only the sorted header darkens: `th[aria-sort="none"]` no longer does.
 
 ## 2026-10-31: Amber for work in motion
 
