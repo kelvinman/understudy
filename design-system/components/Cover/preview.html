@@ -15,9 +15,9 @@
   .muted { fill:var(--bg-muted); }
   .sel { fill:var(--bg-selected); }
   .strong { fill:var(--strong); }
-  .ok { fill:var(--success); }
-  .amber { fill:var(--warning); }
-  .no { fill:var(--danger); }
+  .ok { fill:var(--light-green); }
+  .amber { fill:var(--light-amber); }
+  .no { fill:var(--light-red); }
   .line { fill:var(--border); }
   .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
   .name { margin:0; font-size:72px; line-height:.92; font-weight:600; letter-spacing:-.02em; }
@@ -29,7 +29,7 @@
 <div class="art" aria-hidden="true">
 <svg viewBox="0 0 480 288" width="480" height="288">
 <!--
-  blocks      bg-sidebar rail 120 wide full height · bg pane bleeding off the right · bg-selected row · warning, success, danger as status dots, strong as the one pressed control
+  blocks      bg-sidebar rail 120 wide full height · bg pane bleeding off the right · bg-selected row · light-amber, light-green, light-red as status dots, strong as the one pressed control
   arrangement the app itself, which is what the system copies: a rail on the left, a pane off the right edge, rows inside both
   pattern     geometric modular dense UI: rows cut at control-height (32) with radius-md, the dots at radius-pill, because the README says "quiet bordered controls" and 32px rows
   scales      rows 32 high (control-height), gaps space-2 and space-6, pane corner radius-lg 12, buttons radius-md 8
