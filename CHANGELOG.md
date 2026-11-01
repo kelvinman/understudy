@@ -2,6 +2,18 @@
 
 What changed in Understudy, newest first. Each entry names the classes it touches, so you can tell whether a page you built has the latest. The site shows this file at [understudyui.com/changelog](https://understudyui.com/changelog), with a [feed](https://understudyui.com/changelog.xml).
 
+## 2026-10-31: A blank dot for rows with no status
+
+Some lists have no status at all, such as a list of reference pages. Their rows needed the dot's column, so names still line up, but no dot. Selecting one showed a white dot that stood for nothing.
+
+### Added
+
+- `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
+
+### Changed
+
+- The README's status dot row now lists `is-warning` too.
+
 ## 2026-10-31: Amber for work in motion
 
 Work under way now reads as moving. A grey in-progress dot looked like nothing was happening.

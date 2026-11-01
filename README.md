@@ -64,7 +64,7 @@ Each is one section of `components.css`.
 | Meta line | `us-meta`, `us-iconed` |
 | Diff | `ins.us-ins`, `del.us-del` |
 | Steps | `us-steps`, `us-step-num` |
-| Status dot | `us-dot`: hollow when open, or `is-success`, `is-danger`, `is-muted` |
+| Status dot | `us-dot`: hollow when not started, or `is-warning`, `is-success`, `is-danger`, `is-muted`; `is-blank` for a row with no status |
 | Workspace | `us-workspace` (add `is-flat` for full width), `us-workspace-nav`, `us-workspace-main`, `us-canvas` |
 | Nav top band | `us-nav-top`, `us-nav-title`: the nav's first band, the same height as the tracker beside it. |
 | Nav hide and resize | `us-nav-toggle` (hide), `us-nav-toggle us-nav-expand` (show), `is-nav-hidden` on the workspace, `us-drag is-nav` (sets `--us-nav-w`). |

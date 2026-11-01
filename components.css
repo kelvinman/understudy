@@ -164,6 +164,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-dot.is-danger { background: var(--danger); box-shadow: none; }
 .us-dot.is-warning { background: var(--warning); box-shadow: none; }
 .us-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
+.us-dot.is-blank { background: none; box-shadow: none; }   /* a row with no status: keeps the column, shows nothing */
 
 /* ==========================================================================
    Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
@@ -348,6 +349,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-split-row .us-dot { margin: 0 var(--space-1); }   /* the dot sits in the chevron's column, so names line up with the heading above */
 .us-split-row[aria-selected="true"] .us-dot { background: var(--on-selection); box-shadow: none; }
 .us-split-row[aria-selected="true"] .us-dot:not([class*="is-"]) { background: transparent; box-shadow: inset 0 0 0 1.5px var(--on-selection); }
+.us-split-row[aria-selected="true"] .us-dot.is-blank { background: none; box-shadow: none; }   /* stays empty when selected */
 .us-split-detail { align-self: stretch; display: flex; flex-direction: column; min-height: calc(100vh - var(--us-bar-h, 0px)); box-sizing: border-box; padding: var(--space-6) var(--space-6) 0; min-width: 0; background: var(--bg-band); container-type: inline-size; }
 @media (max-width: 760px) { .us-split { grid-template-columns: 1fr; } .us-split-col { border-right: 0; border-bottom: 1px solid var(--border-subtle); } .us-split-list { position: static; max-height: none; } .us-split-detail { min-height: 0; padding: var(--space-4) var(--space-4) 0; } }
 
