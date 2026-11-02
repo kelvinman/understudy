@@ -121,6 +121,51 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 /* Card */
 .us-card { border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-4); background: var(--bg); }
 
+/* Card grid and record card: one card per record when a page is for scanning many of them, such as companies,
+   suppliers or projects. Every card has the same rows in the same places, so the eye can run down one of them:
+   a head (logo, name, icon links, tags on the right), a two-line summary, a row of icon-led facts, then a list
+   under a hairline. Cards in a row share the height of the tallest; long text is cut and shown in full on hover.
+   <div class="us-cards"><article class="us-record-card">
+     <div class="us-record-card-head"><img class="us-record-card-logo" src="" alt=""><a href="">Name</a>
+       <a class="us-record-card-ic" href="" aria-label="Website"><i data-lucide="globe"></i></a>
+       <span class="us-record-card-tags"><span class="us-tag us-tag-success">Open</span></span></div>
+     <div class="us-record-card-summary">Two lines at most.</div>
+     <div class="us-record-card-facts"><div class="us-record-card-fact"><i data-lucide="map-pin"></i><span>Place</span></div>
+       <div class="us-record-card-fact"><i data-lucide="banknote"></i><span>$180k to $245k</span></div></div>
+     <ul class="us-record-card-list"><li><span>Item</span><span class="us-record-card-when">3w</span></li></ul></article></div>
+   The second fact keeps its full width and the first is cut, so put the one that must not be cut second.
+   The list shows three items, or two and "N more" (us-record-card-more); with nothing in it, one grey line
+   (us-record-card-more) says so. Add is-success to a card that is open or live, is-quiet to one that is not,
+   and is-button to one that opens on click. Needs: Tag. */
+.us-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); grid-auto-rows: 1fr; gap: var(--space-2); }
+.us-record-card { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg); font: 450 14px/20px var(--font-sans); }
+.us-record-card.is-success { border-color: color-mix(in srgb, var(--success) 45%, var(--border-subtle)); }
+.us-record-card.is-button { cursor: pointer; transition: border-color 120ms ease-out; }
+.us-record-card.is-button:hover { border-color: var(--border-strong); }
+.us-record-card-head { display: flex; align-items: center; gap: var(--space-3); min-height: 24px; font-weight: 600; font-size: 15px; white-space: nowrap; }
+.us-record-card-logo { width: 22px; height: 22px; flex: none; border-radius: 50%; object-fit: cover; margin-right: -4px; display: inline-flex; align-items: center; justify-content: center; background: var(--bg-muted); font-size: 12px; }
+.us-record-card-ic { display: inline-flex; align-items: center; color: var(--text-secondary); }
+.us-record-card-ic:hover { color: var(--text); }
+.us-record-card-ic svg.lucide { width: 15px; height: 15px; }
+.us-record-card-ic + .us-record-card-ic { margin-left: -6px; }
+.us-record-card-tags { margin-left: auto; display: flex; align-items: center; gap: 6px; flex: none; }
+.us-record-card-head > a:not(.us-record-card-ic) { min-width: 0; overflow: hidden; text-overflow: ellipsis; }   /* a long name gives way, never the tags */
+/* Exactly two lines tall, so a third never shows through. */
+.us-record-card-summary { min-height: 40px; color: var(--text-secondary); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.us-record-card-facts { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-4); min-width: 0; }
+.us-record-card-fact { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.us-record-card-fact svg.lucide { width: 15px; height: 15px; flex: none; color: var(--text-secondary); }
+.us-record-card-fact > span { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.us-record-card-fact.is-none > span { font-weight: 400; color: var(--text-secondary); }
+.us-record-card-list { list-style: none; margin: auto 0 0; padding: var(--space-2) 0 0; min-height: 60px; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; }
+.us-record-card-list li { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; }
+.us-record-card-list li > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.us-record-card-when { margin-left: auto; flex: none; font-size: 13px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-record-card-list li.us-record-card-more { color: var(--text-secondary); }
+.us-record-card-list li.us-record-card-more > span:first-child { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.us-record-card.is-quiet :is(.us-record-card-facts, .us-record-card-list) { color: var(--text-secondary); }
+@media (prefers-reduced-motion: reduce) { .us-record-card.is-button { transition: none; } }
+
 /* Quote */
 .us-quote { background: var(--bg-muted); border-radius: var(--radius-lg); padding: var(--space-3) var(--space-4); }
 .us-quote blockquote { margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--border-strong); color: var(--text-secondary); }

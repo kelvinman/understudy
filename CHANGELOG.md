@@ -6,6 +6,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Added
 
+- `us-cards` and `us-record-card`: a grid of equal-height cards, one per record, each with a head (logo, name, icon links, tags), a two-line summary, a row of icon-led facts and a short list under a hairline with an age per item.
 - `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
 - On a phone, the nav as a drawer: `is-drawer` on the workspace, a `us-nav-menu` button, `us-scrim`, `is-nav-open`. A paged Split that shows the list or one record: `is-paged`, `is-open`, `us-split-back`.
 - `us-topbar` and `us-view`: a bar across the top of the right side, as tall as the nav's top band, and a full width view under it.
