@@ -60,6 +60,7 @@ Each is one section of `components.css`.
 | Tabs | `us-tabs`, `us-tab` |
 | List | `us-list`, `us-list-label`, `us-row`, `us-row-meta`, `us-row-action` |
 | Card, quote, divider, rule | `us-card`, `us-quote`, `us-divider`, `us-rule` |
+| Card grid, record card | `us-cards` around `us-record-card`s of equal height: `us-record-card-head` (`us-record-card-logo`, `us-record-card-ic`, `us-record-card-tags`), `us-record-card-summary` (two lines), `us-record-card-facts` of `us-record-card-fact` (add `is-none` when empty), and `us-record-card-list` under a hairline with `us-record-card-when` and `us-record-card-more`. On the card, `is-success`, `is-quiet`, `is-button`. For scanning many records of one kind. |
 | Progress | `us-progress`, its parts `is-success`, `is-danger`, `is-muted` |
 | Meta line | `us-meta`, `us-iconed` |
 | Diff | `ins.us-ins`, `del.us-del` |
