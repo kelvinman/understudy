@@ -57,7 +57,8 @@ Each is one section of `components.css`.
 | Checkbox | `us-check`: a label around a native checkbox and its text. |
 | Filter bar | `us-filters`: one wrapping row of search, selects, toggles and checkboxes, with `us-filters-end` and `us-filters-count` for the count on the right. |
 | Tag | `us-tag`, with `us-tag-outline`, `us-tag-success`, `us-tag-danger` |
-| Tabs | `us-tabs`, `us-tab` |
+| Tabs | `us-tabs`, `us-tab`; a tab can lead with an icon and end with `us-tab-count` (add `is-danger` or `is-success`). |
+| Tab select, menu | `us-dd` around a `us-tab-select` button (add `is-set` while it filters) and a `us-menu` of `us-menu-item`s, with `us-menu-count` or a check icon; `is-end` opens the menu from the right. The page's script opens and closes it. |
 | List | `us-list`, `us-list-label`, `us-row`, `us-row-meta`, `us-row-action` |
 | Card, quote, divider, rule | `us-card`, `us-quote`, `us-divider`, `us-rule` |
 | Card grid, record card | `us-cards` around `us-record-card`s of equal height: `us-record-card-head` (`us-record-card-logo`, `us-record-card-ic`, `us-record-card-tags`), `us-record-card-summary` (two lines), `us-record-card-facts` of `us-record-card-fact` (add `is-none` when empty), and `us-record-card-list` under a hairline with `us-record-card-when` and `us-record-card-more`. On the card, `is-success`, `is-quiet`, `is-button`. For scanning many records of one kind. |

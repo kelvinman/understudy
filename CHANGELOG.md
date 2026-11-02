@@ -6,6 +6,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Added
 
+- `us-tab-select`, `us-dd`, `us-menu`, `us-menu-item`, `us-menu-count`: a filter drawn as a tab with a chevron that opens a menu below it. `us-tab-count` for a count at the end of a tab.
 - `us-cards` and `us-record-card`: a grid of equal-height cards, one per record, each with a head (logo, name, icon links, tags), a two-line summary, a row of icon-led facts and a short list under a hairline with an age per item.
 - `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
 - On a phone, the nav as a drawer: `is-drawer` on the workspace, a `us-nav-menu` button, `us-scrim`, `is-nav-open`. A paged Split that shows the list or one record: `is-paged`, `is-open`, `us-split-back`.
@@ -22,6 +23,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Changed
 
+- `us-tab` lays out inline, so a 14px icon and a count sit in line with its label.
 - `us-table-group`, `us-table-toggle`, `us-table-count`: a group's heading is now a full-width grey band, and the whole band is the button. The label is small and grey, lined up with the first column's text, with the count at the right edge. Same markup.
 - The README's status dot row now lists `is-warning` too.
 - `us-dot` is 10px, and its colored states are built like the macOS window buttons: a gradient, a darker rim and a faint shadow. Chosen, not measured from the app.

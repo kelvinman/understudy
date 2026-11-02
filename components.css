@@ -107,6 +107,37 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 .us-tab { font: 450 15px/20px var(--font-sans); height: var(--control-height-sm); padding: 0 var(--space-3); border: 0; border-radius: var(--radius-sm); background: none; color: var(--text-secondary); cursor: pointer; }
 .us-tab:hover { color: var(--text); }
 .us-tab[aria-pressed="true"], .us-tab[aria-selected="true"] { background: var(--bg); color: var(--text); box-shadow: 0 0 0 1px var(--border-subtle); }
+/* A tab can lead with a 14px icon and end with a count. The count is grey, or is-danger or is-success when it is a warning or good news. */
+.us-tab { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.us-tab svg.lucide { width: 14px; height: 14px; }
+.us-tab-count { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-tab-count.is-danger { color: var(--danger); }
+.us-tab-count.is-success { color: var(--success); }
+
+/* Tab select and menu: a filter that picks one of several values, drawn as a tab with a chevron so it sits in a row
+   of tabs, opening a menu the page draws below it (a native select on macOS opens over the button instead).
+   The button shows the value it holds and is as wide as that value; add is-set while it filters something, so it
+   lifts like a pressed tab. The menu is a listbox of us-menu-item buttons, the chosen one with a check icon or a
+   count on the right (us-menu-count). Add is-end to the menu to open it from the right edge.
+   <div class="us-dd"><button class="us-tab-select" aria-haspopup="listbox" aria-expanded="true">All areas</button>
+     <div class="us-menu" role="listbox"><button class="us-menu-item" role="option" aria-selected="true">All areas<i data-lucide="check"></i></button>
+       <button class="us-menu-item" role="option" aria-selected="false">Design<span class="us-menu-count">4</span></button></div></div>
+   The page's script opens and closes it: click to toggle, a click outside or Escape closes and returns focus to the
+   button, arrow keys move through the items. A menu floats over the page, so it is the one place with a shadow.
+   Needs: Tabs. */
+.us-tab-select { appearance: none; -webkit-appearance: none; display: inline-flex; align-items: center; height: var(--control-height); padding: 0 30px 0 var(--space-3); border: 0; border-radius: var(--radius-md); white-space: nowrap; cursor: pointer;
+  font: 450 15px/20px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted) no-repeat right 10px center / 12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+.us-tab-select:hover { color: var(--text); }
+.us-tab-select.is-set { color: var(--text); background-color: var(--bg); box-shadow: inset 0 0 0 1px var(--border-subtle), 0 0 0 2px var(--bg-muted); }
+.us-dd { position: relative; display: inline-flex; }
+.us-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 100%; max-height: 320px; overflow-y: auto; box-sizing: border-box; padding: 4px; display: flex; flex-direction: column; gap: 2px;
+  background: var(--bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+.us-menu.is-end { left: auto; right: 0; }
+.us-menu-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); height: 30px; padding: 0 var(--space-2); border: 0; border-radius: var(--radius-md); background: none;
+  color: var(--text); font: 450 14px/20px var(--font-sans); text-align: left; white-space: nowrap; cursor: pointer; }
+.us-menu-item:hover, .us-menu-item:focus-visible { background: var(--bg-muted); outline: none; }
+.us-menu-item svg.lucide { width: 14px; height: 14px; }
+.us-menu-count { margin-left: auto; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 
 /* List: rows of links or options, with a quiet label above a group. */
 .us-list { display: flex; flex-direction: column; gap: 2px; }
