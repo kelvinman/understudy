@@ -62,6 +62,10 @@ Each is one section of `components.css`.
 | List | `us-list`, `us-list-label`, `us-row`, `us-row-meta`, `us-row-action` |
 | Card, quote, divider, rule | `us-card`, `us-quote`, `us-divider`, `us-rule` |
 | Card grid, record card | `us-cards` around `us-record-card`s of equal height: `us-record-card-head` (`us-record-card-logo`, `us-record-card-ic`, `us-record-card-tags`), `us-record-card-summary` (two lines), `us-record-card-facts` of `us-record-card-fact` (add `is-none` when empty), and `us-record-card-list` under a hairline with `us-record-card-when` and `us-record-card-more`. On the card, `is-success`, `is-quiet`, `is-button`. For scanning many records of one kind. |
+| Tooltip | `us-tip` (`is-on`), `us-tip-title`, `us-tip-detail`: one shared tip the page moves to what is hovered or focused. |
+| Sheet | `us-sheet` and `us-sheet-scrim` (`is-open`), `us-sheet-head`, `us-sheet-title`, `us-sheet-close`, `us-sheet-body`: a panel from the right for reading one record. |
+| Row thumbnail | `us-with-thumb` around a `us-thumb` (a button with an image, or `is-empty` with an icon) and the row's text. |
+| Text button | `us-text-btn`: a button that reads as the text it sits in. |
 | Progress | `us-progress`, its parts `is-success`, `is-danger`, `is-muted` |
 | Meta line | `us-meta`, `us-iconed` |
 | Diff | `ins.us-ins`, `del.us-del` |

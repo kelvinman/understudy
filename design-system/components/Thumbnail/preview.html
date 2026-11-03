@@ -1,0 +1,19 @@
+<!-- @dsCard group="Content" height=180 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Row thumbnail and text button</title></head>
+<body>
+<div style="display:flex;flex-direction:column;gap:16px;padding:16px;max-width:520px;font-size:15px;line-height:22px">
+  <div class="us-with-thumb"><button class="us-thumb" type="button" aria-label="Open the sketch"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 56'%3E%3Crect width='88' height='56' fill='%23e8e4dc'/%3E%3Cpath d='M8 40 C 24 8, 40 52, 56 20 S 80 30, 84 12' stroke='%23555' fill='none'/%3E%3C/svg%3E" alt=""></button>
+    <div><button class="us-text-btn" type="button" style="font-weight:600">Attractor</button><div style="color:var(--text-secondary)">A strange attractor laid down as ink.</div></div></div>
+  <div class="us-with-thumb"><span class="us-thumb is-empty" aria-hidden="true"><i data-lucide="palette"></i></span>
+    <div><span style="font-weight:600">Colour studies</span><div style="color:var(--text-secondary)">No picture yet.</div></div></div>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>

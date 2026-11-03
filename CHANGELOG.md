@@ -6,6 +6,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Added
 
+- `us-tip`, `us-sheet` with `us-sheet-scrim`, `us-thumb` with `us-with-thumb`, and `us-text-btn`: a shared tooltip, a panel from the right, a row thumbnail and a button that reads as text.
 - `us-tab-select`, `us-dd`, `us-menu`, `us-menu-item`, `us-menu-count`: a filter drawn as a tab with a chevron that opens a menu below it. `us-tab-count` for a count at the end of a tab.
 - `us-cards` and `us-record-card`: a grid of equal-height cards, one per record, each with a head (logo, name, icon links, tags), a two-line summary, a row of icon-led facts and a short list under a hairline with an age per item.
 - `us-dot is-blank`: keeps the dot's column and shows nothing, in a `us-split-row` selected or not.
