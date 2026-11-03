@@ -294,18 +294,22 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 
 /* Panel: a white card on the Workspace canvas, opening with a serif title (us-display). */
 .us-panel { background: var(--bg-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-8); min-width: 0; }
-.us-panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+.us-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-4); }
+/* A one-line description under the panel's title, tucked close to it. */
+.us-panel-head p { margin: var(--space-1) 0 0; }
+/* A panel jumped to from the nav stops below the sticky top bar, not under it. */
+.us-panel { scroll-margin-top: calc(var(--top-bar-height) + var(--space-3)); }
 .us-display { font: 400 36px/44px var(--font-serif); letter-spacing: -0.01em; margin: 0; color: var(--text); }
 .us-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); font: 500 15px/20px var(--font-sans); padding: var(--space-3) 0; }
 .us-workspace.is-flat .us-panel { border: 0; border-radius: 0; border-bottom: 1px solid var(--border-subtle); padding: var(--space-6); }
 @media (max-width: 760px) { .us-panel { padding: var(--space-4); } }
 
-/* Table: rows at least 56px that grow with their content, a quiet header, hairlines between rows and columns.
+/* Table: rows that fit their content, 12px above and below, a quiet header, hairlines between rows and columns.
    Inside a panel, wrap it in us-table-wrap so it runs to the panel's edges. */
 .us-table-wrap { overflow-x: auto; margin: 0 calc(-1 * var(--space-8)); }
 .us-table { width: 100%; border-collapse: collapse; font: 450 15px/20px var(--font-sans); }
 .us-table th { font: 400 14px/20px var(--font-sans); color: var(--text-placeholder); text-align: left; height: 40px; padding: 0 var(--space-4); }
-.us-table td { height: var(--row-height); padding: var(--space-2) var(--space-4); box-sizing: border-box; }
+.us-table td { padding: var(--space-3) var(--space-4); box-sizing: border-box; }
 .us-table th, .us-table td { border-top: 1px solid var(--border-subtle); }
 .us-table th + th, .us-table td + td { border-left: 1px solid var(--border-subtle); }
 .us-table th:first-child, .us-table td:first-child { padding-left: var(--space-8); }
