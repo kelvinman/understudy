@@ -24,6 +24,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Changed
 
+- `us-table` rows fit their content, 12px above and below, instead of a 56px minimum. `us-panel-head` sits 16px above what follows and aligns to the baseline; a `p` in it is a description tucked under the title. `us-panel` stops below the sticky top bar when jumped to. Pages that wrote these themselves can drop them.
 - `us-tab` lays out inline, so a 14px icon and a count sit in line with its label.
 - `us-table-group`, `us-table-toggle`, `us-table-count`: a group's heading is now a full-width grey band, and the whole band is the button. The label is small and grey, lined up with the first column's text, with the count at the right edge. Same markup.
 - The README's status dot row now lists `is-warning` too.
