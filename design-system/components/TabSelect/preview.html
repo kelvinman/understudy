@@ -1,0 +1,25 @@
+<!-- @dsCard group="Controls" height=280 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Tab select and menu</title></head>
+<body>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:16px">
+  <div class="us-tabs"><button class="us-tab" type="button" aria-pressed="false"><i data-lucide="square"></i>Needs attention<span class="us-tab-count is-danger">3</span></button></div>
+  <div class="us-dd"><button class="us-tab-select" type="button" aria-haspopup="listbox" aria-expanded="false">Any time</button></div>
+  <div class="us-dd"><button class="us-tab-select is-set" type="button" aria-haspopup="listbox" aria-expanded="true">Design</button>
+    <div class="us-menu" role="listbox" aria-label="Area">
+      <button class="us-menu-item" type="button" role="option" aria-selected="false">All areas</button>
+      <button class="us-menu-item" type="button" role="option" aria-selected="true">Design<i data-lucide="check"></i></button>
+      <button class="us-menu-item" type="button" role="option" aria-selected="false">Writing</button>
+      <button class="us-menu-item" type="button" role="option" aria-selected="false">Music</button>
+    </div></div>
+  <div class="us-dd"><button class="us-tab-select" type="button" aria-haspopup="listbox" aria-expanded="false">All stages</button></div>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>
