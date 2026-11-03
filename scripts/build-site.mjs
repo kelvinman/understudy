@@ -79,4 +79,15 @@ ${entries.map((e) => `<item>
 `;
 writeFileSync("dist/changelog.xml", rss);
 
+
+// The sitemap and robots.txt, so search engines find the changelog as well as the homepage.
+// Both pages change with each release, so they carry its date.
+const urls = ["", "/changelog"].map((path) => `<url><loc>${SITE}${path}</loc><lastmod>${latest.date}</lastmod></url>`);
+writeFileSync("dist/sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join("\n")}
+</urlset>
+`);
+writeFileSync("dist/robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+
 console.log(`Built dist/, with ${entries.length} changelog entries`);
