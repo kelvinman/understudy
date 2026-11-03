@@ -1,0 +1,21 @@
+<!-- @dsCard group="Containers" height=340 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Sheet</title></head>
+<body>
+<div style="position:relative;height:320px;overflow:hidden;transform:translateZ(0)">
+  <div style="padding:24px;color:var(--text-secondary)">The list behind the sheet.</div>
+  <div class="us-sheet-scrim is-open"></div>
+  <aside class="us-sheet is-open" role="dialog" aria-label="Supplier" style="width:min(420px,100%)">
+    <header class="us-sheet-head"><h2 class="us-sheet-title">Northfield Mill</h2><span class="us-meta">Updated 2d ago</span><button class="us-btn us-sheet-close" type="button" aria-label="Close"><i data-lucide="x"></i></button></header>
+    <div class="us-sheet-body us-prose"><h2>What they make</h2><p>Linen and wool weaves, fast on samples.</p><h2>Open quotes</h2><ul><li>Herringbone linen</li><li>Boiled wool, 300 yards</li></ul></div>
+  </aside>
+</div>
+<script>
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js";
+  s.onload = function () { window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75 } }); };
+  document.head.appendChild(s);
+</script>
+</body>
+</html>
