@@ -272,7 +272,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-beat-notes p { margin: 0; }
 .us-beat-label { font: 450 14px/20px var(--font-sans); color: var(--text-secondary); margin-bottom: 2px; }
 .us-beat-say { font: 400 17px/26px var(--font-serif); }
-.us-beat > .us-screen { grid-column: 1; }
+.us-beat > .us-screen { grid-column: 1; align-self: start; }   /* as tall as its content, not the notes beside it */
 @media (max-width: 860px) { .us-beat { grid-template-columns: 1fr; } }
 
 /* Screen: a drawn window, so a beat shows what is on screen without a screenshot. A bar with three grey dots and a title
