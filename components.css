@@ -295,11 +295,20 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    the height of its content. Its last child fills the rest and clips what does not fit, as a viewport does. */
 .us-screen.is-page { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
 .us-screen.is-page > :last-child { flex: 1; min-height: 0; overflow: hidden; }
-/* A slide: add is-slide to a screen that shows a deck. It holds 16:9, and its us-slide centres a title (us-slide-title) and a line
-   (us-slide-text) at sizes that follow the screen's width. us-slide-num puts the slide's number in the corner. */
+/* A slide: is-slide on a us-screen draws a presentation tool. A us-deck holds a us-deck-rail of us-deck-thumb slides (numbered on
+   their own, is-current on the one showing) and a us-deck-stage with the us-slide at 16:9: a title (us-slide-title), a line
+   (us-slide-text) and its number (us-slide-num), at sizes that follow the stage's width. */
 .us-screen { container-type: inline-size; }
-.us-screen.is-slide { display: flex; flex-direction: column; aspect-ratio: 16 / 9; }
-.us-slide { position: relative; flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: max(6px, 1.4cqw); padding: 6cqw 8cqw; }
+.us-screen.is-slide { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-deck { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(64px, 16%) minmax(0, 1fr); background: var(--bg-sidebar); }
+.us-deck-rail { counter-reset: us-thumb; display: flex; flex-direction: column; gap: 8px; padding: 10px 8px 10px 4px; border-right: 1px solid var(--border-subtle); overflow: hidden; }
+.us-deck-thumb { position: relative; flex: none; aspect-ratio: 16 / 9; margin-left: 16px; border-radius: 3px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); }
+.us-deck-thumb::before { counter-increment: us-thumb; content: counter(us-thumb); position: absolute; top: 0; left: -14px; width: 10px; text-align: right; font: 450 10px/12px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-deck-thumb::after { content: ""; position: absolute; top: 40%; left: 14%; right: 34%; height: 10%; border-radius: 2px; background: var(--border); }
+.us-deck-thumb.is-current { box-shadow: 0 0 0 2px var(--focus); }
+.us-deck-stage { container-type: inline-size; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 0; padding: 5%; }
+.us-deck-stage > .us-slide { flex: none; width: 100%; aspect-ratio: 16 / 9; border-radius: 4px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); }
+.us-slide { position: relative; box-sizing: border-box; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: max(6px, 1.4cqw); padding: 6cqw 8cqw; }
 .us-slide-title { font: 600 max(18px, 4.4cqw)/1.15 var(--font-sans); letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
 .us-slide-text { font: 450 max(13px, 2cqw)/1.4 var(--font-sans); color: var(--text-secondary); margin: 0; max-width: 60ch; }
 .us-slide-num { position: absolute; right: 3cqw; bottom: 2.4cqw; font: 450 max(11px, 1.4cqw)/1 var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
@@ -347,6 +356,17 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-editor-line.is-del > span { text-decoration: line-through; text-decoration-color: var(--danger); }
 .us-editor-line.is-gap { color: var(--text-placeholder); }
 .us-editor-line.is-gap::before { counter-increment: none; content: ""; }
+
+/* Editor with files: us-ide around a us-ide-tree and the us-editor, so a file reads as an editor, not a terminal. The tree is
+   us-ide-item rows, each a Lucide icon then a name: is-nested to indent under a folder, is-open on the file shown.
+   The tree hides when the screen is under 420px wide. */
+.us-ide { display: grid; grid-template-columns: minmax(120px, 26%) minmax(0, 1fr); min-height: 220px; }
+.us-ide-tree { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: var(--space-2) 6px; background: var(--bg-sidebar); border-right: 1px solid var(--border-subtle); font: 450 12px/16px var(--font-sans); color: var(--text-secondary); }
+.us-ide-item { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.us-ide-item svg.lucide { flex: none; width: 13px; height: 13px; }
+.us-ide-item.is-nested { padding-left: 22px; }
+.us-ide-item.is-open { background: var(--bg-selected); color: var(--text); }
+@container (max-width: 420px) { .us-ide { grid-template-columns: minmax(0, 1fr); } .us-ide-tree { display: none; } }
 
 /* Talk only: is-talk on a us-beat with nothing on screen. The notes take the screen's place, up to content-width. */
 .us-beat.is-talk { grid-template-columns: minmax(0, 1fr); }
