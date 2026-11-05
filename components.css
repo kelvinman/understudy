@@ -250,17 +250,20 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    Timeline: a us-timeline of links, one per beat, each as wide as its beat is long (--us-span, in seconds or any unit);
    is-live on the beats done by hand. us-timeline-key says what the two shades mean. */
 .us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-2); background: var(--bg); }
-.us-timeline > a { flex: var(--us-span, 1) 1 0; display: flex; align-items: center; justify-content: center; min-width: 0; height: 28px; padding: 0 6px;
-  font: 500 12px/16px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted); text-decoration: none;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out; }
+.us-timeline > a { flex: var(--us-span, 1) 1 0; display: block; min-width: 0; height: 28px; padding: 0 6px; text-align: center; 
+  font: 500 12px/28px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 150ms ease-out, color 150ms ease-out, outline-color 150ms ease-out; }
 .us-timeline > a:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
 .us-timeline > a:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
 .us-timeline > a:hover { color: var(--text); background: var(--bg-selected); }
 .us-timeline > a.is-live { color: var(--on-strong); background: var(--strong); }
 .us-timeline > a.is-live:hover { opacity: .85; }
-/* The beat in view: aria-current="true" on its segment, set by the page as you scroll. A bar along its bottom edge. */
-.us-timeline > a[aria-current="true"] { color: var(--text); box-shadow: inset 0 -3px 0 var(--strong); }
-.us-timeline > a.is-live[aria-current="true"] { color: var(--on-strong); box-shadow: inset 0 -3px 0 var(--bg); }
+/* The beat in view: aria-current="true" on its segment, set by the page as you scroll. A ring around it, a pixel clear of
+   the segment, the same on light and dark segments. Long names end in an ellipsis; give each segment a title with its full name. */
+.us-timeline > a { outline: 2px solid transparent; outline-offset: 1px; }
+.us-timeline > a[aria-current="true"] { color: var(--text); outline-color: var(--strong); }
+.us-timeline > a.is-live[aria-current="true"] { color: var(--on-strong); }
+.us-timeline > a:focus-visible { outline-color: var(--focus); }
 @media (prefers-reduced-motion: reduce) { .us-timeline > a { transition: none; } }
 .us-timeline-key { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin-top: var(--space-2); font: 450 14px/20px var(--font-sans); color: var(--text-secondary); }
 .us-timeline-key > span { display: inline-flex; align-items: center; gap: 6px; }
