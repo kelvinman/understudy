@@ -45,12 +45,12 @@
 
   <section class="us-beat" id="welcome">
     <div class="us-beat-head"><span class="us-beat-time">0:00 to 1:00</span><h2 class="us-beat-title">Welcome</h2></div>
-    <div class="us-screen is-page">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div><h3>Plan a week of meals from what's already in your kitchen.</h3><p>Add what you have. Pantry suggests the week and writes the list for the rest.</p></div>
+    <div class="us-screen is-slide">
+      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Pantry walkthrough</span></div>
+      <div class="us-slide"><h3 class="us-slide-title">Ten minutes to this week's meals</h3><p class="us-slide-text">Start from what's in your kitchen, not from a recipe.</p><span class="us-slide-num">1</span></div>
     </div>
     <div class="us-beat-notes">
-      <div><div class="us-beat-label">On screen</div><p>The home page, already open before the call starts.</p></div>
+      <div><div class="us-beat-label">On screen</div><p>One title slide, up before the call starts.</p></div>
       <div><div class="us-beat-label">Say</div><p class="us-beat-say">Ten minutes, and by the end you'll have this week planned.</p></div>
     </div>
   </section>
@@ -126,5 +126,18 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
+<script>
+// The beat in view gets aria-current on its timeline segment, so the sticky strip shows where you are.
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll(".us-timeline a"));
+  var beats = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  function update() {
+    var y = window.innerHeight * 0.35, at = 0;
+    beats.forEach(function (b, i) { if (b && b.getBoundingClientRect().top <= y) at = i; });
+    links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); });
+  }
+  window.addEventListener("scroll", update, { passive: true }); window.addEventListener("resize", update); update();
+})();
+</script>
 </body>
 </html>
