@@ -1,12 +1,16 @@
 // Builds understudyui.com into dist/: the pages in site/, plus the theme's own files, so the site
 // always shows the examples and tokens as they are in this repo. It also turns CHANGELOG.md into
 // /changelog and the feed at /changelog.xml, so the changelog is written once. Run: node scripts/build-site.mjs
-import { cpSync, rmSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, rmSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 
 const SITE = "https://understudyui.com";
 
-rmSync("dist", { recursive: true, force: true });
-mkdirSync("dist");
+// Clear dist/ but keep dist/design-system, the Claude design system copy built by
+// build-design-system.mjs: deleting it here hid which version was last published.
+mkdirSync("dist", { recursive: true });
+for (const entry of readdirSync("dist")) {
+  if (entry !== "design-system") rmSync(`dist/${entry}`, { recursive: true, force: true });
+}
 cpSync("site", "dist", { recursive: true });
 for (const path of ["tokens.css", "tokens.json", "components.css", "examples", "docs"]) {
   cpSync(path, `dist/${path}`, { recursive: true });
