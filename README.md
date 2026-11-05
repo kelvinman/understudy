@@ -7,7 +7,7 @@ A theme for Claude artifacts that makes them look like part of the Claude deskto
   <img src="docs/preview-light.png" alt="The full-width Workspace example: a customer request tracker with Group by and Show filters in the sidebar, a list of requests grouped by the need they share with a status dot and age on each, and the selected request with its status, who asked, why, what was committed, the other customers with the same ask and its issue.">
 </picture>
 
-It is plain CSS: a set of design tokens, one stylesheet of components, and five example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme.
+It is plain CSS: a set of design tokens, one stylesheet of components, and six example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme.
 
 This is an independent project. It is not made by, affiliated with or endorsed by Anthropic.
 
@@ -99,6 +99,7 @@ Each is one section of `components.css`.
 | Split empty | `us-split-empty`: one grey line when a list is empty. |
 | Phone nav and paged Split | `is-drawer` on the workspace, `us-nav-menu`, `us-scrim`, `is-nav-open`; `is-paged` and `is-open` on a `us-split`, `us-split-back`. Under 760px only. |
 | Quote button, drag strip | `us-quote-btn`, `us-drag` |
+| Run of show | `us-timeline` (`is-live`, `--us-span`), `us-timeline-key`, `us-timeline-swatch`, `us-beat`, `us-beat-head`, `us-beat-time`, `us-beat-title`, `us-beat-notes`, `us-beat-label`, `us-beat-say`; `us-screen`, `us-screen-bar`, `us-screen-dots`, `us-screen-title`, `us-screen-term` with `us-term-cmd`, `us-term-dim`, `us-term-ok`, `us-term-link`, `us-term-caret`. |
 
 ## Layout presets
 
@@ -109,6 +110,8 @@ Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left
 - **Short page** ([examples/short-page.html](examples/short-page.html)). A note, a link list, a one-screen answer. Same column as the report, nothing sticky.
 - **Workspace, cards** ([examples/workspace-cards.html](examples/workspace-cards.html)). A home page across many records: a project desk, settings, a file browser. A 240px nav on the left, a filter bar across the top, then panels on a grey canvas, each opening with a serif title. The example is a desk of projects: each panel holds a table grouped by area under folding headings, each row the project with a one-line status, its stage as a tag, when it was last touched and a small Copy prompt button that copies a prompt for starting a new Claude session on it. On a phone the table rows stack.
 - **Workspace, full width** ([examples/workspace-full-width.html](examples/workspace-full-width.html)). One working surface you move through, such as a request tracker or a review queue. The same nav, then no canvas and no cards: a tracker across the top and a split list and detail below it, with resizable columns, folding groups and a status dot per record. The example tracks customer requests: the nav groups them by the shared ask or by customer and filters them by status, and the detail shows why they asked, what was committed, the other customers with the same ask and the issue. When each record needs a decision, dock it at the bottom of the detail like a message composer (`us-dock`, `us-composer`).
+
+- **Run of show** ([examples/run-of-show.html](examples/run-of-show.html)). Anything run in time order: a demo, a talk, a workshop, a walkthrough on a call. Up to 1000px wide. A title and a meta line, then a timeline strip (`us-timeline`) with one segment per beat, each as wide as the beat is long, the beats done live in the strong shade, and a key under it. Then one `us-beat` per section, split by hairlines: its time range and title, a drawn window (`us-screen`) on the left showing what is on screen, or a drawn terminal (`us-screen-term`), and notes on the right as short labelled parts: On screen, Do, Say, with what is said in the serif. Prep and fallback lists close the page. Under 860px the notes go under the screen.
 
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
 
