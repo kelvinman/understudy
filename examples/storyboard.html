@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Pantry launch video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .page { max-width: 1120px; margin: 0 auto; padding-block: var(--space-8); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1 { font: 500 22px/30px var(--font-sans); margin: 0 0 var(--space-1); }
+  .head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-6); }
+  .head > div { flex: 1; min-width: 260px; }
+  .lede { max-width: 680px; margin: var(--space-3) 0 0; }
+  .us-timeline { margin-top: var(--space-4); }
+  /* The product drawn inside the screens. Sample content only. */
+  .app { padding: 4cqw 5cqw; display: flex; flex-direction: column; gap: 2.4cqw; font-size: max(10px, 2.2cqw); }
+  .app-nav { display: flex; gap: 3cqw; align-items: baseline; padding-bottom: 2cqw; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary); }
+  .app-nav b { color: var(--text); font-weight: 600; margin-right: auto; }
+  .week { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.4cqw; }
+  .day { padding: 1.6cqw; border-radius: var(--radius-sm); background: var(--bg-muted); line-height: 1.3; }
+  .day b { display: block; font-weight: 600; }
+  .phone-app { display: flex; flex-direction: column; gap: 8px; font-size: 12px; line-height: 16px; }
+  .phone-app b { font-weight: 600; font-size: 13px; }
+  .chip { padding: 6px 8px; border-radius: var(--radius-md); background: var(--bg-muted); }
+  .chip.is-new { box-shadow: inset 0 0 0 1px var(--strong); }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="head">
+    <div>
+      <h1>Pantry launch video</h1>
+      <div class="us-meta us-iconed"><i data-lucide="film" aria-hidden="true"></i><span>30 seconds, 8 frames, for the app store and social</span></div>
+      <p class="lede">One idea: dinner starts from what's already in the fridge. Every frame either shows the fridge or what Pantry does with it.</p>
+    </div>
+    <button class="us-btn" id="play"><i data-lucide="play" aria-hidden="true"></i><span>Play animatic</span></button>
+  </div>
+
+  <nav class="us-timeline" aria-label="Frames">
+    <a href="#f1" style="--us-span:3" title="The fridge">Fridge</a>
+    <a href="#f2" style="--us-span:3" title="Three things">Three</a>
+    <a href="#f3" style="--us-span:4" title="Type them in">Type</a>
+    <a href="#f4" style="--us-span:5" title="The week fills">Week</a>
+    <a href="#f5" style="--us-span:4" title="The list">List</a>
+    <a href="#f6" style="--us-span:4" title="At the shop">Shop</a>
+    <a href="#f7" style="--us-span:4" title="Dinner">Dinner</a>
+    <a href="#f8" style="--us-span:3" title="End card">End</a>
+  </nav>
+
+  <div class="us-board">
+    <article class="us-frame" id="f1">
+      <div class="us-frame-head"><span class="us-frame-title">The fridge</span><span class="us-frame-time">0:00 to 0:03</span></div>
+      <div class="us-frame-sketch">A half-empty fridge. The door swings open.</div>
+      <div class="us-frame-shot">Wide, handheld, low light</div>
+      <p class="us-frame-caption">Tuesday. Again.</p>
+      <span class="us-frame-transition">Cut</span>
+    </article>
+    <article class="us-frame" id="f2">
+      <div class="us-frame-head"><span class="us-frame-title">Three things</span><span class="us-frame-time">0:03 to 0:06</span></div>
+      <div class="us-frame-sketch">A hand pulls out spinach, eggs and half a lemon.</div>
+      <div class="us-frame-shot">Close, on the hand</div>
+      <p class="us-frame-caption">Spinach, eggs, half a lemon.</p>
+      <span class="us-frame-transition">Cut</span>
+    </article>
+    <article class="us-frame" id="f3">
+      <div class="us-frame-head"><span class="us-frame-title">Type them in</span><span class="us-frame-time">0:06 to 0:10</span></div>
+      <div class="us-frame-sketch is-device"><div class="us-phone"><div class="us-phone-screen"><div class="phone-app"><b>What do you have?</b><span class="chip">Spinach</span><span class="chip">Eggs</span><span class="chip is-new">Half a lemon</span></div></div></div></div>
+      <div class="us-frame-shot">Over the shoulder, phone fills the frame</div>
+      <p class="us-frame-caption">Tell Pantry what you have.</p>
+      <span class="us-frame-transition">Cut</span>
+    </article>
+    <article class="us-frame" id="f4">
+      <div class="us-frame-head"><span class="us-frame-title">The week fills</span><span class="us-frame-time">0:10 to 0:15</span></div>
+      <div class="us-screen is-page"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
+        <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span></div><div class="week"><div class="day"><b>Mon</b>Spinach frittata</div><div class="day"><b>Tue</b>Lemon pasta</div><div class="day"><b>Wed</b>Egg fried rice</div><div class="day"><b>Thu</b>Leftovers</div><div class="day"><b>Fri</b>Greens soup</div></div></div></div>
+      <div class="us-frame-shot">Screen capture, slow push in</div>
+      <p class="us-frame-caption">It plans the week around it.</p>
+      <span class="us-frame-transition">Dissolve</span>
+    </article>
+    <article class="us-frame" id="f5">
+      <div class="us-frame-head"><span class="us-frame-title">The list</span><span class="us-frame-time">0:15 to 0:19</span></div>
+      <div class="us-frame-sketch is-device"><div class="us-phone"><div class="us-phone-screen"><div class="phone-app"><b>This week's list</b><span class="chip">Pasta</span><span class="chip">Rice</span><span class="chip">Stock</span></div></div></div></div>
+      <div class="us-frame-shot">Phone on the counter, top down</div>
+      <p class="us-frame-caption">And writes the list for the rest.</p>
+      <span class="us-frame-transition">Cut</span>
+    </article>
+    <article class="us-frame" id="f6">
+      <div class="us-frame-head"><span class="us-frame-title">At the shop</span><span class="us-frame-time">0:19 to 0:23</span></div>
+      <div class="us-frame-sketch">A partner in the shop ticks off pasta on their own phone.</div>
+      <div class="us-frame-shot">Medium, shop aisle, daylight</div>
+      <p class="us-frame-caption">Whoever's at the shop sees it too.</p>
+      <span class="us-frame-transition">Cut</span>
+    </article>
+    <article class="us-frame" id="f7">
+      <div class="us-frame-head"><span class="us-frame-title">Dinner</span><span class="us-frame-time">0:23 to 0:27</span></div>
+      <div class="us-frame-sketch">Two plates of lemon pasta, steam rising.</div>
+      <div class="us-frame-shot">Close, warm light</div>
+      <p class="us-frame-caption">Dinner's sorted.</p>
+      <span class="us-frame-transition">Fade</span>
+    </article>
+    <article class="us-frame" id="f8">
+      <div class="us-frame-head"><span class="us-frame-title">End card</span><span class="us-frame-time">0:27 to 0:30</span></div>
+      <div class="us-screen is-slide"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">End card</span></div>
+        <div class="us-deck"><div class="us-deck-rail"><span class="us-deck-thumb is-current"></span></div><div class="us-deck-stage"><div class="us-slide"><h3 class="us-slide-title">Pantry</h3><p class="us-slide-text">Start from what you have.</p></div></div></div></div>
+      <div class="us-frame-shot">Hold on the end card</div>
+      <p class="us-frame-caption"></p>
+    </article>
+  </div>
+</main>
+
+<div class="us-animatic" id="animatic" hidden role="dialog" aria-label="Animatic">
+  <div class="us-animatic-stage" id="stage"></div>
+  <p class="us-animatic-caption" id="caption"></p>
+  <div class="us-animatic-bar">
+    <button class="us-icon-btn" id="a-prev" aria-label="Previous frame"><i data-lucide="skip-back" aria-hidden="true"></i></button>
+    <button class="us-icon-btn" id="a-toggle" aria-label="Pause"><i data-lucide="pause" aria-hidden="true"></i></button>
+    <button class="us-icon-btn" id="a-next" aria-label="Next frame"><i data-lucide="skip-forward" aria-hidden="true"></i></button>
+    <nav class="us-timeline" id="a-strip" aria-label="Frames"></nav>
+    <span class="us-meta" id="a-time"></span>
+    <button class="us-icon-btn" id="a-close" aria-label="Close"><i data-lucide="x" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<script>
+// The strip marks the frame in view while you scroll the board.
+(function () {
+  var links = [].slice.call(document.querySelectorAll(".page .us-timeline a"));
+  var frames = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  function update() {
+    if (!document.getElementById("animatic").hidden) return;
+    var y = innerHeight * 0.4, at = 0;
+    frames.forEach(function (f, i) { if (f.getBoundingClientRect().top <= y) at = i; });
+    links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); });
+  }
+  addEventListener("scroll", update, { passive: true }); addEventListener("resize", update); update();
+
+  // The animatic: each frame's picture and caption, held for its seconds.
+  var box = document.getElementById("animatic"), stage = document.getElementById("stage"), cap = document.getElementById("caption");
+  var strip = document.getElementById("a-strip"), timeEl = document.getElementById("a-time");
+  var secs = links.map(function (a) { return parseFloat(a.style.getPropertyValue("--us-span")) || 3; });
+  var total = secs.reduce(function (s, x) { return s + x; }, 0);
+  strip.innerHTML = links.map(function (a, i) { return '<a href="#" data-i="' + i + '" style="--us-span:' + secs[i] + '" title="' + a.title + '">' + a.textContent + "</a>"; }).join("");
+  var aLinks = [].slice.call(strip.querySelectorAll("a"));
+  var idx = 0, playing = false, timer = null, startedAt = 0;
+  function fmt(s) { s = Math.round(s); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
+  function show(i) {
+    idx = (i + frames.length) % frames.length;
+    var f = frames[idx], pic = f.querySelector(".us-screen, .us-frame-sketch");
+    stage.innerHTML = ""; if (pic) stage.appendChild(pic.cloneNode(true));
+    cap.textContent = (f.querySelector(".us-frame-caption") || {}).textContent || "";
+    aLinks.forEach(function (a, j) { a.setAttribute("aria-current", String(j === idx)); });
+    var before = secs.slice(0, idx).reduce(function (s, x) { return s + x; }, 0);
+    timeEl.textContent = fmt(before) + " / " + fmt(total);
+    clearTimeout(timer);
+    if (playing) timer = setTimeout(function () { if (idx === frames.length - 1) setPlaying(false); else show(idx + 1); }, secs[idx] * 1000);
+  }
+  function setPlaying(on) {
+    playing = on;
+    var t = document.getElementById("a-toggle");
+    t.setAttribute("aria-label", on ? "Pause" : "Play");
+    t.innerHTML = '<i data-lucide="' + (on ? "pause" : "play") + '" aria-hidden="true"></i>';
+    window.lucide && window.lucide.createIcons({ attrs: { "stroke-width": 1.75 } });
+    show(idx);
+  }
+  function open() { box.hidden = false; idx = 0; setPlaying(true); document.getElementById("a-toggle").focus(); }
+  function close() { box.hidden = true; playing = false; clearTimeout(timer); document.getElementById("play").focus(); update(); }
+  document.getElementById("play").onclick = open;
+  document.getElementById("a-close").onclick = close;
+  document.getElementById("a-toggle").onclick = function () { setPlaying(!playing); };
+  document.getElementById("a-prev").onclick = function () { show(idx - 1); };
+  document.getElementById("a-next").onclick = function () { show(idx + 1); };
+  strip.addEventListener("click", function (e) { var a = e.target.closest("a"); if (!a) return; e.preventDefault(); show(+a.dataset.i); });
+  document.addEventListener("keydown", function (e) {
+    if (box.hidden) return;
+    if (e.key === "Escape") close();
+    else if (e.key === " ") { e.preventDefault(); setPlaying(!playing); }
+    else if (e.key === "ArrowRight") show(idx + 1);
+    else if (e.key === "ArrowLeft") show(idx - 1);
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
+</body>
+</html>
