@@ -285,6 +285,10 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 /* The title is centred on the whole bar, not on the space after the dots, and keeps clear of them on both sides. */
 .us-screen-title { position: absolute; left: 72px; right: 72px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .us-screen-term { padding: var(--space-4); background: var(--bg-muted); font: 450 13px/20px var(--font-mono); color: var(--text); overflow-x: auto; white-space: pre-wrap; }
+/* A page: add is-page to a screen that shows a website or an app, so it has a browser's proportions (16:10) rather than
+   the height of its content. Its last child fills the rest and clips what does not fit, as a viewport does. */
+.us-screen.is-page { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-screen.is-page > :last-child { flex: 1; min-height: 0; overflow: hidden; }
 /* Terminal parts: us-term-cmd for what was typed, us-term-dim for the tool's working lines, us-term-ok for the line that says it worked,
    us-term-link for a link it printed, and us-term-caret, a blinking caret on the last line (still under reduced motion). */
 .us-term-cmd { font-weight: 600; }

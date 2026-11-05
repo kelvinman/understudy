@@ -16,6 +16,8 @@
   .us-beat:first-of-type { margin-top: var(--space-6); }
   /* The product drawn inside each screen. Sample content only. */
   .app { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .app-nav { display: flex; gap: var(--space-4); align-items: baseline; padding-bottom: var(--space-3); margin-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); font-size: 14px; color: var(--text-secondary); }
+  .app-nav b { color: var(--text); font-weight: 600; margin-right: auto; }
   .app h3 { font: 600 20px/28px var(--font-sans); margin: 0; }
   .app p { margin: 0; color: var(--text-secondary); }
   .week { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: var(--space-2); }
@@ -43,9 +45,9 @@
 
   <section class="us-beat" id="welcome">
     <div class="us-beat-head"><span class="us-beat-time">0:00 to 1:00</span><h2 class="us-beat-title">Welcome</h2></div>
-    <div class="us-screen">
+    <div class="us-screen is-page">
       <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><h3>Plan a week of meals from what's already in your kitchen.</h3><p>Add what you have. Pantry suggests the week and writes the list for the rest.</p></div>
+      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div><h3>Plan a week of meals from what's already in your kitchen.</h3><p>Add what you have. Pantry suggests the week and writes the list for the rest.</p></div>
     </div>
     <div class="us-beat-notes">
       <div><div class="us-beat-label">On screen</div><p>The home page, already open before the call starts.</p></div>
@@ -55,9 +57,9 @@
 
   <section class="us-beat" id="plan">
     <div class="us-beat-head"><span class="us-beat-time">1:00 to 4:00</span><h2 class="us-beat-title">Plan a week</h2><span class="us-tag">Live</span></div>
-    <div class="us-screen">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">This week</span></div>
-      <div class="app">
+    <div class="us-screen is-page">
+      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
+      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div>
         <div class="week">
           <div class="day"><b>Mon</b>Lentil soup</div>
           <div class="day"><b>Tue</b>Fried rice</div>
@@ -75,9 +77,9 @@
 
   <section class="us-beat" id="list">
     <div class="us-beat-head"><span class="us-beat-time">4:00 to 6:00</span><h2 class="us-beat-title">Shopping list</h2><span class="us-tag">Live</span></div>
-    <div class="us-screen">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Shopping list</span></div>
-      <div class="app">
+    <div class="us-screen is-page">
+      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
+      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div>
         <ul class="us-steps">
           <li><i data-lucide="circle-dashed" aria-hidden="true"></i>Red lentils, 500 g</li>
           <li><i data-lucide="circle-dashed" aria-hidden="true"></i>Chicken thighs, 6</li>
@@ -108,9 +110,9 @@
 
   <section class="us-beat" id="questions">
     <div class="us-beat-head"><span class="us-beat-time">8:00 to 10:00</span><h2 class="us-beat-title">Questions</h2></div>
-    <div class="us-screen">
+    <div class="us-screen is-page">
       <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><h3>Your week is ready.</h3><p>Plan, list and household, all in one place.</p></div>
+      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div><h3>Your week is ready.</h3><p>Plan, list and household, all in one place.</p></div>
     </div>
     <div class="us-beat-notes">
       <div><div class="us-beat-label">Do</div><p>Stop sharing so they can see each other, and leave their week open in their own tab.</p></div>

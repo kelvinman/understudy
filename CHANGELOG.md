@@ -6,7 +6,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ### Added
 
-- Run of show, a layout for anything run in time order, with `examples/run-of-show.html`: `us-timeline` (segments sized by `--us-span`, `is-live`), `us-timeline-key` and `us-timeline-swatch`; `us-beat` with `us-beat-head`, `us-beat-time`, `us-beat-title`, `us-beat-notes`, `us-beat-label`, `us-beat-say`; and `us-screen`, a drawn window, with `us-screen-bar`, `us-screen-dots`, `us-screen-title`, `us-screen-term`, a drawn terminal, with `us-term-cmd`, `us-term-dim`, `us-term-ok`, `us-term-link` and `us-term-caret`.
+- Run of show, a layout for anything run in time order, with `examples/run-of-show.html`: `us-timeline` (segments sized by `--us-span`, `is-live`), `us-timeline-key` and `us-timeline-swatch`; `us-beat` with `us-beat-head`, `us-beat-time`, `us-beat-title`, `us-beat-notes`, `us-beat-label`, `us-beat-say`; and `us-screen`, a drawn window, with `us-screen-bar`, `us-screen-dots`, `us-screen-title`, `is-page` for a website or app at 16:10, `us-screen-term`, a drawn terminal, with `us-term-cmd`, `us-term-dim`, `us-term-ok`, `us-term-link` and `us-term-caret`.
 - `us-tip`, `us-sheet` with `us-sheet-scrim`, `us-thumb` with `us-with-thumb`, and `us-text-btn`: a shared tooltip, a panel from the right, a row thumbnail and a button that reads as text.
 - `us-tab-select`, `us-dd`, `us-menu`, `us-menu-item`, `us-menu-count`: a filter drawn as a tab with a chevron that opens a menu below it. `us-tab-count` for a count at the end of a tab.
 - `us-cards` and `us-record-card`: a grid of equal-height cards, one per record, each with a head (logo, name, icon links, tags), a two-line summary, a row of icon-led facts and a short list under a hairline with an age per item.
