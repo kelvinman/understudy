@@ -313,6 +313,45 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 @keyframes us-term-blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .us-term-caret { animation: none; } }
 
+/* Phone: a drawn phone, in place of a us-screen, for a beat shown from a phone. us-phone holds a us-phone-screen
+   (any content, clipped) under a small island, centred in the screen column and at most 260px wide. */
+.us-phone { position: relative; justify-self: center; width: min(260px, 100%); aspect-ratio: 9 / 19; padding: 8px; box-sizing: border-box;
+  border: 1px solid var(--border); border-radius: 36px; background: var(--bg-sidebar); }
+.us-phone::before { content: ""; position: absolute; z-index: 1; top: 16px; left: 50%; width: 64px; height: 18px; margin-left: -32px; border-radius: var(--radius-pill); background: var(--strong); }
+.us-phone-screen { height: 100%; box-sizing: border-box; padding: 44px 14px 14px; border-radius: 28px; overflow: hidden; background: var(--bg); container-type: inline-size; }
+.us-beat > .us-phone { grid-column: 1; align-self: start; }
+
+/* Video call: is-call on a us-screen for a beat where you talk on camera. us-call holds the person speaking (us-call-tile
+   is-main), a us-call-side column of the others, and a us-call-bar of round us-call-btn controls (is-end to leave).
+   Each tile has a us-call-face of initials and a us-call-name. */
+.us-screen.is-call { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-call { flex: 1; min-height: 0; display: grid; grid-template-columns: 3fr 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 6px; padding: 6px; background: var(--bg-sidebar); }
+.us-call-tile { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; border-radius: var(--radius-md); background: var(--bg-muted); }
+.us-call-side { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+.us-call-side > .us-call-tile { flex: 1; }
+.us-call-face { display: flex; align-items: center; justify-content: center; width: max(36px, 10cqw); aspect-ratio: 1; border-radius: 50%; background: var(--strong); color: var(--on-strong); font: 600 max(13px, 2.6cqw)/1 var(--font-sans); }
+.us-call-side .us-call-face { width: max(24px, 5cqw); font-size: max(10px, 1.4cqw); }
+.us-call-name { position: absolute; left: 6px; bottom: 6px; padding: 2px 6px; border-radius: var(--radius-sm); background: var(--bg); font: 450 12px/16px var(--font-sans); color: var(--text); white-space: nowrap; }
+.us-call-bar { grid-column: 1 / -1; display: flex; justify-content: center; gap: 8px; padding-block: 2px; }
+.us-call-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); color: var(--text); }
+.us-call-btn svg.lucide { width: 14px; height: 14px; }
+.us-call-btn.is-end { background: var(--danger); box-shadow: none; color: var(--on-status); }
+
+/* Editor: us-editor in a us-screen for a file or code. One us-editor-line per line, numbered on its own (counter-set on a
+   line jumps the numbering). is-add and is-del mark a change; is-gap stands for lines left out and takes no number. */
+.us-editor { counter-reset: us-line; padding-block: var(--space-2); font: 450 13px/20px var(--font-mono); color: var(--text); overflow-x: auto; }
+.us-editor-line { display: flex; gap: var(--space-3); padding-right: var(--space-4); white-space: pre-wrap; }
+.us-editor-line::before { counter-increment: us-line; content: counter(us-line); flex: none; width: 32px; text-align: right; color: var(--text-placeholder); font-variant-numeric: tabular-nums; }
+.us-editor-line.is-add { background: var(--success-soft); }
+.us-editor-line.is-del { background: var(--danger-soft); }
+.us-editor-line.is-del > span { text-decoration: line-through; text-decoration-color: var(--danger); }
+.us-editor-line.is-gap { color: var(--text-placeholder); }
+.us-editor-line.is-gap::before { counter-increment: none; content: ""; }
+
+/* Talk only: is-talk on a us-beat with nothing on screen. The notes take the screen's place, up to content-width. */
+.us-beat.is-talk { grid-template-columns: minmax(0, 1fr); }
+.us-beat.is-talk .us-beat-notes { max-width: var(--content-width); }
+
 /* ==========================================================================
    Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
    Add is-flat for the full-width variant: no canvas and no cards. Needs: List.

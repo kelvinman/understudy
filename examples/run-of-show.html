@@ -23,6 +23,8 @@
   .week { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: var(--space-2); }
   .day { padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--bg-muted); font-size: 14px; line-height: 20px; }
   .day b { display: block; font-weight: 600; }
+  .phone-app { display: flex; flex-direction: column; gap: var(--space-3); }
+  .phone-app b { font-weight: 600; }
   .prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); padding-top: var(--space-8); border-top: 1px solid var(--border-subtle); }
   .prep h2 { font: 600 16px/24px var(--font-sans); margin: 0 0 var(--space-2); }
   .prep ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-2); }
@@ -31,92 +33,63 @@
 <body>
 <main class="page">
   <h1>Pantry walkthrough for a new household</h1>
-  <div class="us-meta us-iconed"><i data-lucide="clock" aria-hidden="true"></i><span>10 minutes, on a video call, sharing one browser window</span></div>
+  <div class="us-meta us-iconed"><i data-lucide="clock" aria-hidden="true"></i><span>12 minutes, on a video call, sharing one window at a time</span></div>
   <p class="lede">One idea runs through it: a week of meals starts from what is already in the kitchen, not from a recipe.</p>
 
   <nav class="us-timeline" aria-label="Beats">
     <a href="#welcome" style="--us-span:60">Welcome</a>
+    <a href="#who" style="--us-span:60">Who cooks when</a>
     <a href="#plan" class="is-live" style="--us-span:180">Plan a week</a>
     <a href="#list" class="is-live" style="--us-span:120">Shopping list</a>
-    <a href="#share" style="--us-span:120">Share it</a>
+    <a href="#import" style="--us-span:60">Import what you have</a>
+    <a href="#share" class="is-live" style="--us-span:120">Share it</a>
     <a href="#questions" style="--us-span:120">Questions</a>
   </nav>
   <div class="us-timeline-key"><span><i class="us-timeline-swatch is-live"></i>Done live with them</span><span><i class="us-timeline-swatch"></i>Shown from a sample account</span></div>
 
   <section class="us-beat" id="welcome">
     <div class="us-beat-head"><span class="us-beat-time">0:00 to 1:00</span><h2 class="us-beat-title">Welcome</h2></div>
-    <div class="us-screen is-slide">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Pantry walkthrough</span></div>
-      <div class="us-slide"><h3 class="us-slide-title">Ten minutes to this week's meals</h3><p class="us-slide-text">Start from what's in your kitchen, not from a recipe.</p><span class="us-slide-num">1</span></div>
-    </div>
-    <div class="us-beat-notes">
-      <div><div class="us-beat-label">On screen</div><p>One title slide, up before the call starts.</p></div>
-      <div><div class="us-beat-label">Say</div><p class="us-beat-say">Ten minutes, and by the end you'll have this week planned.</p></div>
-    </div>
+    <div class="us-screen is-slide"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Pantry walkthrough</span></div><div class="us-slide"><h3 class="us-slide-title">Ten minutes to this week&#x27;s meals</h3><p class="us-slide-text">Start from what&#x27;s in your kitchen, not from a recipe.</p><span class="us-slide-num">1</span></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">On screen</div><p>One title slide, up before the call starts.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">Ten minutes, and by the end you&#x27;ll have this week planned.</p></div></div>
+  </section>
+
+  <section class="us-beat is-talk" id="who">
+    <div class="us-beat-head"><span class="us-beat-time">1:00 to 2:00</span><h2 class="us-beat-title">Who cooks when</h2></div>
+    
+    <div class="us-beat-notes"><div><div class="us-beat-label">Do</div><p>Stop sharing for a minute. Ask who cooks on which nights, and which nights nobody does.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">Before the app, tell me about your week.</p></div></div>
   </section>
 
   <section class="us-beat" id="plan">
-    <div class="us-beat-head"><span class="us-beat-time">1:00 to 4:00</span><h2 class="us-beat-title">Plan a week</h2><span class="us-tag">Live</span></div>
-    <div class="us-screen is-page">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div>
-        <div class="week">
-          <div class="day"><b>Mon</b>Lentil soup</div>
-          <div class="day"><b>Tue</b>Fried rice</div>
-          <div class="day"><b>Wed</b>Sheet-pan chicken</div>
-          <div class="day"><b>Thu</b>Leftovers</div>
-          <div class="day"><b>Fri</b>Pasta with greens</div>
-        </div>
-      </div>
-    </div>
-    <div class="us-beat-notes">
-      <div><div class="us-beat-label">Do</div><p>Ask them for three things in their fridge and type them in. Let the week fill in on its own.</p></div>
-      <div><div class="us-beat-label">Say</div><p class="us-beat-say">Thursday is leftovers on purpose. Wednesday makes enough for two nights.</p></div>
-    </div>
+    <div class="us-beat-head"><span class="us-beat-time">2:00 to 5:00</span><h2 class="us-beat-title">Plan a week</h2><span class="us-tag">Live</span></div>
+    <div class="us-screen is-page"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div><div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div><div class="week"><div class="day"><b>Mon</b>Lentil soup</div><div class="day"><b>Tue</b>Fried rice</div><div class="day"><b>Wed</b>Sheet-pan chicken</div><div class="day"><b>Thu</b>Leftovers</div><div class="day"><b>Fri</b>Pasta with greens</div></div></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">Do</div><p>Ask them for three things in their fridge and type them in. Let the week fill in on its own.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">Thursday is leftovers on purpose. Wednesday makes enough for two nights.</p></div></div>
   </section>
 
   <section class="us-beat" id="list">
-    <div class="us-beat-head"><span class="us-beat-time">4:00 to 6:00</span><h2 class="us-beat-title">Shopping list</h2><span class="us-tag">Live</span></div>
-    <div class="us-screen is-page">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div>
-        <ul class="us-steps">
-          <li><i data-lucide="circle-dashed" aria-hidden="true"></i>Red lentils, 500 g</li>
-          <li><i data-lucide="circle-dashed" aria-hidden="true"></i>Chicken thighs, 6</li>
-          <li class="is-done"><i data-lucide="circle-check" aria-hidden="true"></i>Rice, already have</li>
-        </ul>
-      </div>
-    </div>
-    <div class="us-beat-notes">
-      <div><div class="us-beat-label">Do</div><p>Tick off what they already have, so the list shrinks while they watch.</p></div>
-      <div><div class="us-beat-label">Say</div><p class="us-beat-say">Anything you already own drops off the list.</p></div>
-    </div>
+    <div class="us-beat-head"><span class="us-beat-time">5:00 to 7:00</span><h2 class="us-beat-title">Shopping list</h2><span class="us-tag">Live</span></div>
+    <div class="us-phone"><div class="us-phone-screen"><div class="phone-app"><b>This week&#39;s list</b><ul class="us-steps"><li><i data-lucide="circle-dashed" aria-hidden="true"></i>Red lentils, 500 g</li><li><i data-lucide="circle-dashed" aria-hidden="true"></i>Chicken thighs, 6</li><li><i data-lucide="circle-dashed" aria-hidden="true"></i>Spinach</li><li class="is-done"><i data-lucide="circle-check" aria-hidden="true"></i>Rice</li></ul></div></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">Do</div><p>Hold your phone up to the camera. Tick off what they already have, so the list shrinks while they watch.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">At the shop, this is all you need.</p></div></div>
+  </section>
+
+  <section class="us-beat" id="import">
+    <div class="us-beat-head"><span class="us-beat-time">7:00 to 8:00</span><h2 class="us-beat-title">Import what you have</h2></div>
+    <div class="us-screen"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.csv</span></div><div class="us-editor"><div class="us-editor-line">item,quantity</div><div class="us-editor-line">red lentils,1 bag</div><div class="us-editor-line">rice,2 kg</div><div class="us-editor-line is-add">chicken thighs,6</div><div class="us-editor-line">eggs,12</div></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">On screen</div><p>The kitchen list they sent before the call, open as a file.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">Send a list once, and Pantry remembers it.</p></div></div>
   </section>
 
   <section class="us-beat" id="share">
-    <div class="us-beat-head"><span class="us-beat-time">6:00 to 8:00</span><h2 class="us-beat-title">Share it</h2></div>
-    <div class="us-screen">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Terminal</span></div>
-      <div class="us-screen-term"><span class="us-term-cmd">$ pantry share --week --with household</span>
-<span class="us-term-dim">  Reading this week's plan and list</span>
-<span class="us-term-ok">  Shared with 3 people:</span> <span class="us-term-link">pantry.app/h/okafor</span>
-<span class="us-term-cmd">$ </span><span class="us-term-caret"></span></div>
-    </div>
-    <div class="us-beat-notes">
-      <div><div class="us-beat-label">On screen</div><p>The sample account's household, with three people already in it.</p></div>
-      <div><div class="us-beat-label">Say</div><p class="us-beat-say">Whoever is at the shop sees the same list, and ticks show up for everyone.</p></div>
-    </div>
+    <div class="us-beat-head"><span class="us-beat-time">8:00 to 10:00</span><h2 class="us-beat-title">Share it</h2><span class="us-tag">Live</span></div>
+    <div class="us-screen"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Terminal</span></div><div class="us-screen-term"><span class="us-term-cmd">$ pantry share --week --with household</span>
+<span class="us-term-dim">  Reading this week&#x27;s plan and list</span>
+<span class="us-term-ok">  Shared with 3 people: </span><span class="us-term-link">pantry.app/h/okafor</span>
+<span class="us-term-cmd">$ </span><span class="us-term-caret"></span></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">Do</div><p>Run it live, so they see it is one line.</p></div><div><div class="us-beat-label">Say</div><p class="us-beat-say">Whoever is at the shop sees the same list, and ticks show up for everyone.</p></div></div>
   </section>
 
   <section class="us-beat" id="questions">
-    <div class="us-beat-head"><span class="us-beat-time">8:00 to 10:00</span><h2 class="us-beat-title">Questions</h2></div>
-    <div class="us-screen is-page">
-      <div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">pantry.app</span></div>
-      <div class="app"><div class="app-nav"><b>Pantry</b><span>Plan</span><span>List</span><span>Household</span></div><h3>Your week is ready.</h3><p>Plan, list and household, all in one place.</p></div>
-    </div>
-    <div class="us-beat-notes">
-      <div><div class="us-beat-label">Do</div><p>Stop sharing so they can see each other, and leave their week open in their own tab.</p></div>
-    </div>
+    <div class="us-beat-head"><span class="us-beat-time">10:00 to 12:00</span><h2 class="us-beat-title">Questions</h2></div>
+    <div class="us-screen is-call"><div class="us-screen-bar"><span class="us-screen-dots"><span></span><span></span><span></span></span><span class="us-screen-title">Call with the Okafors</span></div><div class="us-call"><div class="us-call-tile is-main"><span class="us-call-face">AO</span><span class="us-call-name">Amara Okafor</span></div><div class="us-call-side"><div class="us-call-tile"><span class="us-call-face">JO</span><span class="us-call-name">Jude Okafor</span></div><div class="us-call-tile"><span class="us-call-face">SL</span><span class="us-call-name">You</span></div></div><div class="us-call-bar"><span class="us-call-btn"><i data-lucide="mic" aria-hidden="true"></i></span><span class="us-call-btn"><i data-lucide="video" aria-hidden="true"></i></span><span class="us-call-btn"><i data-lucide="monitor-up" aria-hidden="true"></i></span><span class="us-call-btn is-end"><i data-lucide="phone-off" aria-hidden="true"></i></span></div></div></div>
+    <div class="us-beat-notes"><div><div class="us-beat-label">On screen</div><p>Back to faces, nothing shared.</p></div><div><div class="us-beat-label">Do</div><p>Leave their week open in their own tab, and ask what they&#x27;d cook first.</p></div></div>
   </section>
 
   <div class="prep">
