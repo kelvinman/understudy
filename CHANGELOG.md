@@ -33,6 +33,10 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - A `us-split-row` dot sits 3px in, centred in the chevron's column at its new 10px size. Icons in `us-record-where` are 14px, each beside its text.
 - Only the sorted header darkens: `th[aria-sort="none"]` no longer does.
 
+### Fixed
+
+- Building the site no longer deletes the Claude design system copy in `dist/design-system`. No class changes.
+
 ## 2026-10-31: Amber for work in motion
 
 Work under way now reads as moving. A grey in-progress dot looked like nothing was happening.
