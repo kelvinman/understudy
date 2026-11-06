@@ -389,6 +389,9 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    so every frame on the board is the same size. */
 .us-frame-sketch.is-device { align-items: flex-start; padding: var(--space-3) 0 0; border-style: solid; border-color: var(--border-subtle); background: var(--bg-sidebar); font: 450 12px/16px var(--font-sans); color: var(--text); text-align: left; }
 .us-frame-sketch.is-device > .us-phone { flex: none; width: 46%; }
+/* Every picture on a board is 16:9, whatever kind of screen it is, so frames line up. A screen clips what does not fit. */
+.us-frame > .us-screen { display: flex; flex-direction: column; aspect-ratio: 16 / 9; }
+.us-frame > .us-screen > :last-child { flex: 1; min-height: 0; overflow: hidden; }
 .us-frame-shot { font: 450 12px/16px var(--font-mono); color: var(--text-secondary); }
 .us-frame-caption { margin: 0; font: 400 16px/24px var(--font-serif); color: var(--text); }
 .us-frame-caption:empty { display: none; }
