@@ -368,6 +368,67 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-beat.is-talk { grid-template-columns: minmax(0, 1fr); }
 .us-beat.is-talk .us-beat-notes { max-width: var(--content-width); }
 
+/* Storyboard: the frames of something being made, such as a product video, a motion piece or a flow, seen all at once.
+   It shares the run of show's parts: a us-timeline above (a segment per frame, sized by its seconds) and the same screen
+   kinds inside frames. A us-board is a grid of us-frame cards, numbered on their own. Each frame has a us-frame-head
+   (us-frame-title, us-frame-time), a picture (a us-screen; a us-frame-sketch for a shot that is not a screen, holding
+   words or an img; or a us-frame-sketch is-device around a us-phone), a us-frame-shot line for the camera, a us-frame-caption for the voiceover or caption
+   in the serif, and a us-frame-transition to the next frame. */
+.us-board { counter-reset: us-frame; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-8) 112px; margin-top: var(--space-6); padding-right: 112px; }
+.us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 56px; }
+.us-frame-head { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; font: 450 13px/18px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-frame-head::before { counter-increment: us-frame; content: counter(us-frame); font-weight: 600; color: var(--text); }
+.us-frame-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-weight: 500; }
+.us-frame-time { flex: none; font-family: var(--font-mono); font-size: 12px; }
+.us-frame-sketch { container-type: inline-size; display: flex; align-items: center; justify-content: center; aspect-ratio: 16 / 9; box-sizing: border-box; padding: var(--space-4);
+  border-radius: var(--radius-lg); border: 1px dashed var(--border-strong); background: var(--bg-muted); overflow: hidden;
+  font: 400 15px/22px var(--font-serif); color: var(--text-secondary); text-align: center; text-wrap: balance; }
+.us-frame-sketch:has(> img) { padding: 0; border-style: solid; }
+.us-frame-sketch > img { width: 100%; height: 100%; object-fit: cover; }
+/* A phone in a frame sits in a 16:9 us-frame-sketch with is-device, cropped at the bottom like a shot over the shoulder,
+   so every frame on the board is the same size. */
+.us-frame-sketch.is-device { align-items: flex-start; padding: var(--space-3) 0 0; border-style: solid; border-color: var(--border-subtle); background: var(--bg-sidebar); font: 450 12px/16px var(--font-sans); color: var(--text); text-align: left; }
+.us-frame-sketch.is-device > .us-phone { flex: none; width: 46%; }
+/* Every picture on a board is 16:9, whatever kind of screen it is, so frames line up. A screen clips what does not fit. */
+.us-frame > .us-screen { display: flex; flex-direction: column; aspect-ratio: 16 / 9; }
+.us-frame > .us-screen > :last-child { flex: 1; min-height: 0; overflow: hidden; }
+.us-frame-shot { font: 450 12px/16px var(--font-mono); color: var(--text-secondary); }
+.us-frame-caption { margin: 0; font: 400 16px/24px var(--font-serif); color: var(--text); }
+.us-frame-caption:empty { display: none; }
+.us-frame > .us-frame-sketch, .us-frame > .us-screen { grid-row: 2; }
+/* The transition spans the gap after its frame, level with the middle of the picture: an arrow from this frame to the
+   next, with its word in a pill on the line (<span class="us-frame-transition"><span>Cut</span></span>). It sits in the
+   picture's grid row, so its middle is the picture's middle; at the end of a row it runs into the board's right margin.
+   In one column it runs down from the frame to the next, the pill on the line. */
+.us-frame-transition { position: absolute; grid-row: 2 / 3; grid-column: 1 / 2; top: 50%; left: 100%; width: 112px; height: 20px; margin-top: -10px;
+  display: flex; align-items: center; justify-content: center; }
+.us-frame-transition::before { content: ""; position: absolute; top: 50%; left: 8px; right: 9px; height: 1.5px; margin-top: -0.75px; background: var(--text-placeholder); }
+.us-frame-transition::after { content: ""; position: absolute; top: 50%; right: 8px; margin-top: -4px; border-left: 7px solid var(--text-placeholder); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+.us-frame-transition > span { position: relative; z-index: 1; padding: 1px var(--space-2); border-radius: var(--radius-pill); border: 1px solid var(--border); background: var(--bg);
+  font: 450 12px/16px var(--font-sans); color: var(--text-secondary); white-space: nowrap; }
+/* Two columns need 240px each, the 112px gap and the 112px margin: 704px of board, so a 736px window with its gutters.
+   Below that the board is always one column and the arrows point down; above it, always two or more and they point right. */
+@media (max-width: 735px) {
+  .us-board { grid-template-columns: minmax(0, 1fr); padding-right: 0; }
+  .us-frame-transition { position: relative; top: auto; left: auto; grid-row: auto; grid-column: auto; justify-self: center; width: auto; height: 52px; margin-top: var(--space-2); }
+  .us-frame-transition::before { top: 0; bottom: 8px; left: 50%; right: auto; width: 1.5px; height: auto; margin: 0 0 0 -0.75px; }
+  .us-frame-transition::after { top: auto; bottom: 1px; right: auto; left: 50%; margin: 0 0 0 -4px; border-top: 7px solid var(--text-placeholder); border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 0; }
+}
+
+/* Animatic: plays the frames one at a time at their lengths. us-animatic fills the screen with a us-animatic-stage for the
+   picture, a us-animatic-caption under it, and a us-animatic-bar of controls; the page's script moves it on. */
+.us-animatic { position: fixed; inset: 0; z-index: 20; display: grid; grid-template-rows: minmax(0, 1fr) auto auto; gap: var(--space-4);
+  padding: max(24px, env(safe-area-inset-top, 0px)) max(32px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(32px, env(safe-area-inset-left, 0px)); background: var(--bg); }
+.us-animatic[hidden] { display: none; }
+.us-animatic-stage { display: flex; align-items: center; justify-content: center; min-height: 0; }
+.us-animatic-stage > .us-screen, .us-animatic-stage > .us-frame-sketch { width: min(100%, 960px, calc((100vh - 220px) * 1.6)); }
+.us-animatic-stage > .us-frame-sketch.is-device > .us-phone { width: 32%; }
+.us-animatic-stage > .us-frame-sketch { font-size: 22px; line-height: 32px; }
+.us-animatic-caption { max-width: 760px; min-height: 1.4em; margin: 0 auto; text-align: center; font: 400 clamp(20px, 2.6vw, 28px)/1.4 var(--font-serif); }
+.us-animatic-bar { display: flex; align-items: center; gap: var(--space-3); }
+.us-animatic-bar > .us-timeline { position: static; flex: 1; min-width: 0; padding: 0; }
+.us-animatic-bar > .us-meta { flex: none; font-variant-numeric: tabular-nums; }
+
 /* ==========================================================================
    Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
    Add is-flat for the full-width variant: no canvas and no cards. Needs: List.
