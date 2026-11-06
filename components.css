@@ -374,7 +374,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    (us-frame-title, us-frame-time), a picture (a us-screen; a us-frame-sketch for a shot that is not a screen, holding
    words or an img; or a us-frame-sketch is-device around a us-phone), a us-frame-shot line for the camera, a us-frame-caption for the voiceover or caption
    in the serif, and a us-frame-transition to the next frame. */
-.us-board { counter-reset: us-frame; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-8) 104px; margin-top: var(--space-6); padding-right: 104px; }
+.us-board { counter-reset: us-frame; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-8) 72px; margin-top: var(--space-6); padding-right: 72px; }
 .us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 56px; }
 .us-frame-head { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; font: 450 13px/18px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-frame-head::before { counter-increment: us-frame; content: counter(us-frame); font-weight: 600; color: var(--text); }
@@ -396,19 +396,19 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-frame-caption { margin: 0; font: 400 16px/24px var(--font-serif); color: var(--text); }
 .us-frame-caption:empty { display: none; }
 .us-frame > .us-frame-sketch, .us-frame > .us-screen { grid-row: 2; }
-/* The transition sits in the gap after its frame, level with the middle of the picture, the word then an arrow, so it
+/* The transition sits in the gap after its frame, level with the middle of the picture, the word over an arrow, so it
    reads as what happens between two shots: placed in the picture's grid row, so its middle is the picture's middle. At the
    end of a row it sits in the board's right margin. In one column it sits under the frame, centred, its arrow pointing down to the next. */
-.us-frame-transition { position: absolute; grid-row: 2 / 3; grid-column: 1 / 2; top: 50%; left: calc(100% + 52px); transform: translate(-50%, -50%);
-  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+.us-frame-transition { position: absolute; grid-row: 2 / 3; grid-column: 1 / 2; top: 50%; left: calc(100% + 36px); transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px; white-space: nowrap;
   font: 450 12px/16px var(--font-sans); color: var(--text-secondary); }
-.us-frame-transition::after { content: ""; flex: none; width: 22px; height: 8px; background: currentColor;
+.us-frame-transition::after { content: ""; flex: none; width: 28px; height: 8px; background: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 8' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4h25M23 1l3 3-3 3'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 8' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 4h25M23 1l3 3-3 3'/%3E%3C/svg%3E") center / contain no-repeat; }
 @media (max-width: 660px) {
   .us-board { padding-right: 0; }
   .us-frame-transition { position: static; grid-row: auto; transform: none; justify-self: center; margin-top: var(--space-2); }
-  .us-frame-transition::after { transform: rotate(90deg); }   /* points down to the next frame */
+  .us-frame-transition::after { transform: rotate(90deg); margin-block: 10px; }   /* points down to the next frame */
 }
 
 /* Animatic: plays the frames one at a time at their lengths. us-animatic fills the screen with a us-animatic-stage for the
