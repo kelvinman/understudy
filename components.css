@@ -245,6 +245,129 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-dot.is-muted { background: var(--text-secondary); box-shadow: none; }
 .us-dot.is-blank { background: none; box-shadow: none; }   /* a row with no status: keeps the column, shows nothing */
 
+/* Run of show: a page for something run in time order, such as a demo, a talk or a walkthrough. A timeline strip at the top,
+   then one beat per section: its time range and title, a drawn screen on the left and the notes on the right.
+   The strip sticks to the top while the page scrolls, so any beat is one click away.
+   Timeline: a us-timeline of links, one per beat, each as wide as its beat is long (--us-span, in seconds or any unit).
+   Every segment is the same quiet grey with a short name (one or two words); the full name goes in its title. The beat in
+   view gets aria-current="true", set by the page as you scroll, and turns dark. Whether a beat is done live is said in the
+   beat's own heading, not in the strip. */
+.us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-2); background: var(--bg); }
+.us-timeline > a { flex: var(--us-span, 1) 1 0; display: block; min-width: 0; height: 28px; padding: 0 6px; text-align: center;
+  font: 500 12px/28px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted); text-decoration: none;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 150ms ease-out, color 150ms ease-out; }
+.us-timeline > a:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
+.us-timeline > a:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.us-timeline > a:hover { color: var(--text); background: var(--bg-selected); }
+.us-timeline > a[aria-current="true"] { color: var(--on-strong); background: var(--strong); }
+.us-timeline > a:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+@media (prefers-reduced-motion: reduce) { .us-timeline > a { transition: none; } }
+
+/* Beat: a section with an id the timeline links to. us-beat-head holds us-beat-time ("1:30 to 3:00") and the title (h2.us-beat-title),
+   then the screen and us-beat-notes side by side, stacking under 860px. Notes are short labelled parts (us-beat-label above a p):
+   On screen, Do, Say. What is said goes in us-beat-say, in the serif, so it reads as a voice. A beat can hold a second screen. */
+.us-beat { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: 56px; }   /* clears the sticky strip */
+.us-beat-head { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
+.us-beat-time { font: 450 14px/20px var(--font-mono); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-beat-title { font: 600 16px/24px var(--font-sans); margin: 0; }
+.us-beat-notes { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.us-beat-notes p { margin: 0; }
+.us-beat-label { font: 450 14px/20px var(--font-sans); color: var(--text-secondary); margin-bottom: 2px; }
+.us-beat-say { font: 400 17px/26px var(--font-serif); }
+.us-beat > .us-screen { grid-column: 1; align-self: start; }   /* as tall as its content, not the notes beside it */
+@media (max-width: 860px) { .us-beat { grid-template-columns: 1fr; } }
+
+/* Screen: a drawn window, so a beat shows what is on screen without a screenshot. A bar with three grey dots and a title
+   (us-screen-bar, us-screen-dots with three empty spans, us-screen-title), then any content. us-screen-term is a terminal body:
+   one line per text line, since it keeps line breaks. */
+.us-screen { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); min-width: 0; }
+.us-screen-bar { position: relative; display: flex; align-items: center; gap: var(--space-3); height: 32px; padding: 0 var(--space-3); background: var(--bg-sidebar); border-bottom: 1px solid var(--border-subtle); font: 450 12px/16px var(--font-sans); color: var(--text-secondary); }
+.us-screen-dots { display: flex; gap: 6px; }
+.us-screen-dots > span { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+/* The title is centred on the whole bar, not on the space after the dots, and keeps clear of them on both sides. */
+.us-screen-title { position: absolute; left: 72px; right: 72px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.us-screen-term { padding: var(--space-4); background: var(--bg-muted); font: 450 13px/20px var(--font-mono); color: var(--text); overflow-x: auto; white-space: pre-wrap; }
+/* A page: add is-page to a screen that shows a website or an app, so it has a browser's proportions (16:10) rather than
+   the height of its content. Its last child fills the rest and clips what does not fit, as a viewport does. */
+.us-screen.is-page { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-screen.is-page > :last-child { flex: 1; min-height: 0; overflow: hidden; }
+/* A slide: is-slide on a us-screen draws a presentation tool. A us-deck holds a us-deck-rail of us-deck-thumb slides (numbered on
+   their own, is-current on the one showing) and a us-deck-stage with the us-slide at 16:9: a title (us-slide-title), a line
+   (us-slide-text) and its number (us-slide-num), at sizes that follow the stage's width. */
+.us-screen { container-type: inline-size; }
+.us-screen.is-slide { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-deck { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(64px, 16%) minmax(0, 1fr); background: var(--bg-sidebar); }
+.us-deck-rail { counter-reset: us-thumb; display: flex; flex-direction: column; gap: 8px; padding: 10px 8px 10px 4px; border-right: 1px solid var(--border-subtle); overflow: hidden; }
+.us-deck-thumb { position: relative; flex: none; aspect-ratio: 16 / 9; margin-left: 16px; border-radius: 3px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); }
+.us-deck-thumb::before { counter-increment: us-thumb; content: counter(us-thumb); position: absolute; top: 0; left: -14px; width: 10px; text-align: right; font: 450 10px/12px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.us-deck-thumb::after { content: ""; position: absolute; top: 40%; left: 14%; right: 34%; height: 10%; border-radius: 2px; background: var(--border); }
+.us-deck-thumb.is-current { box-shadow: 0 0 0 2px var(--focus); }
+.us-deck-stage { container-type: inline-size; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 0; padding: 5%; }
+.us-deck-stage > .us-slide { flex: none; width: 100%; aspect-ratio: 16 / 9; border-radius: 4px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); }
+.us-slide { position: relative; box-sizing: border-box; min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: max(6px, 1.4cqw); padding: 6cqw 8cqw; }
+.us-slide-title { font: 600 max(18px, 4.4cqw)/1.15 var(--font-sans); letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.us-slide-text { font: 450 max(13px, 2cqw)/1.4 var(--font-sans); color: var(--text-secondary); margin: 0; max-width: 60ch; }
+.us-slide-num { position: absolute; right: 3cqw; bottom: 2.4cqw; font: 450 max(11px, 1.4cqw)/1 var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+/* Terminal parts: us-term-cmd for what was typed, us-term-dim for the tool's working lines, us-term-ok for the line that says it worked,
+   us-term-link for a link it printed, and us-term-caret, a blinking caret on the last line (still under reduced motion). */
+.us-term-cmd { font-weight: 600; }
+.us-term-dim { color: var(--text-secondary); }
+.us-term-ok { color: var(--success); }
+.us-term-link { color: var(--link); }
+.us-term-caret { display: inline-block; width: 7px; height: 15px; vertical-align: -2px; background: var(--text); animation: us-term-blink 1s steps(1) infinite; }
+@keyframes us-term-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .us-term-caret { animation: none; } }
+
+/* Phone: a drawn phone, in place of a us-screen, for a beat shown from a phone. us-phone holds a us-phone-screen
+   (any content, clipped) under a small island, centred in the screen column and at most 260px wide. */
+.us-phone { position: relative; justify-self: center; width: min(260px, 100%); aspect-ratio: 9 / 19; padding: 8px; box-sizing: border-box;
+  border: 1px solid var(--border); border-radius: 36px; background: var(--bg-sidebar); }
+.us-phone::before { content: ""; position: absolute; z-index: 1; top: 16px; left: 50%; width: 64px; height: 18px; margin-left: -32px; border-radius: var(--radius-pill); background: var(--strong); }
+.us-phone-screen { height: 100%; box-sizing: border-box; padding: 44px 14px 14px; border-radius: 28px; overflow: hidden; background: var(--bg); container-type: inline-size; }
+.us-beat > .us-phone { grid-column: 1; align-self: start; }
+
+/* Video call: is-call on a us-screen for a beat where you talk on camera. us-call holds the person speaking (us-call-tile
+   is-main), a us-call-side column of the others, and a us-call-bar of round us-call-btn controls (is-end to leave).
+   Each tile has a us-call-face of initials and a us-call-name. */
+.us-screen.is-call { display: flex; flex-direction: column; aspect-ratio: 16 / 10; }
+.us-call { flex: 1; min-height: 0; display: grid; grid-template-columns: 3fr 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: 6px; padding: 6px; background: var(--bg-sidebar); }
+.us-call-tile { position: relative; display: flex; align-items: center; justify-content: center; min-height: 0; border-radius: var(--radius-md); background: var(--bg-muted); }
+.us-call-side { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+.us-call-side > .us-call-tile { flex: 1; }
+.us-call-face { display: flex; align-items: center; justify-content: center; width: max(36px, 10cqw); aspect-ratio: 1; border-radius: 50%; background: var(--strong); color: var(--on-strong); font: 600 max(13px, 2.6cqw)/1 var(--font-sans); }
+.us-call-side .us-call-face { width: max(24px, 5cqw); font-size: max(10px, 1.4cqw); }
+.us-call-name { position: absolute; left: 6px; bottom: 6px; padding: 2px 6px; border-radius: var(--radius-sm); background: var(--bg); font: 450 12px/16px var(--font-sans); color: var(--text); white-space: nowrap; }
+.us-call-bar { grid-column: 1 / -1; display: flex; justify-content: center; gap: 8px; padding-block: 2px; }
+.us-call-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 1px var(--border); color: var(--text); }
+.us-call-btn svg.lucide { width: 14px; height: 14px; }
+.us-call-btn.is-end { background: var(--danger); box-shadow: none; color: var(--on-status); }
+
+/* Editor: us-editor in a us-screen for a file or code. One us-editor-line per line, numbered on its own (counter-set on a
+   line jumps the numbering). is-add and is-del mark a change; is-gap stands for lines left out and takes no number. */
+.us-editor { counter-reset: us-line; padding-block: var(--space-2); font: 450 13px/20px var(--font-mono); color: var(--text); overflow-x: auto; }
+.us-editor-line { display: flex; gap: var(--space-3); padding-right: var(--space-4); white-space: pre-wrap; }
+.us-editor-line::before { counter-increment: us-line; content: counter(us-line); flex: none; width: 32px; text-align: right; color: var(--text-placeholder); font-variant-numeric: tabular-nums; }
+.us-editor-line.is-add { background: var(--success-soft); }
+.us-editor-line.is-del { background: var(--danger-soft); }
+.us-editor-line.is-del > span { text-decoration: line-through; text-decoration-color: var(--danger); }
+.us-editor-line.is-gap { color: var(--text-placeholder); }
+.us-editor-line.is-gap::before { counter-increment: none; content: ""; }
+
+/* Editor with files: us-ide around a us-ide-tree and the us-editor, so a file reads as an editor, not a terminal. The tree is
+   us-ide-item rows, each a Lucide icon then a name: is-nested to indent under a folder, is-open on the file shown.
+   The tree hides when the screen is under 420px wide. */
+.us-ide { display: grid; grid-template-columns: minmax(120px, 26%) minmax(0, 1fr); min-height: 220px; }
+.us-ide-tree { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding: var(--space-2) 6px; background: var(--bg-sidebar); border-right: 1px solid var(--border-subtle); font: 450 12px/16px var(--font-sans); color: var(--text-secondary); }
+.us-ide-item { display: flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.us-ide-item svg.lucide { flex: none; width: 13px; height: 13px; }
+.us-ide-item.is-nested { padding-left: 22px; }
+.us-ide-item.is-open { background: var(--bg-selected); color: var(--text); }
+@container (max-width: 420px) { .us-ide { grid-template-columns: minmax(0, 1fr); } .us-ide-tree { display: none; } }
+
+/* Talk only: is-talk on a us-beat with nothing on screen. The notes take the screen's place, up to content-width. */
+.us-beat.is-talk { grid-template-columns: minmax(0, 1fr); }
+.us-beat.is-talk .us-beat-notes { max-width: var(--content-width); }
+
 /* ==========================================================================
    Workspace preset: a 240px nav and a main column. Cards: white panels on a grey canvas.
    Add is-flat for the full-width variant: no canvas and no cards. Needs: List.

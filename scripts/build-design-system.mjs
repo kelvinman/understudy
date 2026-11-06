@@ -38,7 +38,7 @@ let readme = read("README.md")
   .replace(/\(LICENSE\)/g, `(${GITHUB}/blob/main/LICENSE)`);
 readme = readme.replace(
   /It is plain CSS:[^\n]*\n/,
-  `It is plain CSS: a set of design tokens and one stylesheet of components. Here the tokens are under Colors, Typography and Spacing, the stylesheet is loaded as the components' CSS, and each component has its own page. The source, the five example pages and the changelog are at [github.com/kelvinman/understudy](${GITHUB}).\n`,
+  `It is plain CSS: a set of design tokens and one stylesheet of components. Here the tokens are under Colors, Typography and Spacing, the stylesheet is loaded as the components' CSS, and each component has its own page. The source, the six example pages and the changelog are at [github.com/kelvinman/understudy](${GITHUB}).\n`,
 );
 readme += `\n## Consuming this system\n\nNamespace: \`understudy\`. Plain CSS, no script bundle and no global. On a Design canvas, install \`tokens.css\`, \`tokens.json\` and \`components/bundle.css\`, and load \`tokens.css\` then \`components/bundle.css\` in each artboard, with the fonts above in its \`<helmet>\`. Classes are prefixed \`us-\`; each component's page shows its markup.\n`;
 readme += `\n## About this copy\n\nBuilt from [kelvinman/understudy](${GITHUB}) at ${sha} by \`scripts/build-design-system.mjs\`, and read-only here: change the repo, then rebuild. The component pages are static renditions of the \`us-\` classes with sample content. Figtree and Source Serif 4 load from Google Fonts; there are no font files.\n`;
