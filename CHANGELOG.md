@@ -4,6 +4,10 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ## Unreleased
 
+### Changed
+
+- `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
+
 ### Added
 
 - Storyboard, a layout for the frames of something being made, with `examples/storyboard.html`: `us-board` and `us-frame` with `us-frame-head`, `us-frame-title`, `us-frame-time`, `us-frame-sketch` (`is-device`), `us-frame-shot`, `us-frame-caption` and `us-frame-transition`; and `us-animatic` with `us-animatic-stage`, `us-animatic-caption` and `us-animatic-bar` to play the frames at their lengths. It reuses the run of show's timeline strip and screens.

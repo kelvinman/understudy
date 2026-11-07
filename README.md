@@ -54,7 +54,7 @@ Each is one section of `components.css`.
 | Text input, textarea | `us-input`, `us-textarea` |
 | Search field | `us-search`: a label around an icon and an `input type="search"`. |
 | Select | `us-select`: a span around a native `select`; add `is-set` while it filters something. |
-| Checkbox | `us-check`: a label around a native checkbox and its text. |
+| Checkbox | `us-check`: a label around a native checkbox and its text. The box sits on the first line, so a long label wraps under it. |
 | Filter bar | `us-filters`: one wrapping row of search, selects, toggles and checkboxes, with `us-filters-end` and `us-filters-count` for the count on the right. |
 | Tag | `us-tag`, with `us-tag-outline`, `us-tag-success`, `us-tag-danger` |
 | Tabs | `us-tabs`, `us-tab`; a tab can lead with an icon and end with `us-tab-count` (add `is-danger` or `is-success`). |
