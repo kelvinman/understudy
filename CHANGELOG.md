@@ -4,6 +4,10 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ## Unreleased
 
+### Changed
+
+- `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
+
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 
 Two new layouts for work that happens in time: a run of show for anything run beat by beat, and a storyboard whose frames play back as an animatic. Pages now fit a phone, with the nav as a drawer and a Split that shows one record at a time. Cards, menus, tooltips and sheets join the set, and tables, tabs and status dots read tighter and clearer.
