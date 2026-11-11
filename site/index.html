@@ -58,9 +58,32 @@
     .reveal > :nth-child(n + 3) { animation-delay: 160ms; }
   }
   @keyframes reveal { from { opacity: 0; transform: translateY(8px); } }
+  /* A fixed band at the top of the window: text dissolves into the page color as it scrolls under the edge. */
+  .top-fade::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 9;
+    height: 128px;
+    background: linear-gradient(
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 74%, transparent) 19%,
+      color-mix(in srgb, var(--bg) 54%, transparent) 34%,
+      color-mix(in srgb, var(--bg) 38%, transparent) 47%,
+      color-mix(in srgb, var(--bg) 28%, transparent) 56.5%,
+      color-mix(in srgb, var(--bg) 19%, transparent) 65%,
+      color-mix(in srgb, var(--bg) 11%, transparent) 73%,
+      color-mix(in srgb, var(--bg) 6%, transparent) 80%,
+      color-mix(in srgb, var(--bg) 3%, transparent) 87%,
+      color-mix(in srgb, var(--bg) 1%, transparent) 93%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+  @media print { .top-fade::before { display: none; } }
 </style>
 </head>
-<body>
+<body class="top-fade">
 <main class="page reveal">
   <div class="col">
     <div class="mark">
