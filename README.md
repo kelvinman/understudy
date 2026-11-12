@@ -108,9 +108,9 @@ Each is one section of `components.css`.
 
 ## Layout presets
 
-Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left))` and the same on the right, `<meta name="claude:viewport-fit-sides" content="cover">`, and both themes from `tokens.css`.
+Every page: `body` on `bg`, a side gutter of at least `max(16px, env(safe-area-inset-left))` and the same on the right (wide pages such as the storyboard let it grow, up to 64px), `<meta name="claude:viewport-fit-sides" content="cover">`, and both themes from `tokens.css`.
 
-- **Tool or tracker** ([examples/tool.html](examples/tool.html)). A review page, a checklist, a log. Up to 1080px wide. A short header, then a sticky bar with progress, counts and filter tabs. Items are open rows split by full-width hairlines, text on the left and controls on the right; the two columns stack under 860px. No cards around items.
+- **Tool or tracker** ([examples/tool.html](examples/tool.html)). A review page, a checklist, a log. A Workspace nav on the left (`us-workspace is-flat`) holds the filters, each with its count, then every item with its status dot as a link to it; the page beside it is up to 1080px wide. A short header, then a sticky bar with progress and counts. Items are open rows split by full-width hairlines, text on the left and controls on the right; the two columns stack under 860px. No cards around items.
 - **Report** ([examples/report.html](examples/report.html)). Findings, a comparison, a write-up. One 760px column, a title and a date line, sections 32px apart. A key number goes in one card at the top, never a row of tiles.
 - **Short page** ([examples/short-page.html](examples/short-page.html)). A note, a link list, a one-screen answer. Same column as the report, nothing sticky.
 - **Workspace, cards** ([examples/workspace-cards.html](examples/workspace-cards.html)). A home page across many records: a project desk, settings, a file browser. A 240px nav on the left, a filter bar across the top, then panels on a grey canvas, each opening with a serif title. The example is a desk of projects: each panel holds a table grouped by area under folding headings, each row the project with a one-line status, its stage as a tag, when it was last touched and a small Copy prompt button that copies a prompt for starting a new Claude session on it. On a phone the table rows stack.

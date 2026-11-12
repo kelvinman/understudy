@@ -8,11 +8,17 @@
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
-  .page { max-width: var(--tool-width); margin: 0 auto; padding: var(--space-8) max(16px, env(safe-area-inset-right)) var(--space-8) max(16px, env(safe-area-inset-left)); }
+  /* A Workspace nav on the left: the filters, then every check with its status dot, each a link to it. */
+  .us-workspace-nav { position: sticky; }
+  .us-workspace-nav .us-dot { margin: 0 3px; }
+  .us-workspace-main { overflow: clip; }
+  .page { width: 100%; box-sizing: border-box; max-width: var(--tool-width); margin: 0 auto; padding: var(--space-8) max(clamp(16px, 4vw, 32px), env(safe-area-inset-right)) var(--space-8) clamp(16px, 4vw, 32px); }
   h1 { font: 500 22px/30px var(--font-sans); margin: var(--space-1) 0 var(--space-2); }
   .intro { max-width: 640px; margin: 0; }
-  .bar { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: var(--space-4) 0 var(--space-3); margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+  .bar { position: sticky; top: 0; z-index: 2; background: var(--bg-panel); padding: var(--space-4) 0 var(--space-3); margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
   .bar::after { content: ""; position: absolute; left: -100vw; right: -100vw; bottom: 0; border-bottom: 1px solid var(--border-subtle); }
+  .item { scroll-margin-top: 96px; }
+  .item[hidden] { display: none; }
   .bar-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
   .item { display: grid; grid-template-columns: minmax(0, 640px) max-content; justify-content: space-between; gap: var(--space-4) var(--space-8); padding: var(--space-6) 0; }
   .item h2 { font: 600 16px/24px var(--font-sans); margin: 0; display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
@@ -23,22 +29,32 @@
 </style>
 </head>
 <body>
+<div class="us-workspace is-flat">
+<nav class="us-workspace-nav" aria-label="Checks">
+  <div class="us-nav-top"><span class="us-nav-title">Release 2.4</span></div>
+  <div class="us-list-label">Show</div>
+  <button class="us-row" type="button" data-show="all" aria-current="true"><i data-lucide="list" aria-hidden="true"></i><span>All checks</span><span class="us-row-count">3</span></button>
+  <button class="us-row" type="button" data-show="open" aria-current="false"><i data-lucide="circle-dashed" aria-hidden="true"></i><span>Open</span><span class="us-row-count">1</span></button>
+  <button class="us-row" type="button" data-show="done" aria-current="false"><i data-lucide="circle-check" aria-hidden="true"></i><span>Reviewed</span><span class="us-row-count">2</span></button>
+  <div class="us-list-label">Checks</div>
+  <a class="us-row" href="#notes"><span class="us-dot is-success" aria-hidden="true"></span><span>Release notes drafted</span></a>
+  <a class="us-row" href="#empty"><span class="us-dot is-danger" aria-hidden="true"></span><span>Empty states checked</span></a>
+  <a class="us-row" href="#shortcuts"><span class="us-dot" aria-hidden="true"></span><span>Keyboard shortcuts documented</span></a>
+  <div class="us-nav-foot"><span class="us-meta">Ships Friday</span></div>
+</nav>
+<div class="us-workspace-main">
 <main class="page">
-  <div class="us-meta">Release 2.4</div>
   <h1>Is this release ready to ship?</h1>
   <p class="intro">Each check below has an owner and a note. Approve it when it is done, or say what is missing.</p>
 
   <div class="bar">
-    <div class="us-progress" role="progressbar" aria-valuenow="2" aria-valuemax="4"><span class="is-success" style="width:25%"></span><span class="is-danger" style="width:25%"></span></div>
+    <div class="us-progress" role="progressbar" aria-valuenow="2" aria-valuemax="3"><span class="is-success" style="width:33.3%"></span><span class="is-danger" style="width:33.3%"></span></div>
     <div class="bar-row">
-      <span class="us-meta"><span style="color:var(--text)">2</span> of 4 reviewed</span>
-      <div class="us-tabs" role="group" aria-label="Show">
-        <button class="us-tab" aria-pressed="true">All</button><button class="us-tab" aria-pressed="false">Open</button><button class="us-tab" aria-pressed="false">Done</button>
-      </div>
+      <span class="us-meta"><span style="color:var(--text)">2</span> of 3 reviewed</span>
     </div>
   </div>
 
-  <section class="item">
+  <section class="item" id="notes" data-state="done">
     <div>
       <h2>Release notes drafted <span class="us-tag us-tag-success">approved</span></h2>
       <div class="us-meta us-iconed"><i data-lucide="file-code" aria-hidden="true"></i><span>docs/changelog.md</span></div>
@@ -52,7 +68,7 @@
     </div>
   </section>
 
-  <section class="item us-rule">
+  <section class="item us-rule" id="empty" data-state="done">
     <div>
       <h2>Empty states checked <span class="us-tag">design</span></h2>
       <div class="us-meta us-iconed"><i data-lucide="crosshair" aria-hidden="true"></i><span>Projects, Search, Inbox</span></div>
@@ -67,7 +83,7 @@
     </div>
   </section>
 
-  <section class="item us-rule">
+  <section class="item us-rule" id="shortcuts" data-state="open">
     <div>
       <h2>Keyboard shortcuts documented <span class="us-tag">docs</span></h2>
       <div class="us-meta us-iconed"><i data-lucide="calendar" aria-hidden="true"></i><span>Due Thursday</span></div>
@@ -92,6 +108,8 @@
     </div>
   </section>
 </main>
+</div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>
   // Verdict buttons: one pressed per item.
@@ -103,10 +121,13 @@
       btn.setAttribute("aria-pressed", String(on));
     });
   });
-  document.querySelectorAll(".us-tabs").forEach(function (tabs) {
-    tabs.addEventListener("click", function (e) {
-      var tab = e.target.closest(".us-tab"); if (!tab) return;
-      tabs.querySelectorAll(".us-tab").forEach(function (t) { t.setAttribute("aria-pressed", String(t === tab)); });
+  // The nav's Show rows filter the checks; the list of checks below them jumps to each one.
+  var nav = document.querySelector(".us-workspace-nav");
+  nav.addEventListener("click", function (e) {
+    var row = e.target.closest("[data-show]"); if (!row) return;
+    nav.querySelectorAll("[data-show]").forEach(function (r) { r.setAttribute("aria-current", String(r === row)); });
+    document.querySelectorAll(".item[data-state]").forEach(function (item) {
+      item.hidden = row.dataset.show !== "all" && item.dataset.state !== row.dataset.show;
     });
   });
   window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });
