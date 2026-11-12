@@ -7,10 +7,15 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 ### Changed
 
 - `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
+- The changelog page is a timeline: the date beside each release, its pictures (more than one, in light and dark), and its changes grouped under Added, Changed and Fixed with a count, long lists folded after five. The homepage demos six of the seven examples and lists the Claude design system. The README covers the design system copy, the release script and pictures for the run of show and storyboard. No class changes.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 
 Two new layouts for work that happens in time: a run of show for anything run beat by beat, and a storyboard whose frames play back as an animatic. Pages now fit a phone, with the nav as a drawer and a Split that shows one record at a time. Cards, menus, tooltips and sheets join the set, and tables, tabs and status dots read tighter and clearer.
+
+![The storyboard example: a launch video as a grid of 16:9 frames, each with its number, time, shot note and voiceover, a Cut or Dissolve arrow between them and the timeline strip above.](docs/changelog/2026-11-06-storyboard.png)
+![The run of show example: a timeline strip of beats, then the first beat with a drawn presentation window on the left and what to show and say on the right.](docs/changelog/2026-11-06-run-of-show.png)
+![The request tracker on a phone: the list of requests in folding groups, each with a status dot and its age.](docs/changelog/2026-11-06-phone.png)
 
 ### Added
 

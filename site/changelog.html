@@ -20,7 +20,9 @@
   a { color: var(--link); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .page { display: flex; flex-direction: column; align-items: center; padding: 100px max(16px, env(safe-area-inset-right)) 100px max(16px, env(safe-area-inset-left)); }
-  .col { width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: var(--space-4); }
+  .col { width: 100%; max-width: 880px; display: flex; flex-direction: column; gap: var(--space-4); }
+  .col > p, .col > h1 { max-width: 560px; }
+  .summary { color: var(--text-secondary); }
   .mark { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; color: var(--text); }
   .mark:hover { text-decoration: none; }
   .mark svg { width: 20px; height: 20px; flex: none; }
@@ -28,19 +30,56 @@
   p { margin: 0; }
   .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
   .actions .us-btn { color: var(--text); text-decoration: none; }
-  code { font: 450 0.88em/1 var(--font-mono); background: var(--bg-muted); border-radius: 4px; padding: 1px 4px; }
+  code { font: 450 0.88em/1 var(--font-mono); background: var(--bg-muted); border-radius: 4px; padding: 1px 4px; white-space: nowrap; }
+  /* In a change, the class names step back so the sentence around them reads first. */
+  .changes code { font-size: 13px; color: var(--text-secondary); }
+  /* A timeline: the date in a column on the left, a hairline rail with a dot per release, the entry on the right. */
   .entries { margin-top: var(--space-8); display: flex; flex-direction: column; }
-  .entry { display: flex; flex-direction: column; gap: var(--space-3); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: var(--space-6); }
+  .entry { display: grid; grid-template-columns: 136px minmax(0, 1fr); scroll-margin-top: var(--space-6); }
+  .when { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); padding-top: 3px; }
+  .when a { color: var(--text-secondary); }
+  .when a:hover { color: var(--text); text-decoration: none; }
+  .when > * { position: sticky; top: var(--space-6); }
+  .when .us-tag { top: calc(var(--space-6) + 28px); }
+  .body { position: relative; display: flex; flex-direction: column; gap: var(--space-4); padding: 0 0 var(--space-8) var(--space-8); border-left: 1px solid var(--border-subtle); min-width: 0; }
+  .entry:last-child .body { padding-bottom: 0; }
+  .body::before { content: ""; position: absolute; left: -5px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 1.5px var(--border); }
+  .is-latest .body::before { background: var(--strong); box-shadow: 0 0 0 4px var(--bg-muted); }
   .entry h2 { font: 500 18px/26px var(--font-sans); margin: 0; text-wrap: balance; }
-  .shot { margin: var(--space-2) 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
+  .lede { max-width: 600px; }
+
+  .shots { display: flex; flex-direction: column; gap: var(--space-3); margin-block: var(--space-1); }
+  .shots-row { display: flex; gap: var(--space-3); align-items: flex-start; }
+  .shot { margin: 0; min-width: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
   .shot img { display: block; width: 100%; height: auto; }
-  .changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
-  .changes li { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-3); align-items: baseline; font-size: 15px; line-height: 22px; }
-  .changes .us-tag { justify-self: start; }
+
+  .group { display: flex; flex-direction: column; gap: var(--space-2); }
+  .group h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0; font: inherit; }
+  .changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .changes li { position: relative; padding: 6px 0 6px var(--space-4); font-size: 15px; line-height: 22px; }
+  .changes li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 4px; height: 4px; border-radius: 50%; background: var(--text-secondary); }
+  .more summary { list-style: none; display: inline-flex; align-items: center; gap: 4px; padding-left: var(--space-4); color: var(--text-secondary); cursor: pointer; }
+  .more summary::-webkit-details-marker { display: none; }
+  .more summary:hover { color: var(--text); }
+  .more summary svg.lucide { width: 14px; height: 14px; }
+  .more[open] summary { display: none; }
   .source { display: inline-flex; align-items: center; gap: 2px; align-self: flex-start; }
   .source svg.lucide { width: 14px; height: 14px; }
   footer { margin-top: var(--space-8); }
-  @media (max-width: 480px) { .changes li { grid-template-columns: 1fr; gap: 2px; } }
+  /* Narrow: the date sits above each entry, and the rail runs down the left edge. */
+  @media (max-width: 640px) {
+    .entry { grid-template-columns: minmax(0, 1fr); border-left: 1px solid var(--border-subtle); padding-left: 20px; position: relative; }
+    .entry:not(:last-child) { padding-bottom: var(--space-8); }
+    .entry::before { content: ""; position: absolute; left: -5px; top: 8px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); box-shadow: inset 0 0 0 1.5px var(--border); }
+    .entry.is-latest::before { background: var(--strong); box-shadow: 0 0 0 4px var(--bg-muted); }
+    .when { flex-direction: row; align-items: center; padding: 0 0 var(--space-2); }
+    .when > * { position: static; }
+    .body, .entry:last-child .body { border-left: 0; padding: 0; }
+    .body::before { display: none; }
+    .shots-row { flex-direction: column; align-items: center; }
+    .shots-row .shot { flex: none !important; width: 100%; }
+    .shots-row .shot.is-tall { width: 60%; }
+  }
 </style>
 </head>
 <body>
@@ -53,6 +92,7 @@
       <a class="us-btn" href="https://github.com/kelvinman/understudy/blob/main/CHANGELOG.md"><i data-lucide="file-text" aria-hidden="true"></i><span>CHANGELOG.md</span></a>
       <a class="us-btn" href="changelog.xml"><i data-lucide="rss" aria-hidden="true"></i><span>Feed</span></a>
     </div>
+    <!--SUMMARY-->
     <div class="entries">
 <!--ENTRIES-->
     </div>

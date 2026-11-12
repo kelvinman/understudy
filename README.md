@@ -19,9 +19,11 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
 | `components.css` | A base section every page needs, then one section per component, as `us-` classes. The components are listed below. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
-| `CHANGELOG.md` | What changed, newest first, by component and class. The site shows it at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
+| `CHANGELOG.md` | What changed, newest first, by component and class. Changes collect under Unreleased as they merge and become one dated release, usually once a week. The site shows the releases at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
+| `design-system/`, `scripts/build-design-system.mjs` | Understudy as a Claude design system, for Claude's canvas, decks and mockups: a guideline and a live preview per component. The build writes it to `dist/design-system/` from this repo's tokens and styles. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
-| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
+| `scripts/release.mjs` | Turns Unreleased into a dated release with a title and a paragraph: `node scripts/release.mjs "Title" "Paragraph."` |
+| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here, and turns `CHANGELOG.md` into the changelog page. A release's pictures go in `docs/changelog/`, one `![alt](path)` line each under its paragraph; a file with `-dark` before the extension is shown in dark mode. |
 
 ## How to use it
 
@@ -43,6 +45,8 @@ and, if the page uses icons, Lucide:
 ```
 
 **With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens, the Base section and the component sections it uses. The rules below are written so an agent can follow them.
+
+**In Claude's design tools.** For a canvas, a deck or a mockup, build the design system copy with `node scripts/build-design-system.mjs` and add `dist/design-system/` to Claude as a design system. Its README says how a canvas installs and loads it.
 
 ## Components
 
@@ -114,7 +118,17 @@ Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left
 
 - **Run of show** ([examples/run-of-show.html](examples/run-of-show.html)). Anything run in time order: a demo, a talk, a workshop, a walkthrough on a call. Up to 1000px wide. A title and a meta line, then a timeline strip (`us-timeline`) with one segment per beat, each as wide as the beat is long and named in a word or two, all the same grey. The strip sticks to the top as the page scrolls, and the beat in view gets `aria-current` on its segment and turns dark. The full name goes in the segment's `title`; a beat done live says so with a tag in its own heading. Then one `us-beat` per section, split by hairlines: its time range and title, a drawn window (`us-screen`: `is-page` at a browser's 16:10 for a website, `is-slide` for a presentation tool, a rail of slides beside the one showing, a terminal, an editor with a file tree for a file, or `is-call` for a video call; or `us-phone` for a phone; or nothing, with `is-talk` on a beat that is only talking) on the left showing what is on screen, or a drawn terminal (`us-screen-term`), and notes on the right as short labelled parts: On screen, Do, Say, with what is said in the serif. Prep and fallback lists close the page. Under 860px the notes go under the screen.
 
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/run-of-show-dark.png">
+    <img src="docs/run-of-show-light.png" alt="The run of show example: a timeline strip of beats, then the first beat with a drawn presentation window on the left and what to show and say on the right." width="640">
+  </picture>
+
 - **Storyboard** ([examples/storyboard.html](examples/storyboard.html)). The frames of something being made: a product video, a motion piece, a flow. Up to 1120px wide. A title, a meta line with the length, and a Play animatic button; the same timeline strip as a run of show, a segment per frame sized by its seconds; then a grid of frames (`us-board`), each the same 16:9 size: its number, title and time, the picture (a drawn screen, a sketch of the shot in words or an image, or a phone cropped like a shot over the shoulder), the camera note, the caption or voiceover in the serif, and the transition to the next, an arrow across the gap with its word in a pill on the line. The animatic (`us-animatic`) plays the frames at their lengths with the caption under each. Use a run of show for something you perform live, a storyboard for something you make.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/storyboard-dark.png">
+    <img src="docs/storyboard-light.png" alt="The storyboard example: a launch video as a grid of 16:9 frames, each with its number, time, shot note and voiceover, a Cut or Dissolve arrow between them and the timeline strip above." width="640">
+  </picture>
 
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
 
