@@ -116,7 +116,15 @@
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) at = beats.length - 1;
     mark(at);
   }
-  links.forEach(function (a, i) { a.addEventListener("click", function () { picked = i; mark(i); }); });
+  // A click scrolls this page only. Following the link as an anchor would also scroll any page this one sits in,
+  // such as a site showing it in a frame.
+  links.forEach(function (a, i) { a.addEventListener("click", function (e) {
+    var el = document.querySelector(a.getAttribute("href")); if (!el) return;
+    e.preventDefault(); picked = i; mark(i);
+    var top = el.getBoundingClientRect().top + scrollY - (parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+    scrollTo({ top: top });
+    history.replaceState(null, "", a.getAttribute("href"));
+  }); });
   ["wheel", "touchmove", "keydown"].forEach(function (t) { addEventListener(t, function () { picked = null; }, { passive: true }); });
   window.addEventListener("scroll", update, { passive: true }); window.addEventListener("resize", update); update();
 })();
