@@ -12,6 +12,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - `us-select` can hold a `button` and a `us-menu` instead of a native `select`, so its menu opens below it; `us-menu[hidden]` hides a closed menu. The project desk example uses it for Stage and Area, and drops its Needs attention button, which the nav already has, so its filter bar fits one line.
 - A `us-tracker` at the foot of `us-workspace-nav` has 12px under its bar, so it no longer sits on the nav's edge.
 - `us-timeline` has 16px above its segments when it sticks, instead of 8px, so it no longer sits on the window's edge. A `us-beat` lands right under it when its segment is clicked, and a `us-frame` lands 24px under it. The run of show and storyboard examples mark the clicked segment until you scroll yourself, and glide to it unless reduced motion is on. A click scrolls only the example's own page, so a site showing it in a frame stays where it is.
+- The project desk example opens with its Tasks table, above the projects by stage, and its Project column keeps at least 180px so names read instead of being cut to a few letters. No class changes.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 

@@ -132,7 +132,7 @@ Every page: `body` on `bg`, a side gutter of at least `max(16px, env(safe-area-i
 
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
 
-The project desk also ends with a Tasks panel: a table you sort from its headers, resize by dragging any column's edge, and open row by row to see each project's tasks. The full-width example shows the nav's top band, hiding the nav, the nav footer and folding Split groups.
+The project desk also opens with a Tasks panel: a table you sort from its headers, resize by dragging any column's edge, and open row by row to see each project's tasks. The full-width example shows the nav's top band, hiding the nav, the nav footer and folding Split groups.
 
 ### Workspace nav
 

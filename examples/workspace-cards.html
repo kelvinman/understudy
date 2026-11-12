@@ -197,6 +197,8 @@ function renderNav() {
 
 function renderPanels() {
   var visible = PROJECTS.filter(shown), html = "";
+  // The Tasks table opens the desk: who is doing what comes first, then the projects by stage.
+  if (visible.length) html += renderWork(visible);
   document.getElementById("f-count").textContent = visible.length === PROJECTS.length ? plural(PROJECTS.length, "project") : visible.length + " of " + plural(PROJECTS.length, "project");
   PANELS.forEach(function (panel) {
     var rows = visible.filter(function (p) { return panelOf(p) === panel.id; });
@@ -221,7 +223,6 @@ function renderPanels() {
     });
     html += '</table></div></section>';
   });
-  if (visible.length) html += renderWork(visible);
   if (!html) html = '<section class="us-panel"><div class="desk-empty"><p>No projects match these filters.</p><button class="us-btn" id="clear"><i data-lucide="x" aria-hidden="true"></i><span>Clear filters</span></button></div></section>';
   document.getElementById("panels").innerHTML = html;
   watchWork();
@@ -233,10 +234,10 @@ var WORK = DATA.work;
 var TASK = { todo: ["To do", ""], doing: ["In progress", "is-warning"], done: ["Done", "is-success"], blocked: ["Blocked", "is-danger"] };
 var COLS = [
   { id: "name", label: "Project", sort: function (p) { return p.name.toLowerCase(); } },
-  { id: "lead", label: "Lead", width: 180, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
-  { id: "status", label: "Status", width: 180, sort: function (p) { return statusOf(p)[2]; } },
-  { id: "progress", label: "Progress", width: 224, sort: function (p) { var t = WORK[p.id].tasks; return doneIn(t) / t.length; } },
-  { id: "when", label: "Updated", width: 112, sort: function (p) { return p.days; } }
+  { id: "lead", label: "Lead", width: 160, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
+  { id: "status", label: "Status", width: 168, sort: function (p) { return statusOf(p)[2]; } },
+  { id: "progress", label: "Progress", width: 200, sort: function (p) { var t = WORK[p.id].tasks; return doneIn(t) / t.length; } },
+  { id: "when", label: "Updated", width: 96, sort: function (p) { return p.days; } }
 ];
 function store(k, v) { try { localStorage.setItem("understudy-" + k, JSON.stringify(v)); } catch (e) {} }
 function load(k, fallback) { try { var v = JSON.parse(localStorage.getItem("understudy-" + k)); return v == null ? fallback : v; } catch (e) { return fallback; } }
@@ -289,7 +290,7 @@ function renderWork(rows) {
   return html + '</tbody></table></div></section>';
 }
 
-// Column widths. Until the reader drags, Project takes the room the fixed columns leave. Once they drag, every column but the last
+// Column widths. Until the reader drags, Project takes the room the fixed columns leave, at least 180px. Once they drag, every column but the last
 // keeps a width and the last takes what is left; past the panel's width the table scrolls sideways.
 function applyWidths() {
   var table = document.getElementById("work"); if (!table) return;
@@ -299,7 +300,8 @@ function applyWidths() {
     table.querySelector('col[data-col="' + c.id + '"]').style.width = w ? w + "px" : "";
     if (widths && w) sum += w;
   });
-  table.style.minWidth = widths ? (sum + 96) + "px" : "";
+  // Project never gets narrower than 180px: below that the table scrolls sideways instead of cutting names to a few letters.
+  table.style.minWidth = widths ? (sum + 96) + "px" : (COLS.reduce(function (n, c) { return n + (c.width || 180); }, 0)) + "px";
 }
 function freezeWidths() {
   if (widths) return;
