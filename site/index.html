@@ -32,7 +32,7 @@
   .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
 
   /* The rhythm of kelvinman.com and studiosupernice.com: 48px between sections (32px here plus the column's 16px gap),
-     12px from a label to what it names. The example tabs sit 24px under the demo, so they read as its own control. */
+     12px from a label to what it names. The example tabs sit 24px above the demo they switch. */
   .demo { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-6); }
   .tabs-row { display: flex; justify-content: center; }
   .frame { position: relative; height: 640px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
@@ -102,7 +102,6 @@
   </div>
 
   <div class="wide demo">
-    <div class="frame"><iframe id="demo" src="examples/workspace-full-width.html" title="A live Understudy example"></iframe></div>
     <div class="tabs-row"><div class="us-tabs" role="tablist" aria-label="Examples">
       <button class="us-tab" role="tab" aria-selected="true" data-src="examples/workspace-full-width.html">Request tracker</button>
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/workspace-cards.html">Project desk</button>
@@ -110,6 +109,7 @@
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/run-of-show.html">Run of show</button>
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/tool.html">Review tool</button>
     </div></div>
+    <div class="frame"><iframe id="demo" src="examples/workspace-full-width.html" title="A live Understudy example"></iframe></div>
   </div>
 
   <div class="col">
