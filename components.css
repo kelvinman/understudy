@@ -254,7 +254,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    Every segment is the same quiet grey with a short name (one or two words); the full name goes in its title. The beat in
    view gets aria-current="true", set by the page as you scroll, and turns dark. Whether a beat is done live is said in the
    beat's own heading, not in the strip. */
-.us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-2); background: var(--bg); }
+.us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-4) var(--space-3); background: var(--bg); }   /* 16px above when stuck, so it does not sit on the window edge; 56px tall in all */
 .us-timeline > a { flex: var(--us-span, 1) 1 0; display: block; min-width: 0; height: 28px; padding: 0 6px; text-align: center;
   font: 500 12px/28px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted); text-decoration: none;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 150ms ease-out, color 150ms ease-out; }
@@ -268,7 +268,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 /* Beat: a section with an id the timeline links to. us-beat-head holds us-beat-time ("1:30 to 3:00") and the title (h2.us-beat-title),
    then the screen and us-beat-notes side by side, stacking under 860px. Notes are short labelled parts (us-beat-label above a p):
    On screen, Do, Say. What is said goes in us-beat-say, in the serif, so it reads as a voice. A beat can hold a second screen. */
-.us-beat { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: 56px; }   /* clears the sticky strip */
+.us-beat { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: 56px; }   /* lands just under the 56px sticky strip, its hairline meeting the strip */
 .us-beat-head { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
 .us-beat-time { font: 450 14px/20px var(--font-mono); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-beat-title { font: 600 16px/24px var(--font-sans); margin: 0; }
@@ -377,7 +377,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    words or an img; or a us-frame-sketch is-device around a us-phone), a us-frame-shot line for the camera, a us-frame-caption for the voiceover or caption
    in the serif, and a us-frame-transition to the next frame. */
 .us-board { counter-reset: us-frame; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-8) 112px; margin-top: var(--space-6); padding-right: 112px; }
-.us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 56px; }
+.us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 80px; }   /* 24px under the sticky strip */
 .us-frame-head { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; font: 450 13px/18px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-frame-head::before { counter-increment: us-frame; content: counter(us-frame); font-weight: 600; color: var(--text); }
 .us-frame-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-weight: 500; }

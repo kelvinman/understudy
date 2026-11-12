@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }   /* a click on the strip glides to its beat */
   .page { max-width: 1000px; margin: 0 auto; padding-block: var(--space-8); padding-left: max(clamp(16px, 5vw, 64px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 5vw, 64px), env(safe-area-inset-right, 0px)); }   /* the same growing gutter as the storyboard */
   h1 { font: 500 22px/30px var(--font-sans); margin: 0 0 var(--space-1); }
   .lede { max-width: 680px; margin: var(--space-3) 0 var(--space-6); }
@@ -99,15 +100,24 @@
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
 <script>
-// The beat in view gets aria-current on its timeline segment, so the sticky strip shows where you are.
+// The beat in view gets aria-current on its timeline segment, so the sticky strip shows where you are. The beat in view
+// is the last one whose top has reached the bottom of the strip. A click marks its own segment and keeps it until you
+// scroll yourself, since a short beat near the end of the page can never reach the top.
 (function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll(".us-timeline a"));
+  var strip = document.querySelector(".us-timeline");
+  var links = Array.prototype.slice.call(strip.querySelectorAll("a"));
   var beats = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  var picked = null;
+  function mark(at) { links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); }); }
   function update() {
-    var y = window.innerHeight * 0.35, at = 0;
+    if (picked !== null) return mark(picked);
+    var y = strip.getBoundingClientRect().bottom + 24, at = 0;
     beats.forEach(function (b, i) { if (b && b.getBoundingClientRect().top <= y) at = i; });
-    links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) at = beats.length - 1;
+    mark(at);
   }
+  links.forEach(function (a, i) { a.addEventListener("click", function () { picked = i; mark(i); }); });
+  ["wheel", "touchmove", "keydown"].forEach(function (t) { addEventListener(t, function () { picked = null; }, { passive: true }); });
   window.addEventListener("scroll", update, { passive: true }); window.addEventListener("resize", update); update();
 })();
 </script>

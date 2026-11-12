@@ -11,6 +11,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 - The review tool example (`examples/tool.html`) has a Workspace nav: its filters move there from tabs, with counts, and each check is listed with its status dot as a link to it. The storyboard's and the run of show's side gutters grow with the window, up to 64px. No class changes.
 - `us-select` can hold a `button` and a `us-menu` instead of a native `select`, so its menu opens below it; `us-menu[hidden]` hides a closed menu. The project desk example uses it for Stage and Area, and drops its Needs attention button, which the nav already has, so its filter bar fits one line.
 - A `us-tracker` at the foot of `us-workspace-nav` has 12px under its bar, so it no longer sits on the nav's edge.
+- `us-timeline` has 16px above its segments when it sticks, instead of 8px, so it no longer sits on the window's edge. A `us-beat` lands right under it when its segment is clicked, and a `us-frame` lands 24px under it. The run of show and storyboard examples mark the clicked segment until you scroll yourself, and glide to it unless reduced motion is on.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 

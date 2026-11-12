@@ -10,12 +10,13 @@
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }   /* a click on the strip glides to its beat */
   .page { max-width: 1120px; margin: 0 auto; padding-block: var(--space-8); padding-left: max(clamp(16px, 5vw, 64px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 5vw, 64px), env(safe-area-inset-right, 0px)); }   /* the gutter grows with the window, so a wide board has room to breathe */
   h1 { font: 500 22px/30px var(--font-sans); margin: 0 0 var(--space-1); }
   .head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-6); }
   .head > div { flex: 1; min-width: 260px; }
   .lede { max-width: 680px; margin: var(--space-3) 0 0; }
-  .us-timeline { margin-top: var(--space-4); }
+  .us-timeline { margin-top: var(--space-2); }
   /* The product drawn inside the screens. Sample content only. */
   .app { padding: 4cqw 5cqw; display: flex; flex-direction: column; gap: 2.4cqw; font-size: max(10px, 2.2cqw); }
   .app-nav { display: flex; gap: 3cqw; align-items: baseline; padding-bottom: 2cqw; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary); }
@@ -126,16 +127,24 @@
 </div>
 
 <script>
-// The strip marks the frame in view while you scroll the board.
+// The strip marks the frame in view while you scroll the board: the last frame whose top has reached the bottom of the
+// strip. A click marks its own segment and keeps it until you scroll yourself.
 (function () {
-  var links = [].slice.call(document.querySelectorAll(".page .us-timeline a"));
+  var pageStrip = document.querySelector(".page .us-timeline");
+  var links = [].slice.call(pageStrip.querySelectorAll("a"));
   var frames = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  var picked = null;
+  function mark(at) { links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); }); }
   function update() {
     if (!document.getElementById("animatic").hidden) return;
-    var y = innerHeight * 0.4, at = 0;
+    if (picked !== null) return mark(picked);
+    var y = pageStrip.getBoundingClientRect().bottom + 40, at = 0;
     frames.forEach(function (f, i) { if (f.getBoundingClientRect().top <= y) at = i; });
-    links.forEach(function (a, i) { a.setAttribute("aria-current", String(i === at)); });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) at = frames.length - 1;
+    mark(at);
   }
+  links.forEach(function (a, i) { a.addEventListener("click", function () { picked = i; mark(i); }); });
+  ["wheel", "touchmove", "keydown"].forEach(function (t) { addEventListener(t, function () { picked = null; }, { passive: true }); });
   addEventListener("scroll", update, { passive: true }); addEventListener("resize", update); update();
 
   // The animatic: each frame's picture and caption, held for its seconds.
