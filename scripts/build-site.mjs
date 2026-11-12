@@ -16,8 +16,10 @@ for (const path of ["tokens.css", "tokens.json", "components.css", "examples", "
   cpSync(path, `dist/${path}`, { recursive: true });
 }
 
-// CHANGELOG.md: "## YYYY-MM-DD: Title", a paragraph, an optional picture, "### Added|Changed|Fixed" lists,
-// and a closing link. Only that much markdown is read: inline code, links and bold.
+// CHANGELOG.md: "## YYYY-MM-DD: Title", a paragraph, optional pictures (one per line), then the release told the way
+// a product changelog tells it: a "#### Feature" section per thing worth showing (a short paragraph and its pictures),
+// and a "#### Smaller improvements" list, all in plain words. Then "### Added|Changed|Fixed" lists name the classes
+// touched; the page folds them behind one "Classes touched" line. A closing link is optional. Only that much markdown is read: inline code, links and bold.
 // "## Unreleased" at the top collects merged changes and is left off the site and the feed until
 // scripts/release.mjs gives it a date and a title.
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -31,16 +33,19 @@ const entries = readFileSync("CHANGELOG.md", "utf8").split(/^## /m).slice(1).fil
   const [headLine, ...lines] = block.trim().split("\n");
   const [, date, title] = headLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/) || [];
   if (!date) throw new Error(`CHANGELOG.md: a heading needs "## YYYY-MM-DD: Title", got "## ${headLine}"`);
-  const entry = { date, title, lede: [], picture: null, changes: [], source: null };
-  let kind = null;
+  const entry = { date, title, lede: [], pictures: [], features: [], changes: [], source: null };
+  let kind = null, feature = null;
   for (const line of lines) {
     const t = line.trim();
     if (!t) continue;
     let m;
-    if ((m = t.match(/^### (\w+)/))) kind = m[1];
+    if ((m = t.match(/^#### (.+)$/)) && !kind) entry.features.push(feature = { title: m[1], text: [], pictures: [], items: [] });
+    else if ((m = t.match(/^### (\w+)/))) { kind = m[1]; feature = null; }
     else if ((m = t.match(/^- (.+)$/)) && kind) entry.changes.push([kind, m[1]]);
-    else if ((m = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/))) entry.picture = { alt: m[1], src: m[2] };
+    else if ((m = t.match(/^- (.+)$/)) && feature) feature.items.push(m[1]);
+    else if ((m = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/))) (feature || entry).pictures.push({ alt: m[1], src: m[2] });
     else if ((m = t.match(/^\[([^\]]+)\]\(([^)]+)\)$/))) entry.source = { label: m[1], href: m[2] };
+    else if (feature) feature.text.push(t);
     else if (!kind) entry.lede.push(t);
   }
   return entry;
@@ -49,15 +54,63 @@ const entries = readFileSync("CHANGELOG.md", "utf8").split(/^## /m).slice(1).fil
 const day = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 const anchor = (iso) => `d${iso.replace(/-/g, "")}`;
 
-const html = entries.map((e) => `    <article class="entry" id="${anchor(e.date)}">
-      <time class="us-meta" datetime="${e.date}">${day(e.date)}</time>
-      <h2>${inline(e.title)}</h2>
-      ${e.lede.length ? `<p>${inline(e.lede.join(" "))}</p>` : ""}
-      ${e.picture ? `<figure class="shot"><img src="${esc(e.picture.src)}" alt="${esc(e.picture.alt)}" loading="lazy"></figure>` : ""}
-      <ul class="changes">${e.changes.map(([k, text]) => `<li><span class="${TAG[k] || "us-tag"}">${esc(k)}</span><span>${inline(text)}</span></li>`).join("")}</ul>
-      ${e.source ? `<a class="us-meta source" href="${esc(e.source.href)}">${esc(e.source.label)} <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>` : ""}
+// Pictures: the first runs full width, any others share a row at one height, each as wide as its
+// shape. A PNG's size is read from its header so the row needs no layout script. A file named like
+// the picture with "-dark" before the extension is shown in dark mode instead.
+const pngSize = (src) => {
+  try {
+    const b = readFileSync(src);
+    return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+  } catch { return { w: 16, h: 10 }; }
+};
+const darkOf = (src) => src.replace(/(\.\w+)$/, "-dark$1");
+const exists = (src) => { try { readFileSync(src); return true; } catch { return false; } };
+const shot = (p) => {
+  const { w, h } = pngSize(p.src);
+  const dark = exists(darkOf(p.src)) ? `<source media="(prefers-color-scheme: dark)" srcset="${esc(darkOf(p.src))}">` : "";
+  return `<figure class="shot${h > w ? " is-tall" : ""}" style="flex: ${(w / h).toFixed(3)}"><picture>${dark}<img src="${esc(p.src)}" alt="${esc(p.alt)}" width="${w}" height="${h}" loading="lazy"></picture></figure>`;
+};
+const pictures = ([first, ...rest]) => !first ? "" :
+  `<div class="shots">${shot(first)}${rest.length ? `<div class="shots-row">${rest.map(shot).join("")}</div>` : ""}</div>`;
+
+// Features: a heading, a short paragraph, its pictures, or a list for "Smaller improvements".
+const features = (list) => list.map((f) => `<section class="feature">
+        <h3>${inline(f.title)}</h3>
+        ${f.text.length ? `<p>${inline(f.text.join(" "))}</p>` : ""}
+        ${pictures(f.pictures)}
+        ${f.items.length ? `<ul class="small">${f.items.map((t) => `<li>${inline(t)}</li>`).join("")}</ul>` : ""}
+      </section>`).join("");
+
+// The classes a release touched, for someone checking a page they built, folded behind one line.
+const KINDS = ["Added", "Changed", "Fixed", "Removed"];
+const classes = (changes) => {
+  if (!changes.length) return "";
+  const kinds = [...KINDS, ...new Set(changes.map(([k]) => k).filter((k) => !KINDS.includes(k)))];
+  const counts = kinds.map((k) => [k, changes.filter(([c]) => c === k).length]).filter(([, n]) => n);
+  return `<details class="classes">
+        <summary><i data-lucide="chevron-right" aria-hidden="true"></i><span>Classes touched</span><span class="us-meta">${counts.map(([k, n]) => `${n} ${k.toLowerCase()}`).join(", ")}</span></summary>
+        ${counts.map(([kind]) => `<section class="group"><h4><span class="${TAG[kind] || "us-tag"}">${esc(kind)}</span></h4><ul class="changes">${changes.filter(([k]) => k === kind).map(([, t]) => `<li>${inline(t)}</li>`).join("")}</ul></section>`).join("")}
+      </details>`;
+};
+
+const html = entries.map((e, i) => `    <article class="entry${i === 0 ? " is-latest" : ""}" id="${anchor(e.date)}">
+      <div class="when">
+        <a class="us-meta" href="#${anchor(e.date)}"><time datetime="${e.date}">${day(e.date)}</time></a>
+        ${i === 0 ? `<span class="us-tag us-tag-outline">Latest</span>` : ""}
+      </div>
+      <div class="body">
+        <h2>${inline(e.title)}</h2>
+        ${e.lede.length ? `<p class="lede">${inline(e.lede.join(" "))}</p>` : ""}
+        ${pictures(e.pictures)}
+        ${features(e.features)}
+        ${classes(e.changes)}
+        ${e.source ? `<a class="us-meta source" href="${esc(e.source.href)}">${esc(e.source.label)} <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>` : ""}
+      </div>
     </article>`).join("\n");
-const page = readFileSync("site/changelog.html", "utf8").replace("<!--ENTRIES-->", html);
+const total = entries.reduce((n, e) => n + e.changes.length, 0);
+const first = entries[entries.length - 1];
+const summary = `<p class="us-meta summary">${entries.length} releases and ${total} changes since ${day(first.date)}.</p>`;
+const page = readFileSync("site/changelog.html", "utf8").replace("<!--SUMMARY-->", summary).replace("<!--ENTRIES-->", html);
 writeFileSync("dist/changelog.html", page);
 
 // The homepage's "Updated" line under the hero, from the newest entry.

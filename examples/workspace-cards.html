@@ -61,9 +61,8 @@
     <div class="desk-bar">
       <div class="us-filters" role="group" aria-label="Filters">
         <label class="us-search"><i data-lucide="search" aria-hidden="true"></i><input type="search" id="f-search" placeholder="Search projects" aria-label="Search projects"></label>
-        <button class="us-btn us-btn-sm" id="f-attention" aria-pressed="false"><i data-lucide="circle-dot" aria-hidden="true"></i><span>Needs attention</span></button>
-        <span class="us-select"><select id="f-stage" aria-label="Stage"></select></span>
-        <span class="us-select"><select id="f-area" aria-label="Area"></select></span>
+        <span class="us-select" data-pick="stage"><button type="button" id="f-stage" aria-haspopup="listbox" aria-expanded="false" aria-label="Stage"></button><div class="us-menu" role="listbox" aria-label="Stage" hidden></div></span>
+        <span class="us-select" data-pick="area"><button type="button" id="f-area" aria-haspopup="listbox" aria-expanded="false" aria-label="Area"></button><div class="us-menu" role="listbox" aria-label="Area" hidden></div></span>
         <label class="us-check"><input type="checkbox" id="f-paused" checked><span>Show paused</span></label>
         <div class="us-filters-end"><span class="us-filters-count" id="f-count"></span></div>
       </div>
@@ -169,11 +168,16 @@ function promptFor(p) {
 }
 
 function renderControls() {
-  document.getElementById("f-stage").innerHTML = '<option value="">All stages</option>' + STAGES.map(function (s) { return '<option' + (s === f.stage ? " selected" : "") + '>' + s + '</option>'; }).join("");
-  document.getElementById("f-area").innerHTML = '<option value="">All areas</option>' + AREAS.map(function (a) { return '<option' + (a === f.area ? " selected" : "") + '>' + a + '</option>'; }).join("");
-  document.getElementById("f-stage").parentElement.classList.toggle("is-set", !!f.stage);
-  document.getElementById("f-area").parentElement.classList.toggle("is-set", !!f.area);
-  document.getElementById("f-attention").setAttribute("aria-pressed", String(f.attention));
+  // Stage and Area are buttons with a menu the page draws, so it opens below the button instead of over it.
+  [["stage", STAGES, "All stages"], ["area", AREAS, "All areas"]].forEach(function (d) {
+    var key = d[0], wrap = document.querySelector('[data-pick="' + key + '"]');
+    wrap.querySelector("button").textContent = f[key] || d[2];
+    wrap.classList.toggle("is-set", !!f[key]);
+    wrap.querySelector(".us-menu").innerHTML = [""].concat(d[1]).map(function (v) {
+      return '<button type="button" class="us-menu-item" role="option" data-value="' + v + '" aria-selected="' + (v === f[key]) + '">' + (v || d[2]) +
+        (v === f[key] ? '<i data-lucide="check" aria-hidden="true"></i>' : '') + '</button>';
+    }).join("");
+  });
   document.getElementById("f-paused").checked = f.paused;
 }
 
@@ -193,6 +197,8 @@ function renderNav() {
 
 function renderPanels() {
   var visible = PROJECTS.filter(shown), html = "";
+  // The Tasks table opens the desk: who is doing what comes first, then the projects by stage.
+  if (visible.length) html += renderWork(visible);
   document.getElementById("f-count").textContent = visible.length === PROJECTS.length ? plural(PROJECTS.length, "project") : visible.length + " of " + plural(PROJECTS.length, "project");
   PANELS.forEach(function (panel) {
     var rows = visible.filter(function (p) { return panelOf(p) === panel.id; });
@@ -217,7 +223,6 @@ function renderPanels() {
     });
     html += '</table></div></section>';
   });
-  if (visible.length) html += renderWork(visible);
   if (!html) html = '<section class="us-panel"><div class="desk-empty"><p>No projects match these filters.</p><button class="us-btn" id="clear"><i data-lucide="x" aria-hidden="true"></i><span>Clear filters</span></button></div></section>';
   document.getElementById("panels").innerHTML = html;
   watchWork();
@@ -229,10 +234,10 @@ var WORK = DATA.work;
 var TASK = { todo: ["To do", ""], doing: ["In progress", "is-warning"], done: ["Done", "is-success"], blocked: ["Blocked", "is-danger"] };
 var COLS = [
   { id: "name", label: "Project", sort: function (p) { return p.name.toLowerCase(); } },
-  { id: "lead", label: "Lead", width: 180, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
-  { id: "status", label: "Status", width: 180, sort: function (p) { return statusOf(p)[2]; } },
-  { id: "progress", label: "Progress", width: 224, sort: function (p) { var t = WORK[p.id].tasks; return doneIn(t) / t.length; } },
-  { id: "when", label: "Updated", width: 112, sort: function (p) { return p.days; } }
+  { id: "lead", label: "Lead", width: 160, sort: function (p) { return WORK[p.id].lead ? WORK[p.id].lead.toLowerCase() : "\uffff"; } },
+  { id: "status", label: "Status", width: 168, sort: function (p) { return statusOf(p)[2]; } },
+  { id: "progress", label: "Progress", width: 200, sort: function (p) { var t = WORK[p.id].tasks; return doneIn(t) / t.length; } },
+  { id: "when", label: "Updated", width: 96, sort: function (p) { return p.days; } }
 ];
 function store(k, v) { try { localStorage.setItem("understudy-" + k, JSON.stringify(v)); } catch (e) {} }
 function load(k, fallback) { try { var v = JSON.parse(localStorage.getItem("understudy-" + k)); return v == null ? fallback : v; } catch (e) { return fallback; } }
@@ -285,7 +290,7 @@ function renderWork(rows) {
   return html + '</tbody></table></div></section>';
 }
 
-// Column widths. Until the reader drags, Project takes the room the fixed columns leave. Once they drag, every column but the last
+// Column widths. Until the reader drags, Project takes the room the fixed columns leave, at least 180px. Once they drag, every column but the last
 // keeps a width and the last takes what is left; past the panel's width the table scrolls sideways.
 function applyWidths() {
   var table = document.getElementById("work"); if (!table) return;
@@ -295,7 +300,8 @@ function applyWidths() {
     table.querySelector('col[data-col="' + c.id + '"]').style.width = w ? w + "px" : "";
     if (widths && w) sum += w;
   });
-  table.style.minWidth = widths ? (sum + 96) + "px" : "";
+  // Project never gets narrower than 180px: below that the table scrolls sideways instead of cutting names to a few letters.
+  table.style.minWidth = widths ? (sum + 96) + "px" : (COLS.reduce(function (n, c) { return n + (c.width || 180); }, 0)) + "px";
 }
 function freezeWidths() {
   if (widths) return;
@@ -340,9 +346,34 @@ function render() { renderControls(); renderNav(); renderPanels(); icons(); }
 
 // Filters
 document.getElementById("f-search").addEventListener("input", function (e) { f.query = e.target.value.trim().toLowerCase(); renderPanels(); icons(); });
-document.getElementById("f-attention").addEventListener("click", function () { f.attention = !f.attention; render(); });
-document.getElementById("f-stage").addEventListener("change", function (e) { f.stage = e.target.value; render(); });
-document.getElementById("f-area").addEventListener("change", function (e) { f.area = e.target.value; render(); });
+// Open and close the Stage and Area menus: click toggles, a choice, a click outside or Escape closes, arrows move.
+function closeMenus(except) {
+  document.querySelectorAll("[data-pick]").forEach(function (w) {
+    if (w === except) return;
+    w.querySelector(".us-menu").hidden = true;
+    w.querySelector("button").setAttribute("aria-expanded", "false");
+  });
+}
+document.querySelectorAll("[data-pick]").forEach(function (wrap) {
+  var btn = wrap.querySelector("button"), menu = wrap.querySelector(".us-menu");
+  btn.addEventListener("click", function () {
+    var open = menu.hidden;
+    closeMenus(wrap);
+    menu.hidden = !open; btn.setAttribute("aria-expanded", String(open));
+    if (open) (menu.querySelector('[aria-selected="true"]') || menu.firstElementChild).focus();
+  });
+  menu.addEventListener("click", function (e) {
+    var item = e.target.closest(".us-menu-item"); if (!item) return;
+    f[wrap.dataset.pick] = item.dataset.value;
+    closeMenus(); render(); btn.focus();
+  });
+  menu.addEventListener("keydown", function (e) {
+    var items = [].slice.call(menu.querySelectorAll(".us-menu-item")), i = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus(); }
+    if (e.key === "Escape") { closeMenus(); btn.focus(); }
+  });
+});
+document.addEventListener("click", function (e) { if (!e.target.closest("[data-pick]")) closeMenus(); });
 document.getElementById("f-paused").addEventListener("change", function (e) { f.paused = e.target.checked; render(); });
 document.querySelector(".us-workspace-nav").addEventListener("click", function (e) {
   var row = e.target.closest(".us-row"); if (!row) return;

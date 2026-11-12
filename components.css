@@ -63,10 +63,10 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
    <span class="us-select"><select aria-label="Stage"><option>All stages</option></select></span>
    Add is-set to the span while it filters something, so the border steps up. */
 .us-select { position: relative; display: inline-flex; min-width: 0; }
-.us-select select { appearance: none; -webkit-appearance: none; width: 100%; height: var(--control-height); box-sizing: border-box; padding: 0 30px 0 var(--space-3);
-  font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-overflow: ellipsis; }
-.us-select select:hover { border-color: var(--border-strong); background: var(--bg-muted); }
-.us-select.is-set select { border-color: var(--border-strong); }
+.us-select > :is(select, button) { appearance: none; -webkit-appearance: none; width: 100%; height: var(--control-height); box-sizing: border-box; padding: 0 30px 0 var(--space-3);
+  font: 450 15px/20px var(--font-sans); color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.us-select > :is(select, button):hover { border-color: var(--border-strong); background: var(--bg-muted); }
+.us-select.is-set > :is(select, button) { border-color: var(--border-strong); }
 .us-select::after { content: ""; position: absolute; right: 10px; top: 50%; width: 14px; height: 14px; margin-top: -7px; pointer-events: none; background: var(--text-secondary);
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat; }
@@ -134,6 +134,7 @@ svg.lucide, .us-icon { width: 16px; height: 16px; stroke-width: 1.75; flex: none
 .us-menu { position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 100%; max-height: 320px; overflow-y: auto; box-sizing: border-box; padding: 4px; display: flex; flex-direction: column; gap: 2px;
   background: var(--bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
 .us-menu.is-end { left: auto; right: 0; }
+.us-menu[hidden] { display: none; }
 .us-menu-item { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); height: 30px; padding: 0 var(--space-2); border: 0; border-radius: var(--radius-md); background: none;
   color: var(--text); font: 450 14px/20px var(--font-sans); text-align: left; white-space: nowrap; cursor: pointer; }
 .us-menu-item:hover, .us-menu-item:focus-visible { background: var(--bg-muted); outline: none; }
@@ -253,7 +254,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    Every segment is the same quiet grey with a short name (one or two words); the full name goes in its title. The beat in
    view gets aria-current="true", set by the page as you scroll, and turns dark. Whether a beat is done live is said in the
    beat's own heading, not in the strip. */
-.us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-2); background: var(--bg); }
+.us-timeline { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; display: flex; gap: 2px; padding-block: var(--space-4) var(--space-3); background: var(--bg); }   /* 16px above when stuck, so it does not sit on the window edge; 56px tall in all */
 .us-timeline > a { flex: var(--us-span, 1) 1 0; display: block; min-width: 0; height: 28px; padding: 0 6px; text-align: center;
   font: 500 12px/28px var(--font-sans); color: var(--text-secondary); background: var(--bg-muted); text-decoration: none;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 150ms ease-out, color 150ms ease-out; }
@@ -267,7 +268,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 /* Beat: a section with an id the timeline links to. us-beat-head holds us-beat-time ("1:30 to 3:00") and the title (h2.us-beat-title),
    then the screen and us-beat-notes side by side, stacking under 860px. Notes are short labelled parts (us-beat-label above a p):
    On screen, Do, Say. What is said goes in us-beat-say, in the serif, so it reads as a voice. A beat can hold a second screen. */
-.us-beat { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: 56px; }   /* clears the sticky strip */
+.us-beat { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); padding-block: var(--space-8); border-top: 1px solid var(--border-subtle); scroll-margin-top: 56px; }   /* lands just under the 56px sticky strip, its hairline meeting the strip */
 .us-beat-head { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-3); }
 .us-beat-time { font: 450 14px/20px var(--font-mono); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-beat-title { font: 600 16px/24px var(--font-sans); margin: 0; }
@@ -376,7 +377,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
    words or an img; or a us-frame-sketch is-device around a us-phone), a us-frame-shot line for the camera, a us-frame-caption for the voiceover or caption
    in the serif, and a us-frame-transition to the next frame. */
 .us-board { counter-reset: us-frame; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-8) 112px; margin-top: var(--space-6); padding-right: 112px; }
-.us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 56px; }
+.us-frame { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: var(--space-2); min-width: 0; scroll-margin-top: 80px; }   /* 24px under the sticky strip */
 .us-frame-head { display: flex; align-items: baseline; gap: var(--space-2); min-width: 0; font: 450 13px/18px var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-frame-head::before { counter-increment: us-frame; content: counter(us-frame); font-weight: 600; color: var(--text); }
 .us-frame-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-weight: 500; }
@@ -602,7 +603,7 @@ del.us-del { text-decoration: line-through; text-decoration-color: var(--danger)
 .us-tracker-name { font-weight: 600; }
 .us-tracker-count { font-size: 14px; color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 .us-tracker-count strong { color: var(--text); }
-.us-workspace-nav .us-tracker { position: static; min-height: 0; margin-top: auto; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) 0; background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
+.us-workspace-nav .us-tracker { position: static; min-height: 0; margin-top: auto; flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding: var(--space-2) var(--space-1) var(--space-3); background: none; border-top: 1px solid var(--border-subtle); border-bottom: 0; }
 .us-workspace-nav .us-tracker .us-progress { flex: none; }
 @media (max-width: 760px) { .us-tracker { padding: var(--space-3) var(--space-4); } }
 

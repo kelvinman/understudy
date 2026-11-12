@@ -31,7 +31,10 @@
   p { margin: 0; }
   .actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
 
-  .demo { margin-top: 64px; display: flex; flex-direction: column; gap: var(--space-3); }
+  /* The rhythm of kelvinman.com and studiosupernice.com: 48px between sections (32px here plus the column's 16px gap),
+     12px from a label to what it names. The example tabs sit 24px above the demo they switch,
+     and the demo has 64px on both sides, so it stands apart from the intro and from "Use it". */
+  .demo { margin: 64px 0 32px; display: flex; flex-direction: column; gap: var(--space-6); }
   .tabs-row { display: flex; justify-content: center; }
   .frame { position: relative; height: 640px; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
   .frame iframe { display: block; width: 100%; height: 100%; border: 0; }
@@ -100,11 +103,14 @@
   </div>
 
   <div class="wide demo">
-    <div class="frame"><iframe id="demo" src="examples/workspace-full-width.html" title="A live Understudy example"></iframe></div>
     <div class="tabs-row"><div class="us-tabs" role="tablist" aria-label="Examples">
       <button class="us-tab" role="tab" aria-selected="true" data-src="examples/workspace-full-width.html">Request tracker</button>
       <button class="us-tab" role="tab" aria-selected="false" data-src="examples/workspace-cards.html">Project desk</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/tool.html">Release checklist</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/run-of-show.html">Demo script</button>
+      <button class="us-tab" role="tab" aria-selected="false" data-src="examples/storyboard.html">Launch storyboard</button>
     </div></div>
+    <div class="frame"><iframe id="demo" src="examples/workspace-full-width.html" title="A live Understudy example"></iframe></div>
   </div>
 
   <div class="col">
@@ -124,7 +130,8 @@
         <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/tokens.json"><i data-lucide="braces" aria-hidden="true"></i><span>tokens.json</span><span class="us-row-meta">Every value, with its source</span></a>
         <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/tokens.css"><i data-lucide="palette" aria-hidden="true"></i><span>tokens.css</span><span class="us-row-meta">Light and dark</span></a>
         <a class="us-row" href="https://github.com/kelvinman/understudy/blob/main/components.css"><i data-lucide="component" aria-hidden="true"></i><span>components.css</span><span class="us-row-meta">The us- classes</span></a>
-        <a class="us-row" href="https://github.com/kelvinman/understudy/tree/main/examples"><i data-lucide="layout-template" aria-hidden="true"></i><span>examples</span><span class="us-row-meta">A request tracker and a project desk</span></a>
+        <a class="us-row" href="https://github.com/kelvinman/understudy/tree/main/examples"><i data-lucide="layout-template" aria-hidden="true"></i><span>examples</span><span class="us-row-meta">Seven layouts, from a tracker to a storyboard</span></a>
+        <a class="us-row" href="https://github.com/kelvinman/understudy/tree/main/design-system/components"><i data-lucide="shapes" aria-hidden="true"></i><span>design-system</span><span class="us-row-meta">For Claude's canvas, decks and mockups</span></a>
         <a class="us-row" href="changelog"><i data-lucide="history" aria-hidden="true"></i><span>Changelog</span><span class="us-row-meta">What changed, newest first</span></a>
       </nav>
     </section>

@@ -7,10 +7,48 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 ### Changed
 
 - `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
+- The changelog page reads like a product changelog: the date beside each release on a timeline, a one-line intro, a heading, short paragraph and picture (light and dark) per feature, and a Smaller improvements list, with the classes each release touched folded behind one line; every release is written this way, and the top area uses the homepage's narrow column. The homepage demos five of the seven examples, each tab named for what the example is (Request tracker, Project desk, Release checklist, Demo script, Launch storyboard), with the tabs above the demo, and lists the Claude design system. The README covers the design system copy, the release script, how a release is written, what clicking the time strip does and the live examples on the site, with a current picture at the top and pictures for the run of show and storyboard. No class changes.
+- The review tool example (`examples/tool.html`) has a Workspace nav: its filters move there from tabs, with counts, and each check is listed with its status dot as a link to it. The storyboard's and the run of show's side gutters grow with the window, up to 64px. No class changes.
+- `us-select` can hold a `button` and a `us-menu` instead of a native `select`, so its menu opens below it; `us-menu[hidden]` hides a closed menu. The project desk example uses it for Stage and Area, and drops its Needs attention button, which the nav already has, so its filter bar fits one line.
+- A `us-tracker` at the foot of `us-workspace-nav` has 12px under its bar, so it no longer sits on the nav's edge.
+- `us-timeline` has 16px above its segments when it sticks, instead of 8px, so it no longer sits on the window's edge. A `us-beat` lands right under it when its segment is clicked, and a `us-frame` lands 24px under it. The run of show and storyboard examples mark the clicked segment until you scroll yourself, and glide to it unless reduced motion is on. A click scrolls only the example's own page, so a site showing it in a frame stays where it is.
+- The project desk example opens with its Tasks table, above the projects by stage, and its Project column keeps at least 180px so names read instead of being cut to a few letters. No class changes.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 
-Two new layouts for work that happens in time: a run of show for anything run beat by beat, and a storyboard whose frames play back as an animatic. Pages now fit a phone, with the nav as a drawer and a Split that shows one record at a time. Cards, menus, tooltips and sheets join the set, and tables, tabs and status dots read tighter and clearer.
+Two new layouts for work that happens in time, pages that fit a phone, and a handful of new pieces for tools you work in.
+
+#### Storyboards
+
+A layout for the frames of something you are making, such as a product video or a motion piece. Every frame is the same 16:9 size, with its time, the shot and the voiceover, and an arrow to the next frame names the cut. Play animatic runs the frames at their lengths with the caption under each.
+
+![The storyboard example: a launch video as a grid of 16:9 frames, each with its number, time, shot note and voiceover, a Cut or Dissolve arrow between them and the timeline strip above.](docs/changelog/2026-11-06-storyboard.png)
+
+#### A run of show
+
+A layout for anything you run live in time order: a demo, a talk, a walkthrough on a call. A strip across the top shows every beat, as wide as it is long, and stays in view as you scroll. Each beat pairs a drawn screen of what is showing, whether a website, slides, a terminal, an editor, a phone or a video call, with what to do and say.
+
+![The run of show example: a timeline strip of beats, then the first beat with a drawn presentation window on the left and what to show and say on the right.](docs/changelog/2026-11-06-run-of-show.png)
+
+#### Pages that fit a phone
+
+On a phone the workspace nav opens as a drawer, and a split list shows either the list or one record, with a back button between them.
+
+![The request tracker on a phone: the list of requests in folding groups, each with a status dot and its age.](docs/changelog/2026-11-06-phone.png)
+
+#### Cards, menus, tooltips and sheets
+
+A grid of cards for scanning many records of one kind, a tab that opens a menu below it for filtering, a shared tooltip, a panel that slides in from the right, row thumbnails and a button that reads as text.
+
+#### Smaller improvements
+
+- Table rows fit their content instead of a 56px minimum, and a group's heading is a full-width band you click to fold
+- Status dots are 10px and built like the macOS window buttons, and progress bars use flat traffic light colors
+- Tabs can lead with an icon and end with a count
+- Avatars come in six colors, each readable under white initials
+- Label and value rows, markdown read in place, and links that leave the page with an arrow
+- The workspace nav's top band stays pinned while the nav scrolls, and pages keep clear of a notch
+- The Claude design system copy carries the tokens, so a Claude canvas can install it
 
 ### Added
 
@@ -49,7 +87,17 @@ Two new layouts for work that happens in time: a run of show for anything run be
 
 ## 2026-10-31: Amber for work in motion
 
-Work under way now reads as moving. A grey in-progress dot looked like nothing was happening.
+Work under way now reads as moving.
+
+#### Amber for in progress
+
+A grey in-progress dot looked like nothing was happening, so work under way is now amber, in dots, tags and progress bars, in light and dark.
+
+![The request tracker on 31 Oct: rows in progress carry amber dots, and the progress bar runs green then amber.](docs/changelog/2026-10-31-amber.png)
+
+#### What each dot means
+
+Hollow for not started, amber for in motion, green for done, red for something that needs someone, and grey for parked. Both examples now show in-progress work in amber.
 
 ### Added
 
@@ -61,9 +109,22 @@ Work under way now reads as moving. A grey in-progress dot looked like nothing w
 
 ## 2026-10-30: Tables people work in, and a nav that hides
 
-A table you can sort, resize and open, built for lists of work with owners and status. The workspace nav and the Split catch up with patterns first made for the Claude desktop board.
+A table you can work in, a nav that gets out of the way, and this changelog.
+
+#### Tables people work in
+
+Sort from any column header, drag any column's edge to resize it, and open a row to see the tasks underneath in the same columns. Each row can show a person with their initials, a status with its dot and word, and a short progress bar with a count.
 
 ![The project desk example with its new Tasks table: two projects open to their tasks, each with an owner, a status dot and progress.](docs/changelog/2026-10-30-tables.png)
+
+#### A nav that hides
+
+Hide the workspace nav from its button or with Cmd or Ctrl and backslash, and drag its edge to make it wider or narrower. Its top band lines up with the bar beside it, and a footer closes it.
+
+#### Smaller improvements
+
+- Split groups fold, rows show a name and a short date, and the detail centres in a wide column
+- A changelog on the site with a feed, and an Updated line on the homepage linking to the newest release
 
 ### Added
 
@@ -83,7 +144,19 @@ A table you can sort, resize and open, built for lists of work with owners and s
 
 ## 2026-10-29: A website, and two examples rebuilt
 
-understudyui.com, built from the repo itself, and the two examples reworked with real sample data.
+A home for Understudy on the web, and examples that look like real work.
+
+#### understudyui.com
+
+A site built from the repo itself, with a live example to click through and a prompt to copy. It copies in the tokens, components and examples on every build, so it never drifts from the repo.
+
+![understudyui.com on 29 Oct: the mark, the headline, Copy the prompt and GitHub, and the request tracker running live below.](docs/changelog/2026-10-29-site.png)
+
+#### Two examples rebuilt
+
+The request tracker and the project desk now hold realistic sample data and the pieces they were missing, so they show how a real tool reads.
+
+![The project desk on 29 Oct: a nav of areas, a filter bar, and a Needs attention panel of projects grouped by area with their stage and when they were last touched.](docs/changelog/2026-10-29-desk.png)
 
 ### Added
 
@@ -98,6 +171,16 @@ understudyui.com, built from the repo itself, and the two examples reworked with
 ## 2026-10-28: Understudy, first release
 
 A theme that makes Claude artifacts look like part of the desktop app, released free under the MIT license.
+
+#### A theme that matches the app
+
+The app's own greys, quiet bordered controls and 16px text, in light and dark, measured from the Claude desktop app. Dark mode is set a step lower to land on the app's colors inside the artifact pane.
+
+![The full-width example on launch day: a copy review tool with rounds in the nav, a list of rewrites with status dots, and the selected rewrite showing its old and new text and a box to approve it.](docs/changelog/2026-10-28-workspace.png)
+
+#### Five layouts to start from
+
+A tool or tracker, a report, a short page, and a workspace as cards or full width, each an example page you can copy from.
 
 ### Added
 

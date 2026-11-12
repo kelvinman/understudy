@@ -7,7 +7,7 @@ A theme for Claude artifacts that makes them look like part of the Claude deskto
   <img src="docs/preview-light.png" alt="The full-width Workspace example: a customer request tracker with Group by and Show filters in the sidebar, a list of requests grouped by the need they share with a status dot and age on each, and the selected request with its status, who asked, why, what was committed, the other customers with the same ask and its issue.">
 </picture>
 
-It is plain CSS: a set of design tokens, one stylesheet of components, and seven example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme.
+It is plain CSS: a set of design tokens, one stylesheet of components, and seven example pages, one per layout. The picture above is [examples/workspace-full-width.html](examples/workspace-full-width.html); it switches to dark with your GitHub theme. Try five of the examples live at [understudyui.com](https://understudyui.com): a request tracker, a project desk, a release checklist, a demo script and a launch storyboard.
 
 This is an independent project. It is not made by, affiliated with or endorsed by Anthropic.
 
@@ -19,9 +19,11 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `tokens.css` | CSS custom properties built from `tokens.json`: light on `:root`, dark under `prefers-color-scheme` and under `data-theme="dark"`. |
 | `components.css` | A base section every page needs, then one section per component, as `us-` classes. The components are listed below. |
 | `examples/` | One page per layout preset, below. Open any of them in a browser. |
-| `CHANGELOG.md` | What changed, newest first, by component and class. The site shows it at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
+| `CHANGELOG.md` | What changed, newest first: each release tells what it adds in plain words, with pictures, then lists the classes it touched. Changes collect under Unreleased as they merge and become one dated release, usually once a week. The site shows the releases at [understudyui.com/changelog](https://understudyui.com/changelog), with a feed. |
+| `design-system/`, `scripts/build-design-system.mjs` | Understudy as a Claude design system, for Claude's canvas, decks and mockups: a guideline and a live preview per component. The build writes it to `dist/design-system/` from this repo's tokens and styles. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
-| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here. |
+| `scripts/release.mjs` | Turns Unreleased into a dated release with a title and a paragraph: `node scripts/release.mjs "Title" "Paragraph."` |
+| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here, and turns `CHANGELOG.md` into the changelog page. A release is written like a product changelog: a one-line intro, then a `#### ` heading per feature with a short paragraph and its pictures, and a `#### Smaller improvements` list, in plain words; the `### Added`, `### Changed` and `### Fixed` lists under them name the classes and fold behind one line on the page. Pictures go in `docs/changelog/`, one `![alt](path)` line each; a file with `-dark` before the extension is shown in dark mode. |
 
 ## How to use it
 
@@ -44,6 +46,8 @@ and, if the page uses icons, Lucide:
 
 **With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens, the Base section and the component sections it uses. The rules below are written so an agent can follow them.
 
+**In Claude's design tools.** For a canvas, a deck or a mockup, build the design system copy with `node scripts/build-design-system.mjs` and add `dist/design-system/` to Claude as a design system. Its README says how a canvas installs and loads it.
+
 ## Components
 
 Each is one section of `components.css`.
@@ -53,7 +57,7 @@ Each is one section of `components.css`.
 | Button | `us-btn`, with `us-btn-filled`, `us-btn-ghost`, `us-btn-primary`, `us-btn-success`, `us-btn-danger`, and `us-btn-sm` for a 28px button in table rows and filter bars. Toggles use `aria-pressed`. |
 | Text input, textarea | `us-input`, `us-textarea` |
 | Search field | `us-search`: a label around an icon and an `input type="search"`. |
-| Select | `us-select`: a span around a native `select`; add `is-set` while it filters something. |
+| Select | `us-select`: a span around a native `select`, or around a `button` and a `us-menu` the page opens below it (a native select on macOS opens over itself, hiding what you clicked); add `is-set` while it filters something. A closed menu takes `hidden`. |
 | Checkbox | `us-check`: a label around a native checkbox and its text. The box sits on the first line, so a long label wraps under it. |
 | Filter bar | `us-filters`: one wrapping row of search, selects, toggles and checkboxes, with `us-filters-end` and `us-filters-count` for the count on the right. |
 | Tag | `us-tag`, with `us-tag-outline`, `us-tag-success`, `us-tag-danger` |
@@ -104,21 +108,31 @@ Each is one section of `components.css`.
 
 ## Layout presets
 
-Every page: `body` on `bg`, a side gutter of `max(16px, env(safe-area-inset-left))` and the same on the right, `<meta name="claude:viewport-fit-sides" content="cover">`, and both themes from `tokens.css`.
+Every page: `body` on `bg`, a side gutter of at least `max(16px, env(safe-area-inset-left))` and the same on the right (wide pages such as the storyboard let it grow, up to 64px), `<meta name="claude:viewport-fit-sides" content="cover">`, and both themes from `tokens.css`.
 
-- **Tool or tracker** ([examples/tool.html](examples/tool.html)). A review page, a checklist, a log. Up to 1080px wide. A short header, then a sticky bar with progress, counts and filter tabs. Items are open rows split by full-width hairlines, text on the left and controls on the right; the two columns stack under 860px. No cards around items.
+- **Tool or tracker** ([examples/tool.html](examples/tool.html)). A review page, a checklist, a log. A Workspace nav on the left (`us-workspace is-flat`) holds the filters, each with its count, then every item with its status dot as a link to it; the page beside it is up to 1080px wide. A short header, then a sticky bar with progress and counts. Items are open rows split by full-width hairlines, text on the left and controls on the right; the two columns stack under 860px. No cards around items.
 - **Report** ([examples/report.html](examples/report.html)). Findings, a comparison, a write-up. One 760px column, a title and a date line, sections 32px apart. A key number goes in one card at the top, never a row of tiles.
 - **Short page** ([examples/short-page.html](examples/short-page.html)). A note, a link list, a one-screen answer. Same column as the report, nothing sticky.
 - **Workspace, cards** ([examples/workspace-cards.html](examples/workspace-cards.html)). A home page across many records: a project desk, settings, a file browser. A 240px nav on the left, a filter bar across the top, then panels on a grey canvas, each opening with a serif title. The example is a desk of projects: each panel holds a table grouped by area under folding headings, each row the project with a one-line status, its stage as a tag, when it was last touched and a small Copy prompt button that copies a prompt for starting a new Claude session on it. On a phone the table rows stack.
 - **Workspace, full width** ([examples/workspace-full-width.html](examples/workspace-full-width.html)). One working surface you move through, such as a request tracker or a review queue. The same nav, then no canvas and no cards: a tracker across the top and a split list and detail below it, with resizable columns, folding groups and a status dot per record. The example tracks customer requests: the nav groups them by the shared ask or by customer and filters them by status, and the detail shows why they asked, what was committed, the other customers with the same ask and the issue. When each record needs a decision, dock it at the bottom of the detail like a message composer (`us-dock`, `us-composer`).
 
-- **Run of show** ([examples/run-of-show.html](examples/run-of-show.html)). Anything run in time order: a demo, a talk, a workshop, a walkthrough on a call. Up to 1000px wide. A title and a meta line, then a timeline strip (`us-timeline`) with one segment per beat, each as wide as the beat is long and named in a word or two, all the same grey. The strip sticks to the top as the page scrolls, and the beat in view gets `aria-current` on its segment and turns dark. The full name goes in the segment's `title`; a beat done live says so with a tag in its own heading. Then one `us-beat` per section, split by hairlines: its time range and title, a drawn window (`us-screen`: `is-page` at a browser's 16:10 for a website, `is-slide` for a presentation tool, a rail of slides beside the one showing, a terminal, an editor with a file tree for a file, or `is-call` for a video call; or `us-phone` for a phone; or nothing, with `is-talk` on a beat that is only talking) on the left showing what is on screen, or a drawn terminal (`us-screen-term`), and notes on the right as short labelled parts: On screen, Do, Say, with what is said in the serif. Prep and fallback lists close the page. Under 860px the notes go under the screen.
+- **Run of show** ([examples/run-of-show.html](examples/run-of-show.html)). Anything run in time order: a demo, a talk, a workshop, a walkthrough on a call. Up to 1000px wide. A title and a meta line, then a timeline strip (`us-timeline`) with one segment per beat, each as wide as the beat is long and named in a word or two, all the same grey. The strip sticks to the top as the page scrolls, with 16px above it, and the beat in view gets `aria-current` on its segment and turns dark. Clicking a segment scrolls that beat to just under the strip and keeps its segment dark until the reader scrolls; scroll the page itself rather than following the link as an anchor, so a site that shows the page in a frame does not scroll too. The full name goes in the segment's `title`; a beat done live says so with a tag in its own heading. Then one `us-beat` per section, split by hairlines: its time range and title, a drawn window (`us-screen`: `is-page` at a browser's 16:10 for a website, `is-slide` for a presentation tool, a rail of slides beside the one showing, a terminal, an editor with a file tree for a file, or `is-call` for a video call; or `us-phone` for a phone; or nothing, with `is-talk` on a beat that is only talking) on the left showing what is on screen, or a drawn terminal (`us-screen-term`), and notes on the right as short labelled parts: On screen, Do, Say, with what is said in the serif. Prep and fallback lists close the page. Under 860px the notes go under the screen.
+
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/run-of-show-dark.png">
+    <img src="docs/run-of-show-light.png" alt="The run of show example: a timeline strip of beats, then the first beat with a drawn presentation window on the left and what to show and say on the right." width="640">
+  </picture>
 
 - **Storyboard** ([examples/storyboard.html](examples/storyboard.html)). The frames of something being made: a product video, a motion piece, a flow. Up to 1120px wide. A title, a meta line with the length, and a Play animatic button; the same timeline strip as a run of show, a segment per frame sized by its seconds; then a grid of frames (`us-board`), each the same 16:9 size: its number, title and time, the picture (a drawn screen, a sketch of the shot in words or an image, or a phone cropped like a shot over the shoulder), the camera note, the caption or voiceover in the serif, and the transition to the next, an arrow across the gap with its word in a pill on the line. The animatic (`us-animatic`) plays the frames at their lengths with the caption under each. Use a run of show for something you perform live, a storyboard for something you make.
 
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/storyboard-dark.png">
+    <img src="docs/storyboard-light.png" alt="The storyboard example: a launch video as a grid of 16:9 frames, each with its number, time, shot note and voiceover, a Cut or Dissolve arrow between them and the timeline strip above." width="640">
+  </picture>
+
 When unsure between the two Workspace layouts, pick full width for tools you work in and cards for pages you read or scan.
 
-The project desk also ends with a Tasks panel: a table you sort from its headers, resize by dragging any column's edge, and open row by row to see each project's tasks. The full-width example shows the nav's top band, hiding the nav, the nav footer and folding Split groups.
+The project desk also opens with a Tasks panel: a table you sort from its headers, resize by dragging any column's edge, and open row by row to see each project's tasks. The full-width example shows the nav's top band, hiding the nav, the nav footer and folding Split groups.
 
 ### Workspace nav
 
