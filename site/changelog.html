@@ -53,16 +53,30 @@
   .shot { margin: 0; min-width: 0; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg); }
   .shot img { display: block; width: 100%; height: auto; }
 
+  /* Told like a product changelog: a heading per feature, a short paragraph, its picture, then smaller improvements. */
+  .feature { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4); max-width: 640px; }
+  .feature:has(.shots) { max-width: none; }
+  .feature h3 { font: 600 16px/24px var(--font-sans); margin: 0; }
+  .feature p { max-width: 640px; }
+  .feature .shots { margin-top: var(--space-2); }
+  .shots > .shot { flex: none !important; }
+  .shots > .shot.is-tall { width: 300px; max-width: 100%; }   /* a phone shown alone stays phone sized */
+  .small { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: var(--space-1); }
+
+  /* The classes each release touched, folded behind one line, for checking a page you built. */
+  .classes { margin-top: var(--space-4); border-top: 1px solid var(--border-subtle); padding-top: var(--space-3); }
+  .classes summary { list-style: none; display: inline-flex; align-items: center; gap: var(--space-2); color: var(--text-secondary); cursor: pointer; font-size: 15px; }
+  .classes summary::-webkit-details-marker { display: none; }
+  .classes summary:hover { color: var(--text); }
+  .classes summary svg.lucide { width: 14px; height: 14px; transition: transform 150ms ease-out; }
+  .classes[open] summary svg.lucide { transform: rotate(90deg); }
+  .classes[open] { display: flex; flex-direction: column; gap: var(--space-4); }
   .group { display: flex; flex-direction: column; gap: var(--space-2); }
-  .group h3 { display: flex; align-items: center; gap: var(--space-2); margin: 0; font: inherit; }
+  .group h4 { margin: 0; font: inherit; }
   .changes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-  .changes li { position: relative; padding: 6px 0 6px var(--space-4); font-size: 15px; line-height: 22px; }
-  .changes li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 4px; height: 4px; border-radius: 50%; background: var(--text-secondary); }
-  .more summary { list-style: none; display: inline-flex; align-items: center; gap: 4px; padding-left: var(--space-4); color: var(--text-secondary); cursor: pointer; }
-  .more summary::-webkit-details-marker { display: none; }
-  .more summary:hover { color: var(--text); }
-  .more summary svg.lucide { width: 14px; height: 14px; }
-  .more[open] summary { display: none; }
+  .changes li { position: relative; padding: 4px 0 4px var(--space-4); font-size: 14px; line-height: 21px; color: var(--text-secondary); }
+  .changes li::before { content: ""; position: absolute; left: 2px; top: 13px; width: 4px; height: 4px; border-radius: 50%; background: var(--text-secondary); }
+  @media (prefers-reduced-motion: reduce) { .classes summary svg.lucide { transition: none; } }
   .source { display: inline-flex; align-items: center; gap: 2px; align-self: flex-start; }
   .source svg.lucide { width: 14px; height: 14px; }
   footer { margin-top: var(--space-8); }

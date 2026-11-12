@@ -7,18 +7,46 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 ### Changed
 
 - `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
-- The changelog page is a timeline: the date beside each release, its pictures (more than one, in light and dark), and its changes grouped under Added, Changed and Fixed with a count, long lists folded after five. The homepage demos five of the seven examples, with the example tabs above the demo, and lists the Claude design system. The README covers the design system copy, the release script and pictures for the run of show and storyboard. No class changes.
+- The changelog page reads like a product changelog: the date beside each release on a timeline, a one-line intro, a heading, short paragraph and picture (light and dark) per feature, and a Smaller improvements list, with the classes each release touched folded behind one line. The homepage demos five of the seven examples, with the example tabs above the demo, and lists the Claude design system. The README covers the design system copy, the release script and pictures for the run of show and storyboard. No class changes.
 - The review tool example (`examples/tool.html`) has a Workspace nav: its filters move there from tabs, with counts, and each check is listed with its status dot as a link to it. The storyboard's and the run of show's side gutters grow with the window, up to 64px. No class changes.
 - `us-select` can hold a `button` and a `us-menu` instead of a native `select`, so its menu opens below it; `us-menu[hidden]` hides a closed menu. The project desk example uses it for Stage and Area, and drops its Needs attention button, which the nav already has, so its filter bar fits one line.
 - A `us-tracker` at the foot of `us-workspace-nav` has 12px under its bar, so it no longer sits on the nav's edge.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 
-Two new layouts for work that happens in time: a run of show for anything run beat by beat, and a storyboard whose frames play back as an animatic. Pages now fit a phone, with the nav as a drawer and a Split that shows one record at a time. Cards, menus, tooltips and sheets join the set, and tables, tabs and status dots read tighter and clearer.
+Two new layouts for work that happens in time, pages that fit a phone, and a handful of new pieces for tools you work in.
+
+#### Storyboards
+
+A layout for the frames of something you are making, such as a product video or a motion piece. Every frame is the same 16:9 size, with its time, the shot and the voiceover, and an arrow to the next frame names the cut. Play animatic runs the frames at their lengths with the caption under each.
 
 ![The storyboard example: a launch video as a grid of 16:9 frames, each with its number, time, shot note and voiceover, a Cut or Dissolve arrow between them and the timeline strip above.](docs/changelog/2026-11-06-storyboard.png)
+
+#### A run of show
+
+A layout for anything you run live in time order: a demo, a talk, a walkthrough on a call. A strip across the top shows every beat, as wide as it is long, and stays in view as you scroll. Each beat pairs a drawn screen of what is showing, whether a website, slides, a terminal, an editor, a phone or a video call, with what to do and say.
+
 ![The run of show example: a timeline strip of beats, then the first beat with a drawn presentation window on the left and what to show and say on the right.](docs/changelog/2026-11-06-run-of-show.png)
+
+#### Pages that fit a phone
+
+On a phone the workspace nav opens as a drawer, and a split list shows either the list or one record, with a back button between them.
+
 ![The request tracker on a phone: the list of requests in folding groups, each with a status dot and its age.](docs/changelog/2026-11-06-phone.png)
+
+#### Cards, menus, tooltips and sheets
+
+A grid of cards for scanning many records of one kind, a tab that opens a menu below it for filtering, a shared tooltip, a panel that slides in from the right, row thumbnails and a button that reads as text.
+
+#### Smaller improvements
+
+- Table rows fit their content instead of a 56px minimum, and a group's heading is a full-width band you click to fold
+- Status dots are 10px and built like the macOS window buttons, and progress bars use flat traffic light colors
+- Tabs can lead with an icon and end with a count
+- Avatars come in six colors, each readable under white initials
+- Label and value rows, markdown read in place, and links that leave the page with an arrow
+- The workspace nav's top band stays pinned while the nav scrolls, and pages keep clear of a notch
+- The Claude design system copy carries the tokens, so a Claude canvas can install it
 
 ### Added
 

@@ -23,7 +23,7 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 | `design-system/`, `scripts/build-design-system.mjs` | Understudy as a Claude design system, for Claude's canvas, decks and mockups: a guideline and a live preview per component. The build writes it to `dist/design-system/` from this repo's tokens and styles. |
 | `scripts/build-tokens.mjs` | Rebuilds `tokens.css` after you change `tokens.json`: `node scripts/build-tokens.mjs`. |
 | `scripts/release.mjs` | Turns Unreleased into a dated release with a title and a paragraph: `node scripts/release.mjs "Title" "Paragraph."` |
-| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here, and turns `CHANGELOG.md` into the changelog page. A release's pictures go in `docs/changelog/`, one `![alt](path)` line each under its paragraph; a file with `-dark` before the extension is shown in dark mode. |
+| `site/`, `scripts/build-site.mjs` | The website, [understudyui.com](https://understudyui.com). The build copies in the tokens, components and examples above, so the site always shows them as they are here, and turns `CHANGELOG.md` into the changelog page. A release is written like a product changelog: a one-line intro, then a `#### ` heading per feature with a short paragraph and its pictures, and a `#### Smaller improvements` list, in plain words; the `### Added`, `### Changed` and `### Fixed` lists under them name the classes and fold behind one line on the page. Pictures go in `docs/changelog/`, one `![alt](path)` line each; a file with `-dark` before the extension is shown in dark mode. |
 
 ## How to use it
 

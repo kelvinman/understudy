@@ -16,8 +16,10 @@ for (const path of ["tokens.css", "tokens.json", "components.css", "examples", "
   cpSync(path, `dist/${path}`, { recursive: true });
 }
 
-// CHANGELOG.md: "## YYYY-MM-DD: Title", a paragraph, optional pictures (one per line), "### Added|Changed|Fixed" lists,
-// and a closing link. Only that much markdown is read: inline code, links and bold.
+// CHANGELOG.md: "## YYYY-MM-DD: Title", a paragraph, optional pictures (one per line), then the release told the way
+// a product changelog tells it: a "#### Feature" section per thing worth showing (a short paragraph and its pictures),
+// and a "#### Smaller improvements" list, all in plain words. Then "### Added|Changed|Fixed" lists name the classes
+// touched; the page folds them behind one "Classes touched" line. A closing link is optional. Only that much markdown is read: inline code, links and bold.
 // "## Unreleased" at the top collects merged changes and is left off the site and the feed until
 // scripts/release.mjs gives it a date and a title.
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -31,16 +33,19 @@ const entries = readFileSync("CHANGELOG.md", "utf8").split(/^## /m).slice(1).fil
   const [headLine, ...lines] = block.trim().split("\n");
   const [, date, title] = headLine.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/) || [];
   if (!date) throw new Error(`CHANGELOG.md: a heading needs "## YYYY-MM-DD: Title", got "## ${headLine}"`);
-  const entry = { date, title, lede: [], pictures: [], changes: [], source: null };
-  let kind = null;
+  const entry = { date, title, lede: [], pictures: [], features: [], changes: [], source: null };
+  let kind = null, feature = null;
   for (const line of lines) {
     const t = line.trim();
     if (!t) continue;
     let m;
-    if ((m = t.match(/^### (\w+)/))) kind = m[1];
+    if ((m = t.match(/^#### (.+)$/)) && !kind) entry.features.push(feature = { title: m[1], text: [], pictures: [], items: [] });
+    else if ((m = t.match(/^### (\w+)/))) { kind = m[1]; feature = null; }
     else if ((m = t.match(/^- (.+)$/)) && kind) entry.changes.push([kind, m[1]]);
-    else if ((m = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/))) entry.pictures.push({ alt: m[1], src: m[2] });
+    else if ((m = t.match(/^- (.+)$/)) && feature) feature.items.push(m[1]);
+    else if ((m = t.match(/^!\[([^\]]*)\]\(([^)]+)\)$/))) (feature || entry).pictures.push({ alt: m[1], src: m[2] });
     else if ((m = t.match(/^\[([^\]]+)\]\(([^)]+)\)$/))) entry.source = { label: m[1], href: m[2] };
+    else if (feature) feature.text.push(t);
     else if (!kind) entry.lede.push(t);
   }
   return entry;
@@ -68,21 +73,25 @@ const shot = (p) => {
 const pictures = ([first, ...rest]) => !first ? "" :
   `<div class="shots">${shot(first)}${rest.length ? `<div class="shots-row">${rest.map(shot).join("")}</div>` : ""}</div>`;
 
-// Changes, grouped by kind, each kind under its tag and a count. Past SHOW lines, the rest fold
-// behind a "Show more" so a big release does not bury the ones below it.
-const SHOW = 5;
+// Features: a heading, a short paragraph, its pictures, or a list for "Smaller improvements".
+const features = (list) => list.map((f) => `<section class="feature">
+        <h3>${inline(f.title)}</h3>
+        ${f.text.length ? `<p>${inline(f.text.join(" "))}</p>` : ""}
+        ${pictures(f.pictures)}
+        ${f.items.length ? `<ul class="small">${f.items.map((t) => `<li>${inline(t)}</li>`).join("")}</ul>` : ""}
+      </section>`).join("");
+
+// The classes a release touched, for someone checking a page they built, folded behind one line.
 const KINDS = ["Added", "Changed", "Fixed", "Removed"];
-const items = (list) => list.map((text) => `<li>${inline(text)}</li>`).join("");
-const groups = (changes) => [...KINDS, ...new Set(changes.map(([k]) => k).filter((k) => !KINDS.includes(k)))].map((kind) => {
-  const list = changes.filter(([k]) => k === kind).map(([, text]) => text);
-  if (!list.length) return "";
-  const more = list.slice(SHOW);
-  return `<section class="group">
-        <h3><span class="${TAG[kind] || "us-tag"}">${esc(kind)}</span><span class="us-meta">${list.length}</span></h3>
-        <ul class="changes">${items(list.slice(0, SHOW))}</ul>
-        ${more.length ? `<details class="more"><summary class="us-text-btn"><i data-lucide="chevron-down" aria-hidden="true"></i><span>${more.length} more</span></summary><ul class="changes">${items(more)}</ul></details>` : ""}
-      </section>`;
-}).join("");
+const classes = (changes) => {
+  if (!changes.length) return "";
+  const kinds = [...KINDS, ...new Set(changes.map(([k]) => k).filter((k) => !KINDS.includes(k)))];
+  const counts = kinds.map((k) => [k, changes.filter(([c]) => c === k).length]).filter(([, n]) => n);
+  return `<details class="classes">
+        <summary><i data-lucide="chevron-right" aria-hidden="true"></i><span>Classes touched</span><span class="us-meta">${counts.map(([k, n]) => `${n} ${k.toLowerCase()}`).join(", ")}</span></summary>
+        ${counts.map(([kind]) => `<section class="group"><h4><span class="${TAG[kind] || "us-tag"}">${esc(kind)}</span></h4><ul class="changes">${changes.filter(([k]) => k === kind).map(([, t]) => `<li>${inline(t)}</li>`).join("")}</ul></section>`).join("")}
+      </details>`;
+};
 
 const html = entries.map((e, i) => `    <article class="entry${i === 0 ? " is-latest" : ""}" id="${anchor(e.date)}">
       <div class="when">
@@ -93,7 +102,8 @@ const html = entries.map((e, i) => `    <article class="entry${i === 0 ? " is-la
         <h2>${inline(e.title)}</h2>
         ${e.lede.length ? `<p class="lede">${inline(e.lede.join(" "))}</p>` : ""}
         ${pictures(e.pictures)}
-        ${groups(e.changes)}
+        ${features(e.features)}
+        ${classes(e.changes)}
         ${e.source ? `<a class="us-meta source" href="${esc(e.source.href)}">${esc(e.source.label)} <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>` : ""}
       </div>
     </article>`).join("\n");
