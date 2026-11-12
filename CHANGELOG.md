@@ -91,6 +91,8 @@ Work under way now reads as moving.
 
 A grey in-progress dot looked like nothing was happening, so work under way is now amber, in dots, tags and progress bars, in light and dark.
 
+![The request tracker on 31 Oct: rows in progress carry amber dots, and the progress bar runs green then amber.](docs/changelog/2026-10-31-amber.png)
+
 #### What each dot means
 
 Hollow for not started, amber for in motion, green for done, red for something that needs someone, and grey for parked. Both examples now show in-progress work in amber.
@@ -146,9 +148,13 @@ A home for Understudy on the web, and examples that look like real work.
 
 A site built from the repo itself, with a live example to click through and a prompt to copy. It copies in the tokens, components and examples on every build, so it never drifts from the repo.
 
+![understudyui.com on 29 Oct: the mark, the headline, Copy the prompt and GitHub, and the request tracker running live below.](docs/changelog/2026-10-29-site.png)
+
 #### Two examples rebuilt
 
 The request tracker and the project desk now hold realistic sample data and the pieces they were missing, so they show how a real tool reads.
+
+![The project desk on 29 Oct: a nav of areas, a filter bar, and a Needs attention panel of projects grouped by area with their stage and when they were last touched.](docs/changelog/2026-10-29-desk.png)
 
 ### Added
 
@@ -167,6 +173,8 @@ A theme that makes Claude artifacts look like part of the desktop app, released 
 #### A theme that matches the app
 
 The app's own greys, quiet bordered controls and 16px text, in light and dark, measured from the Claude desktop app. Dark mode is set a step lower to land on the app's colors inside the artifact pane.
+
+![The full-width example on launch day: a copy review tool with rounds in the nav, a list of rewrites with status dots, and the selected rewrite showing its old and new text and a box to approve it.](docs/changelog/2026-10-28-workspace.png)
 
 #### Five layouts to start from
 
