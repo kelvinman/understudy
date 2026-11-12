@@ -8,7 +8,8 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 - `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
 - The changelog page is a timeline: the date beside each release, its pictures (more than one, in light and dark), and its changes grouped under Added, Changed and Fixed with a count, long lists folded after five. The homepage demos five of the seven examples, with the example tabs above the demo, and lists the Claude design system. The README covers the design system copy, the release script and pictures for the run of show and storyboard. No class changes.
-- The review tool example (`examples/tool.html`) has a Workspace nav: its filters move there from tabs, with counts, and each check is listed with its status dot as a link to it. The storyboard's side gutter grows with the window, up to 64px. No class changes.
+- The review tool example (`examples/tool.html`) has a Workspace nav: its filters move there from tabs, with counts, and each check is listed with its status dot as a link to it. The storyboard's and the run of show's side gutters grow with the window, up to 64px. No class changes.
+- `us-select` can hold a `button` and a `us-menu` instead of a native `select`, so its menu opens below it; `us-menu[hidden]` hides a closed menu. The project desk example uses it for Stage and Area, and drops its Needs attention button, which the nav already has, so its filter bar fits one line.
 
 ## 2026-11-06: Storyboards, a run of show, and pages that fit a phone
 

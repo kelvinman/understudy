@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
 <style>
-  .page { max-width: 1000px; margin: 0 auto; padding-block: var(--space-8); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .page { max-width: 1000px; margin: 0 auto; padding-block: var(--space-8); padding-left: max(clamp(16px, 5vw, 64px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 5vw, 64px), env(safe-area-inset-right, 0px)); }   /* the same growing gutter as the storyboard */
   h1 { font: 500 22px/30px var(--font-sans); margin: 0 0 var(--space-1); }
   .lede { max-width: 680px; margin: var(--space-3) 0 var(--space-6); }
   .us-beat:first-of-type { margin-top: var(--space-6); }

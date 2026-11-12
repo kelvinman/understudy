@@ -61,9 +61,8 @@
     <div class="desk-bar">
       <div class="us-filters" role="group" aria-label="Filters">
         <label class="us-search"><i data-lucide="search" aria-hidden="true"></i><input type="search" id="f-search" placeholder="Search projects" aria-label="Search projects"></label>
-        <button class="us-btn us-btn-sm" id="f-attention" aria-pressed="false"><i data-lucide="circle-dot" aria-hidden="true"></i><span>Needs attention</span></button>
-        <span class="us-select"><select id="f-stage" aria-label="Stage"></select></span>
-        <span class="us-select"><select id="f-area" aria-label="Area"></select></span>
+        <span class="us-select" data-pick="stage"><button type="button" id="f-stage" aria-haspopup="listbox" aria-expanded="false" aria-label="Stage"></button><div class="us-menu" role="listbox" aria-label="Stage" hidden></div></span>
+        <span class="us-select" data-pick="area"><button type="button" id="f-area" aria-haspopup="listbox" aria-expanded="false" aria-label="Area"></button><div class="us-menu" role="listbox" aria-label="Area" hidden></div></span>
         <label class="us-check"><input type="checkbox" id="f-paused" checked><span>Show paused</span></label>
         <div class="us-filters-end"><span class="us-filters-count" id="f-count"></span></div>
       </div>
@@ -169,11 +168,16 @@ function promptFor(p) {
 }
 
 function renderControls() {
-  document.getElementById("f-stage").innerHTML = '<option value="">All stages</option>' + STAGES.map(function (s) { return '<option' + (s === f.stage ? " selected" : "") + '>' + s + '</option>'; }).join("");
-  document.getElementById("f-area").innerHTML = '<option value="">All areas</option>' + AREAS.map(function (a) { return '<option' + (a === f.area ? " selected" : "") + '>' + a + '</option>'; }).join("");
-  document.getElementById("f-stage").parentElement.classList.toggle("is-set", !!f.stage);
-  document.getElementById("f-area").parentElement.classList.toggle("is-set", !!f.area);
-  document.getElementById("f-attention").setAttribute("aria-pressed", String(f.attention));
+  // Stage and Area are buttons with a menu the page draws, so it opens below the button instead of over it.
+  [["stage", STAGES, "All stages"], ["area", AREAS, "All areas"]].forEach(function (d) {
+    var key = d[0], wrap = document.querySelector('[data-pick="' + key + '"]');
+    wrap.querySelector("button").textContent = f[key] || d[2];
+    wrap.classList.toggle("is-set", !!f[key]);
+    wrap.querySelector(".us-menu").innerHTML = [""].concat(d[1]).map(function (v) {
+      return '<button type="button" class="us-menu-item" role="option" data-value="' + v + '" aria-selected="' + (v === f[key]) + '">' + (v || d[2]) +
+        (v === f[key] ? '<i data-lucide="check" aria-hidden="true"></i>' : '') + '</button>';
+    }).join("");
+  });
   document.getElementById("f-paused").checked = f.paused;
 }
 
@@ -340,9 +344,34 @@ function render() { renderControls(); renderNav(); renderPanels(); icons(); }
 
 // Filters
 document.getElementById("f-search").addEventListener("input", function (e) { f.query = e.target.value.trim().toLowerCase(); renderPanels(); icons(); });
-document.getElementById("f-attention").addEventListener("click", function () { f.attention = !f.attention; render(); });
-document.getElementById("f-stage").addEventListener("change", function (e) { f.stage = e.target.value; render(); });
-document.getElementById("f-area").addEventListener("change", function (e) { f.area = e.target.value; render(); });
+// Open and close the Stage and Area menus: click toggles, a choice, a click outside or Escape closes, arrows move.
+function closeMenus(except) {
+  document.querySelectorAll("[data-pick]").forEach(function (w) {
+    if (w === except) return;
+    w.querySelector(".us-menu").hidden = true;
+    w.querySelector("button").setAttribute("aria-expanded", "false");
+  });
+}
+document.querySelectorAll("[data-pick]").forEach(function (wrap) {
+  var btn = wrap.querySelector("button"), menu = wrap.querySelector(".us-menu");
+  btn.addEventListener("click", function () {
+    var open = menu.hidden;
+    closeMenus(wrap);
+    menu.hidden = !open; btn.setAttribute("aria-expanded", String(open));
+    if (open) (menu.querySelector('[aria-selected="true"]') || menu.firstElementChild).focus();
+  });
+  menu.addEventListener("click", function (e) {
+    var item = e.target.closest(".us-menu-item"); if (!item) return;
+    f[wrap.dataset.pick] = item.dataset.value;
+    closeMenus(); render(); btn.focus();
+  });
+  menu.addEventListener("keydown", function (e) {
+    var items = [].slice.call(menu.querySelectorAll(".us-menu-item")), i = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus(); }
+    if (e.key === "Escape") { closeMenus(); btn.focus(); }
+  });
+});
+document.addEventListener("click", function (e) { if (!e.target.closest("[data-pick]")) closeMenus(); });
 document.getElementById("f-paused").addEventListener("change", function (e) { f.paused = e.target.checked; render(); });
 document.querySelector(".us-workspace-nav").addEventListener("click", function (e) {
   var row = e.target.closest(".us-row"); if (!row) return;

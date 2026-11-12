@@ -57,7 +57,7 @@ Each is one section of `components.css`.
 | Button | `us-btn`, with `us-btn-filled`, `us-btn-ghost`, `us-btn-primary`, `us-btn-success`, `us-btn-danger`, and `us-btn-sm` for a 28px button in table rows and filter bars. Toggles use `aria-pressed`. |
 | Text input, textarea | `us-input`, `us-textarea` |
 | Search field | `us-search`: a label around an icon and an `input type="search"`. |
-| Select | `us-select`: a span around a native `select`; add `is-set` while it filters something. |
+| Select | `us-select`: a span around a native `select`, or around a `button` and a `us-menu` the page opens below it (a native select on macOS opens over itself, hiding what you clicked); add `is-set` while it filters something. A closed menu takes `hidden`. |
 | Checkbox | `us-check`: a label around a native checkbox and its text. The box sits on the first line, so a long label wraps under it. |
 | Filter bar | `us-filters`: one wrapping row of search, selects, toggles and checkboxes, with `us-filters-end` and `us-filters-count` for the count on the right. |
 | Tag | `us-tag`, with `us-tag-outline`, `us-tag-success`, `us-tag-danger` |
