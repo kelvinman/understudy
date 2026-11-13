@@ -4,6 +4,41 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ## Unreleased
 
+## 2026-11-13: Menus under selects and a changelog worth reading
+
+Selects that open a menu below them, a Workspace nav for the review tool, a time strip that takes you to the right beat, and a changelog and homepage that show more.
+
+#### Selects that open a menu below them
+
+A select can now draw its own menu, which opens right under it instead of over it, with a check beside the choice you are on. The project desk example uses it to filter by stage and area, and its filter bar now fits on one line.
+
+![The project desk example with the stage filter open: a menu of stages under the button, All stages checked, over the Tasks table.](docs/changelog/2026-11-13-select-menu.png)
+
+#### A nav for the review tool
+
+The review tool example gets the same nav as the other tools. Its filters move there with a count each, and every check is listed with its status dot, so you can jump straight to the one that needs you.
+
+![The review tool example: a nav on the left with All checks, Open and Reviewed, then each check with a green, red or empty dot, beside the list of checks to approve.](docs/changelog/2026-11-13-review-nav.png)
+
+#### A time strip that takes you there
+
+Clicking a part of the time strip in a run of show or a storyboard now glides to that beat or frame and lands it just under the strip, with that part marked until you scroll yourself. With reduced motion on it jumps instead, and a page showing the example in a frame stays where it is.
+
+#### A changelog and homepage that show more
+
+The changelog now reads like a product changelog: a short intro, a section and picture per feature, and the classes each release touched folded away. The homepage demos five of the examples, each tab named for what it is, from a request tracker to a launch storyboard.
+
+![The Understudy homepage: example tabs for a request tracker, project desk, release checklist, demo script and launch storyboard above a live request tracker.](docs/changelog/2026-11-13-homepage.png)
+
+#### Smaller improvements
+
+- A checkbox lines up with the first line of its label, so a long label wraps under it
+- The time strip has more room above it when it sticks to the top of the window
+- The progress bar at the foot of the nav no longer sits on its edge
+- The project desk opens with its tasks, and project names keep room to be read
+- The storyboard and run of show give themselves wider margins in a wider window
+- The README covers the release script, how a release is written and the live examples on the site
+
 ### Changed
 
 - `us-check` lines its box up with the first line of the label, so a label that wraps hangs below the box instead of the box centring on both lines.
