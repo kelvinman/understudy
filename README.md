@@ -167,7 +167,7 @@ For a table someone sorts, resizes and opens, such as projects with their tasks.
 
 **Color.** Neutral greys with no hue. Text is `text`; anything secondary is `text-secondary`, never lighter. Links are `link`, the one cool blue. `success` and `danger` mean approved and removed, nothing else, and always come with a word. There is no brand accent; the strongest thing on a page is `strong`.
 
-**Type.** One sans family at weight 450. Body 16/24, controls 15/20, meta 14/20, tags 12/16. Headings are body size at weight 600, not bigger; only the page title is 22/30. Nothing a person reads goes below 14px, except labels in the Workspace nav. The serif is for Workspace titles only.
+**Type.** One sans family at weight 450. Body 16/24, controls 15/20, meta 14/20, tags 12/16. Headings are body size at weight 600, not bigger; only the page title is 22/30. Nothing a person reads goes below 14px, except labels in the Workspace nav. The serif (`--font-serif`) is for titles that open a surface and for words read as a voice: Workspace panel titles (`us-display`), record titles (`us-record-title`), the top heading of long text (`us-prose h1`), what is said in a run of show (`us-beat-say`), and captions and sketches in a storyboard (`us-frame-caption`, `us-frame-sketch`, `us-animatic-caption`). Every other heading stays in the sans.
 
 **Spacing and shape.** A 4px base. Controls are 32px tall. Hairlines are 1px and run edge to edge of the pane (`us-rule`). Corners: 6px on tags and tabs, 8px on buttons and rows, 12px on inputs and cards, 20px on Workspace panels. No shadows on content.
 

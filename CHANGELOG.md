@@ -4,6 +4,8 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ## Unreleased
 
+- The README's type rules now list every place the serif is used, instead of saying it is for Workspace titles only. No change to `components.css`. Touches the docs for `us-display`, `us-record-title`, `us-prose`, `us-beat-say`, `us-frame-caption`, `us-frame-sketch` and `us-animatic-caption`.
+
 ## 2026-11-13: Menus under selects and a changelog worth reading
 
 Selects that open a menu below them, a Workspace nav for the review tool, a time strip that takes you to the right beat, and a changelog and homepage that show more.
