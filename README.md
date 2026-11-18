@@ -29,15 +29,7 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 
 Artifacts can't load files from somewhere else, so everything goes inline.
 
-**By hand.** Paste `tokens.css` at the top of the page's `<style>`. Then paste the **Base** section of `components.css` (the page background, links, the focus ring, text field focus and icon size), which every page needs, then the sections for the components the page uses. Each component's rules sit under one comment naming it, so a section can be copied on its own; where one builds on another, its comment says what it needs. Add the fonts:
-
-```html
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..600&display=swap">
-<!-- Workspace pages only -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap">
-```
-
-and, if the page uses icons, Lucide:
+**By hand.** Paste `tokens.css` at the top of the page's `<style>`. Then paste the **Base** section of `components.css` (the page background, links, the focus ring, text field focus and icon size), which every page needs, then the sections for the components the page uses. Each component's rules sit under one comment naming it, so a section can be copied on its own; where one builds on another, its comment says what it needs. The fonts come with `tokens.css`: its first line loads Figtree and Source Serif 4 from Google Fonts, and a browser only reads that line at the very top of a style, so keep `tokens.css` first. If the page uses icons, add Lucide:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
