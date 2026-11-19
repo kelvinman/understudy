@@ -29,14 +29,14 @@ This is an independent project. It is not made by, affiliated with or endorsed b
 
 Artifacts can't load files from somewhere else, so everything goes inline.
 
-**By hand.** Paste `tokens.css` at the top of the page's `<style>`. Then paste the **Base** section of `components.css` (the page background, links, the focus ring, text field focus and icon size), which every page needs, then the sections for the components the page uses. Each component's rules sit under one comment naming it, so a section can be copied on its own; where one builds on another, its comment says what it needs. The fonts come with `tokens.css`: its first line loads Figtree and Source Serif 4 from Google Fonts, and a browser only reads that line at the very top of a style, so keep `tokens.css` first. If the page uses icons, add Lucide:
+**By hand.** Paste `tokens.css` at the top of the page's `<style>`, before anything else. Its first line loads Figtree and Source Serif 4 from Google Fonts, and a browser skips that line anywhere but the very top of a style, so if something sits above it the page falls back to system fonts. Then paste the **Base** section of `components.css` (the page background, links, the focus ring, text field focus and icon size), which every page needs, then the sections for the components the page uses. Each component's rules sit under one comment naming it, so a section can be copied on its own; where one builds on another, its comment says what it needs. If the page uses icons, add Lucide:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>window.lucide?.createIcons({ attrs: { "stroke-width": 1.75 } });</script>
 ```
 
-**With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens, the Base section and the component sections it uses. The rules below are written so an agent can follow them.
+**With an agent.** Point it at this README and the example closest to what you want, and ask it to inline the tokens first in the style, then the Base section and the component sections it uses. The rules below are written so an agent can follow them.
 
 **In Claude's design tools.** For a canvas, a deck or a mockup, build the design system copy with `node scripts/build-design-system.mjs` and add `dist/design-system/` to Claude as a design system. Its README says how a canvas installs and loads it.
 

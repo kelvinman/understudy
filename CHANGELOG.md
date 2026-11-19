@@ -4,6 +4,7 @@ What changed in Understudy, newest first. Each entry names the classes it touche
 
 ## Unreleased
 
+- The copy instructions now say to keep `tokens.css` first, and why, right where you copy them: on the homepage, in the prompt it copies, and at the start of the README's By hand step. Before, the reason sat at the end of the README's paragraph, where it was easy to miss. No change to `components.css`.
 - The README's type rules now list every place the serif is used, instead of saying it is for Workspace titles only. No change to `components.css`. Touches the docs for `us-display`, `us-record-title`, `us-prose`, `us-beat-say`, `us-frame-caption`, `us-frame-sketch` and `us-animatic-caption`.
 - Pasting `tokens.css` now loads both fonts, so a page no longer needs its own Google Fonts links. The `@import` for Figtree moves from the top of `components.css`, where a browser skipped it once `tokens.css` was pasted above, to the first line of `tokens.css`, and now loads Source Serif 4 too. The examples drop their font links, and the README drops the step.
 
