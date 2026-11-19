@@ -118,10 +118,10 @@
       <h2 class="us-meta">Use it</h2>
       <p>Paste this at the start of a request for a page.</p>
       <div class="us-card">
-        <span id="prompt">Use the Understudy theme from github.com/kelvinman/understudy. Read its README, start from the example closest to what I want, and inline tokens.css and the classes you use.</span>
+        <span id="prompt">Use the Understudy theme from github.com/kelvinman/understudy. Read its README, start from the example closest to what I want, and inline tokens.css first in the style, then the classes you use.</span>
         <button class="us-btn" type="button" data-copy><i data-lucide="copy" aria-hidden="true"></i><span>Copy</span></button>
       </div>
-      <p class="us-meta">To do it by hand, paste <code>tokens.css</code> at the top of the page's style, then the parts of <code>components.css</code> it uses. Artifacts can't load files from elsewhere, so everything goes inline.</p>
+      <p class="us-meta">To do it by hand, paste <code>tokens.css</code> at the top of the page's style, then the parts of <code>components.css</code> it uses. Keep <code>tokens.css</code> first: its first line loads the fonts, and a browser skips that line anywhere else. Artifacts can't load files from elsewhere, so everything goes inline.</p>
     </section>
 
     <section>
